@@ -3,63 +3,63 @@
 import {
   FileText,
   Plus,
-  Calendar,
-  TrendingUp,
-  DollarSign,
   Clock,
-  Sparkles,
-  ArrowUpRight,
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
   RefreshCw,
+  DollarSign,
+  Sparkles,
 } from "lucide-react";
 import clsx from "clsx";
+
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
 
 const stats = [
   {
     label: "Active Leases",
     value: "119",
     icon: FileText,
-    accent: "text-brand-500",
-    bg: "bg-brand-50",
+    iconColor: "text-[#4A7C6F]",
+    iconBg: "bg-[#4A7C6F]/8",
   },
   {
     label: "Expiring Soon",
     value: "12",
     sub: "in 30 days",
     icon: Clock,
-    accent: "text-warning",
-    bg: "bg-warning/10",
+    iconColor: "text-[#C4975A]",
+    iconBg: "bg-[#C4975A]/10",
   },
   {
     label: "Renewal Rate",
     value: "87%",
     icon: RefreshCw,
-    accent: "text-success",
-    bg: "bg-success/10",
+    iconColor: "text-[#5B9A7D]",
+    iconBg: "bg-[#5B9A7D]/10",
   },
   {
     label: "Avg Lease Value",
     value: "$2,150",
     sub: "/mo",
     icon: DollarSign,
-    accent: "text-info",
-    bg: "bg-info/10",
+    iconColor: "text-[#5B82A0]",
+    iconBg: "bg-[#5B82A0]/10",
   },
 ];
 
-const timeline = [
-  { month: "May", count: 5, pct: 42 },
-  { month: "Jun", count: 8, pct: 67 },
-  { month: "Jul", count: 3, pct: 25 },
-  { month: "Aug", count: 12, pct: 100 },
-  { month: "Sep", count: 6, pct: 50 },
-  { month: "Oct", count: 4, pct: 33 },
+const timeline: { month: string; count: number }[] = [
+  { month: "Apr", count: 12 },
+  { month: "May", count: 8 },
+  { month: "Jun", count: 15 },
+  { month: "Jul", count: 6 },
+  { month: "Aug", count: 10 },
+  { month: "Sep", count: 4 },
 ];
 
-type LeaseStatus = "Active" | "Expiring" | "Expired" | "Renewed";
-type Prediction = "Likely" | "Unlikely" | "At Risk";
+const maxCount = Math.max(...timeline.map((t) => t.count));
+
+type LeaseStatus = "Active" | "Expiring" | "Renewed";
+type Prediction = "Likely" | "At Risk" | "Unlikely";
 
 interface Lease {
   tenant: string;
@@ -85,216 +85,292 @@ const leases: Lease[] = [
 
 const insights = [
   "12 leases expiring within 30 days \u2014 bulk renewal campaign ready",
-  "Market analysis suggests 3\u20135% rent increase is competitive for renewals",
+  "Market analysis suggests 3-5% rent increase is competitive for renewals",
   "2 tenants flagged as flight risks \u2014 personalized retention offers recommended",
 ];
 
-const statusStyles: Record<LeaseStatus, string> = {
-  Active: "bg-success/10 text-success",
-  Expiring: "bg-warning/10 text-warning",
-  Expired: "bg-danger/10 text-danger",
-  Renewed: "bg-info/10 text-info",
+/* ------------------------------------------------------------------ */
+/*  Style maps                                                         */
+/* ------------------------------------------------------------------ */
+
+const statusClasses: Record<LeaseStatus, string> = {
+  Active: "bg-[#5B9A7D]/10 text-[#5B9A7D]",
+  Expiring: "bg-[#C4975A]/10 text-[#C4975A]",
+  Renewed: "bg-[#EEF4F1] text-[#3D7A64]",
 };
 
-const predictionStyles: Record<Prediction, string> = {
-  Likely: "text-success",
-  Unlikely: "text-danger",
-  "At Risk": "text-warning",
+const predictionClasses: Record<Prediction, string> = {
+  Likely: "bg-[#5B9A7D]/10 text-[#5B9A7D]",
+  "At Risk": "bg-[#C4975A]/10 text-[#C4975A]",
+  Unlikely: "bg-[#B85C5C]/10 text-[#B85C5C]",
 };
 
-const predictionBg: Record<Prediction, string> = {
-  Likely: "bg-success/8",
-  Unlikely: "bg-danger/8",
-  "At Risk": "bg-warning/8",
-};
+/* ------------------------------------------------------------------ */
+/*  Component                                                          */
+/* ------------------------------------------------------------------ */
 
 export default function LeasesPage() {
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-foreground">
-            Leases
-          </h1>
-          <p className="mt-1 text-[13px] text-muted">
-            AI-assisted lease management and renewal tracking
-          </p>
-        </div>
-        <button className="inline-flex h-9 items-center gap-2 rounded-lg bg-brand-500 px-4 text-[13px] font-medium text-white transition-colors hover:bg-brand-600">
-          <Plus size={15} strokeWidth={2} />
-          Create Lease
-        </button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => {
-          const Icon = s.icon;
-          return (
-            <div
-              key={s.label}
-              className="rounded-xl border border-card-border bg-card-bg p-5"
+    <div className="min-h-screen" style={{ backgroundColor: "#FAFAF7" }}>
+      <div className="mx-auto max-w-[1120px] px-6 py-10">
+        {/* ---- Header ---- */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1
+              className="text-[28px] font-semibold tracking-tight"
+              style={{ lineHeight: 1.2, color: "#2D3436" }}
             >
-              <div className="flex items-center justify-between">
-                <p className="text-[12px] font-medium uppercase tracking-[0.04em] text-muted">
-                  {s.label}
-                </p>
-                <div
-                  className={clsx(
-                    "flex h-8 w-8 items-center justify-center rounded-lg",
-                    s.bg
-                  )}
-                >
-                  <Icon size={16} strokeWidth={1.75} className={s.accent} />
-                </div>
-              </div>
-              <p className="mt-2 text-[26px] font-semibold tracking-[-0.02em] text-foreground">
-                {s.value}
-                {s.sub && (
-                  <span className="ml-1 text-[13px] font-normal text-muted">
-                    {s.sub}
+              Leases
+            </h1>
+            <p
+              className="mt-1.5 text-[14px]"
+              style={{ color: "#9B9890" }}
+            >
+              AI-assisted lease management and renewal tracking
+            </p>
+          </div>
+          <button
+            className="inline-flex h-10 items-center gap-2 rounded-2xl px-5 text-[13px] font-medium text-white transition-colors hover:opacity-90"
+            style={{ backgroundColor: "#4A7C6F" }}
+          >
+            <Plus size={15} strokeWidth={2} />
+            Create Lease
+          </button>
+        </div>
+
+        {/* ---- Stats ---- */}
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={s.label}
+                className="rounded-2xl border p-5"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "#E5E3DE",
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className="text-[12px] font-medium uppercase tracking-widest"
+                    style={{ color: "#9B9890" }}
+                  >
+                    {s.label}
                   </span>
-                )}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Lease Timeline */}
-      <div className="rounded-xl border border-card-border bg-card-bg p-5">
-        <div className="mb-4 flex items-center gap-2">
-          <Calendar size={15} strokeWidth={1.75} className="text-muted" />
-          <h2 className="text-[14px] font-semibold text-foreground">
-            Lease Expirations &mdash; Next 6 Months
-          </h2>
-        </div>
-        <div className="grid grid-cols-6 gap-3">
-          {timeline.map((m) => (
-            <div key={m.month} className="flex flex-col items-center gap-2">
-              <div className="relative flex h-32 w-full items-end justify-center rounded-lg bg-brand-50/50">
-                <div
-                  className="w-full rounded-md bg-brand-500/80 transition-all"
-                  style={{ height: `${m.pct}%` }}
-                />
+                  <div
+                    className={clsx(
+                      "flex h-9 w-9 items-center justify-center rounded-xl",
+                      s.iconBg
+                    )}
+                  >
+                    <Icon size={16} strokeWidth={1.75} className={s.iconColor} />
+                  </div>
+                </div>
+                <p
+                  className="mt-3 text-[28px] font-semibold tracking-tight"
+                  style={{ color: "#2D3436" }}
+                >
+                  {s.value}
+                  {s.sub && (
+                    <span
+                      className="ml-0.5 text-[13px] font-normal"
+                      style={{ color: "#9B9890" }}
+                    >
+                      {s.sub}
+                    </span>
+                  )}
+                </p>
               </div>
-              <span className="text-[12px] font-medium text-foreground">
-                {m.count}
-              </span>
-              <span className="text-[11px] text-muted">{m.month}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
-      </div>
 
-      {/* Lease Table */}
-      <div className="rounded-xl border border-card-border bg-card-bg">
-        <div className="border-b border-card-border px-5 py-4">
-          <h2 className="text-[14px] font-semibold text-foreground">
-            All Leases
+        {/* ---- Expiration Timeline ---- */}
+        <div
+          className="mt-6 rounded-2xl border p-6"
+          style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E3DE" }}
+        >
+          <h2
+            className="text-[16px] font-semibold"
+            style={{ color: "#2D3436" }}
+          >
+            Expiration Timeline
           </h2>
+          <p className="mt-0.5 text-[13px]" style={{ color: "#9B9890" }}>
+            Next 6 months
+          </p>
+
+          <div className="mt-6 flex items-end gap-4">
+            {timeline.map((t) => {
+              const isMax = t.count === maxCount;
+              const heightPct = (t.count / maxCount) * 100;
+              return (
+                <div
+                  key={t.month}
+                  className="flex flex-1 flex-col items-center gap-2"
+                >
+                  <span
+                    className="text-[12px] font-medium"
+                    style={{ color: "#2D3436" }}
+                  >
+                    {t.count}
+                  </span>
+                  <div className="flex h-36 w-full items-end justify-center">
+                    <div
+                      className="w-full max-w-[48px] rounded-lg transition-all"
+                      style={{
+                        height: `${heightPct}%`,
+                        backgroundColor: isMax ? "#4A7C6F" : "#C8DDD5",
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="text-[12px]"
+                    style={{ color: "#9B9890" }}
+                  >
+                    {t.month}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px]">
-            <thead>
-              <tr className="border-b border-card-border">
-                {["Tenant", "Property", "Start", "End", "Rent", "Status", "AI Renewal Prediction"].map(
-                  (h) => (
+
+        {/* ---- Lease Table ---- */}
+        <div
+          className="mt-6 overflow-hidden rounded-2xl border"
+          style={{ backgroundColor: "#FFFFFF", borderColor: "#E5E3DE" }}
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[820px]">
+              <thead>
+                <tr style={{ backgroundColor: "#F5F4F0" }}>
+                  {[
+                    "Tenant",
+                    "Property",
+                    "Start",
+                    "End",
+                    "Rent",
+                    "Status",
+                    "AI Renewal Prediction",
+                  ].map((h) => (
                     <th
                       key={h}
-                      className="px-5 py-3 text-left text-[11px] font-medium uppercase tracking-[0.05em] text-muted"
+                      className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wide"
+                      style={{ color: "#9B9890" }}
                     >
                       {h}
                     </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {leases.map((l, i) => (
-                <tr
-                  key={l.tenant}
-                  className={clsx(
-                    "transition-colors hover:bg-brand-50/30",
-                    i !== leases.length - 1 && "border-b border-card-border/60"
-                  )}
-                >
-                  <td className="px-5 py-3.5 text-[13px] font-medium text-foreground">
-                    {l.tenant}
-                  </td>
-                  <td className="px-5 py-3.5 text-[13px] text-muted">
-                    {l.property}
-                  </td>
-                  <td className="px-5 py-3.5 text-[13px] text-muted">
-                    {l.start}
-                  </td>
-                  <td className="px-5 py-3.5 text-[13px] text-muted">
-                    {l.end}
-                  </td>
-                  <td className="px-5 py-3.5 text-[13px] font-medium text-foreground">
-                    {l.rent}
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <span
-                      className={clsx(
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
-                        statusStyles[l.status]
-                      )}
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {leases.map((l, i) => (
+                  <tr
+                    key={l.tenant}
+                    className="transition-colors hover:bg-[#FAFAF7]"
+                    style={{
+                      borderBottom:
+                        i < leases.length - 1
+                          ? "1px solid #E5E3DE"
+                          : "none",
+                    }}
+                  >
+                    <td
+                      className="px-5 py-3.5 text-[13px] font-medium"
+                      style={{ color: "#2D3436" }}
                     >
-                      {l.status}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <div className="flex items-center gap-2">
+                      {l.tenant}
+                    </td>
+                    <td
+                      className="px-5 py-3.5 text-[13px]"
+                      style={{ color: "#7A7870" }}
+                    >
+                      {l.property}
+                    </td>
+                    <td
+                      className="px-5 py-3.5 text-[13px]"
+                      style={{ color: "#7A7870" }}
+                    >
+                      {l.start}
+                    </td>
+                    <td
+                      className="px-5 py-3.5 text-[13px]"
+                      style={{ color: "#7A7870" }}
+                    >
+                      {l.end}
+                    </td>
+                    <td
+                      className="px-5 py-3.5 text-[13px] font-medium"
+                      style={{ color: "#2D3436" }}
+                    >
+                      {l.rent}
+                    </td>
+                    <td className="px-5 py-3.5">
                       <span
                         className={clsx(
-                          "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[12px] font-medium",
-                          predictionBg[l.prediction],
-                          predictionStyles[l.prediction]
+                          "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+                          statusClasses[l.status]
                         )}
                       >
-                        {l.prediction === "Likely" && (
-                          <ArrowUpRight size={12} strokeWidth={2} />
-                        )}
-                        {l.prediction === "At Risk" && (
-                          <AlertTriangle size={12} strokeWidth={2} />
-                        )}
-                        {l.prediction === "Unlikely" && (
-                          <XCircle size={12} strokeWidth={2} />
-                        )}
-                        {l.prediction} ({l.pct}%)
+                        {l.status}
                       </span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* AI Lease Insights */}
-      <div className="rounded-xl border border-brand-200 bg-brand-50/40 p-5">
-        <div className="mb-3 flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-500">
-            <Sparkles size={14} strokeWidth={2} className="text-white" />
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span
+                        className={clsx(
+                          "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+                          predictionClasses[l.prediction]
+                        )}
+                      >
+                        {l.prediction} {l.pct}%
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <h2 className="text-[14px] font-semibold text-foreground">
-            AI Lease Insights
-          </h2>
         </div>
-        <ul className="space-y-2.5">
-          {insights.map((insight, i) => (
-            <li
-              key={i}
-              className="flex items-start gap-2.5 text-[13px] leading-relaxed text-foreground/80"
+
+        {/* ---- AI Insights ---- */}
+        <div
+          className="mt-6 rounded-2xl border p-6"
+          style={{ backgroundColor: "#FFFFFF", borderColor: "#C8DDD5" }}
+        >
+          <div className="flex items-center gap-2.5">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-xl"
+              style={{ backgroundColor: "#4A7C6F" }}
             >
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
-              {insight}
-            </li>
-          ))}
-        </ul>
+              <Sparkles size={15} strokeWidth={2} className="text-white" />
+            </div>
+            <h2
+              className="text-[16px] font-semibold"
+              style={{ color: "#2D3436" }}
+            >
+              AI Lease Insights
+            </h2>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {insights.map((insight, i) => (
+              <div
+                key={i}
+                className="rounded-xl border p-4"
+                style={{ borderColor: "#E5E3DE", backgroundColor: "#FAFAF7" }}
+              >
+                <p
+                  className="text-[13px] leading-relaxed"
+                  style={{ color: "#2D3436" }}
+                >
+                  {insight}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

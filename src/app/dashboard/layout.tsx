@@ -1,4 +1,4 @@
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, ChevronDown } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({
@@ -11,45 +11,49 @@ export default function DashboardLayout({
       <Sidebar />
 
       {/* Main content area */}
-      <div className="lg:pl-64">
+      <div className="lg:pl-[272px]">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-card-border bg-background/80 px-6 backdrop-blur-sm lg:px-8">
-          {/* Spacer for mobile menu button */}
-          <div className="w-9 lg:hidden" />
+        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-warm-gray-200 bg-warm-gray-50/80 px-6 backdrop-blur-md lg:px-10">
+          {/* Spacer for mobile */}
+          <div className="w-10 lg:hidden" />
 
           {/* Search */}
-          <div className="relative max-w-md flex-1">
+          <div className="relative max-w-sm flex-1">
             <Search
               size={15}
-              strokeWidth={1.75}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+              strokeWidth={1.6}
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-gray-400"
             />
             <input
               type="text"
-              placeholder="Search properties, tenants, leases..."
-              className="h-9 w-full rounded-lg border border-card-border bg-card-bg pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted/70 focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+              placeholder="Search anything..."
+              className="h-10 w-full rounded-xl border-warm-gray-200 bg-card-bg pl-10 pr-4 text-[13px] text-foreground shadow-sm placeholder:text-warm-gray-400"
             />
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-3">
-            {/* Notification bell */}
-            <button className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-card-border bg-card-bg text-muted transition-colors hover:text-foreground">
-              <Bell size={16} strokeWidth={1.75} />
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[10px] font-semibold text-white">
+          <div className="flex items-center gap-4">
+            {/* Notifications */}
+            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-warm-gray-200 bg-card-bg text-warm-gray-400 shadow-sm transition-colors hover:text-foreground">
+              <Bell size={16} strokeWidth={1.6} />
+              <span className="absolute -right-0.5 -top-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-danger text-[10px] font-semibold text-white">
                 3
               </span>
             </button>
 
-            {/* User avatar */}
-            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-[12px] font-semibold text-white transition-opacity hover:opacity-90">
-              JD
+            {/* User */}
+            <button className="flex items-center gap-2.5 rounded-xl border border-warm-gray-200 bg-card-bg py-1.5 pl-1.5 pr-3 shadow-sm transition-colors hover:border-warm-gray-300">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-navy text-[11px] font-semibold text-white">
+                JD
+              </div>
+              <span className="hidden text-[13px] font-medium text-foreground sm:block">Jordan</span>
+              <ChevronDown size={13} className="hidden text-warm-gray-400 sm:block" />
             </button>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="min-h-[calc(100vh-4rem)] p-6 lg:p-8">
+        <main className="p-6 lg:p-10">
           {children}
         </main>
       </div>

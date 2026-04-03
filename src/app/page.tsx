@@ -6,15 +6,14 @@ import {
   DollarSign,
   FileText,
   TrendingUp,
-  Shield,
+  Users,
   MessageSquare,
-  ArrowRight,
-  Play,
   Check,
-  Building2,
-  Brain,
-  Zap,
 } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -27,61 +26,58 @@ const FEATURES = [
     icon: Wrench,
     title: "AI Maintenance Triage",
     description:
-      "Automatically categorize, prioritize, and assign maintenance requests. Reduce resolution time by 40%.",
+      "Requests are automatically categorized, prioritized, and routed to the right vendor. Resolution times drop by 40% on average.",
   },
   {
     icon: DollarSign,
-    title: "Smart Rent Pricing",
+    title: "Smart Rent Optimization",
     description:
-      "AI analyzes market data to recommend optimal rent prices. Never leave money on the table.",
+      "Market-aware pricing recommendations ensure every unit is priced competitively. Stop leaving revenue on the table.",
   },
   {
     icon: FileText,
     title: "Lease Intelligence",
     description:
-      "Predict renewal likelihood, automate offers, and reduce vacancy with AI-powered insights.",
+      "Predict renewal likelihood months in advance. Automate offers and reduce vacancy with data-driven insights.",
   },
   {
     icon: TrendingUp,
-    title: "Financial Forecasting",
+    title: "Financial Clarity",
     description:
-      "AI projects cash flow, flags budget anomalies, and optimizes your NOI.",
+      "Real-time cash flow projections, budget anomaly detection, and NOI optimization. Your books, finally making sense.",
   },
   {
-    icon: Shield,
-    title: "Tenant Risk Scoring",
+    icon: Users,
+    title: "Tenant Insights",
     description:
-      "Proactive risk assessment helps you prevent issues before they escalate.",
+      "Proactive risk assessment and satisfaction tracking. Address concerns before they become problems.",
   },
   {
     icon: MessageSquare,
     title: "AI Communications",
     description:
-      "Draft responses, send reminders, and maintain professional communication automatically.",
+      "Professional, context-aware responses drafted automatically. Maintain quality communication at scale.",
   },
 ];
 
 const STEPS = [
   {
-    icon: Building2,
-    number: "01",
-    title: "Connect your properties",
+    number: "1",
+    title: "Import your portfolio",
     description:
-      "Import your portfolio in minutes. Arid syncs with your existing tools.",
+      "Connect your existing tools or add properties manually. Arid adapts to your workflow.",
   },
   {
-    icon: Brain,
-    number: "02",
-    title: "AI learns your business",
+    number: "2",
+    title: "AI learns your patterns",
     description:
-      "Our AI analyzes your data to understand patterns, preferences, and priorities.",
+      "Our models analyze your data to understand your properties, tenants, and operational rhythms.",
   },
   {
-    icon: Zap,
-    number: "03",
-    title: "Sit back and manage smarter",
+    number: "3",
+    title: "Manage with confidence",
     description:
-      "Get AI insights, automated workflows, and predictive analytics from day one.",
+      "Actionable insights, automated workflows, and predictive analytics from day one.",
   },
 ];
 
@@ -90,8 +86,7 @@ const PRICING_TIERS = [
     name: "Starter",
     price: "$2",
     unit: "/unit/mo",
-    minimum: "min $29/mo",
-    description: "For small portfolios getting started with AI.",
+    minimum: "Starting at $29/mo",
     features: [
       "Up to 50 units",
       "AI maintenance triage",
@@ -99,38 +94,37 @@ const PRICING_TIERS = [
       "Tenant portal",
       "Basic reporting",
     ],
+    cta: "Get Started",
     popular: false,
   },
   {
     name: "Professional",
     price: "$3.50",
     unit: "/unit/mo",
-    minimum: "min $99/mo",
-    description: "For growing teams that need the full AI suite.",
+    minimum: "Starting at $99/mo",
     features: [
-      "Up to 500 units",
       "Everything in Starter",
-      "AI communications",
+      "AI communications hub",
       "Financial forecasting",
       "Lease intelligence",
       "Priority support",
     ],
+    cta: "Get Started",
     popular: true,
   },
   {
     name: "Enterprise",
     price: "Custom",
     unit: "",
-    minimum: "Let\u2019s talk",
-    description: "For large operators with custom requirements.",
+    minimum: "Tailored to your needs",
     features: [
-      "Unlimited units",
       "Everything in Professional",
       "Custom AI models",
       "API access",
       "Dedicated success manager",
       "SLA guarantee",
     ],
+    cta: "Contact Sales",
     popular: false,
   },
 ];
@@ -144,49 +138,72 @@ const FOOTER_LINKS = {
   ],
   Company: [
     { label: "About", href: "#about" },
-    { label: "Blog", href: "#" },
     { label: "Careers", href: "#" },
+    { label: "Blog", href: "#" },
     { label: "Contact", href: "#" },
+  ],
+  Resources: [
+    { label: "Documentation", href: "#" },
+    { label: "Guides", href: "#" },
+    { label: "Support", href: "#" },
+    { label: "Status", href: "#" },
   ],
   Legal: [
     { label: "Privacy", href: "#" },
     { label: "Terms", href: "#" },
     { label: "Security", href: "#" },
+    { label: "Cookies", href: "#" },
   ],
 };
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-card-border bg-white/80 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-10">
-            <Link href="/" className="text-xl font-bold tracking-tight text-foreground">
-              Arid
-            </Link>
-            <div className="hidden items-center gap-8 md:flex">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-muted transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              ))}
+      {/* ---------------------------------------------------------- */}
+      {/*  Navigation                                                 */}
+      {/* ---------------------------------------------------------- */}
+      <nav className="sticky top-0 z-50 h-[72px] border-b border-warm-gray-200 bg-card-bg/80 backdrop-blur-md">
+        <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-6">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500">
+              <span className="text-[15px] font-semibold leading-none text-white">
+                A
+              </span>
             </div>
+            <span className="text-[18px] font-semibold tracking-tight text-foreground">
+              Arid
+            </span>
+          </Link>
+
+          {/* Center links */}
+          <div className="hidden items-center gap-8 md:flex">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[14px] text-warm-gray-500 transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
+
+          {/* Right actions */}
           <div className="flex items-center gap-4">
             <Link
               href="/dashboard"
-              className="hidden text-sm font-medium text-muted transition-colors hover:text-foreground sm:block"
+              className="hidden text-[14px] text-warm-gray-500 transition-colors hover:text-foreground sm:block"
             >
-              Sign In
+              Sign in
             </Link>
             <Link
               href="/dashboard"
-              className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+              className="rounded-xl bg-navy px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-navy-light"
             >
               Get Started
             </Link>
@@ -194,90 +211,74 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 pb-16 pt-20 sm:pt-28 lg:pt-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="animate-fade-in mb-6 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700">
-              AI-Native Property Management
-            </div>
-            <h1 className="animate-fade-in stagger-1 text-5xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-              Property management,
-              <br />
-              intelligently automated.
-            </h1>
-            <p className="animate-fade-in stagger-2 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
-              Arid uses AI to automate maintenance triage, optimize rent pricing,
-              predict lease renewals, and give you back the hours you spend on
-              repetitive tasks.
-            </p>
-            <div className="animate-fade-in stagger-3 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-600"
-              >
-                Start Free Trial
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <button className="inline-flex items-center gap-2 rounded-lg border border-card-border bg-white px-6 py-3 text-base font-semibold text-foreground transition-colors hover:bg-gray-50">
-                <Play className="h-4 w-4" />
-                Watch Demo
-              </button>
-            </div>
+      {/* ---------------------------------------------------------- */}
+      {/*  Hero                                                       */}
+      {/* ---------------------------------------------------------- */}
+      <section className="px-6 py-32">
+        <div className="mx-auto max-w-6xl text-center">
+          {/* Pill badge */}
+          <div className="animate-fade-in inline-flex items-center rounded-full bg-brand-50 px-4 py-1.5 text-[12px] font-medium text-brand-600">
+            AI-Native Property Management
           </div>
 
-          {/* Dashboard Preview Mockup */}
-          <div className="animate-fade-in stagger-4 mx-auto mt-16 max-w-5xl sm:mt-20">
-            <div
-              className="rounded-2xl border border-card-border bg-white p-6 shadow-2xl shadow-black/5 sm:p-8"
-              style={{ transform: "perspective(2000px) rotateX(3deg)" }}
-            >
-              {/* Mockup top bar */}
-              <div className="mb-6 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-3 w-3 rounded-full bg-danger/40" />
-                  <div className="h-3 w-3 rounded-full bg-warning/40" />
-                  <div className="h-3 w-3 rounded-full bg-success/40" />
-                </div>
-                <div className="h-4 w-48 rounded bg-gray-100" />
-                <div className="h-4 w-16 rounded bg-gray-100" />
-              </div>
+          {/* Headline */}
+          <h1
+            className="animate-fade-in stagger-1 mx-auto mt-6 max-w-3xl text-[56px] font-semibold leading-[1.05] text-foreground sm:text-[64px]"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            Property management,
+            <br />
+            intelligently automated.
+          </h1>
 
-              {/* Metrics cards row */}
-              <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                {[
-                  { label: "Total Units", value: "1,247" },
-                  { label: "Occupancy", value: "96.8%" },
-                  { label: "Revenue", value: "$2.4M" },
-                  { label: "Work Orders", value: "23" },
-                ].map((metric) => (
+          {/* Subtitle */}
+          <p className="animate-fade-in stagger-2 mx-auto mt-6 max-w-xl text-[18px] leading-relaxed text-warm-gray-500">
+            Arid combines artificial intelligence with thoughtful design to
+            automate maintenance, optimize revenue, and give you clarity across
+            your entire portfolio.
+          </p>
+
+          {/* Buttons */}
+          <div className="animate-fade-in stagger-3 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/dashboard"
+              className="rounded-xl bg-brand-500 px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-brand-600"
+            >
+              Start Free Trial
+            </Link>
+            <a
+              href="#features"
+              className="rounded-xl border border-warm-gray-200 px-7 py-3 text-[15px] font-medium text-foreground transition-colors hover:border-warm-gray-300"
+            >
+              Learn More
+            </a>
+          </div>
+
+          {/* Dashboard mockup */}
+          <div className="animate-fade-in stagger-4 mx-auto mt-16 max-w-4xl">
+            <div className="rounded-2xl border border-warm-gray-200 bg-card-bg p-6 shadow-xl sm:p-8">
+              {/* Metric cards row */}
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, i) => (
                   <div
-                    key={metric.label}
-                    className="rounded-lg border border-card-border bg-gray-50/50 p-4"
+                    key={i}
+                    className="rounded-xl bg-warm-gray-100 p-4"
                   >
-                    <div className="mb-1 text-xs text-muted">{metric.label}</div>
-                    <div className="text-lg font-bold text-foreground">
-                      {metric.value}
-                    </div>
+                    <div className="mb-2 h-2.5 w-12 rounded bg-warm-gray-200" />
+                    <div className="h-4 w-16 rounded bg-warm-gray-200" />
                   </div>
                 ))}
               </div>
 
-              {/* Chart outline */}
-              <div className="rounded-lg border border-card-border bg-gray-50/30 p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="h-3 w-28 rounded bg-gray-200" />
-                  <div className="flex gap-2">
-                    <div className="h-6 w-14 rounded bg-gray-100" />
-                    <div className="h-6 w-14 rounded bg-gray-100" />
-                  </div>
-                </div>
-                <div className="flex h-36 items-end gap-2 sm:h-44">
-                  {[40, 55, 45, 65, 50, 70, 60, 75, 65, 80, 70, 85].map(
+              {/* Chart bars area */}
+              <div className="mt-4 rounded-xl bg-warm-gray-100 p-5">
+                <div className="mb-4 h-2.5 w-20 rounded bg-warm-gray-200" />
+                <div className="flex h-28 items-end gap-2 sm:h-36">
+                  {[40, 60, 45, 70, 55, 80, 50, 75, 65, 85, 60, 72].map(
                     (h, i) => (
                       <div
                         key={i}
-                        className="flex-1 rounded-t bg-brand-200/60"
+                        className="flex-1 rounded-t-md bg-warm-gray-200"
                         style={{ height: `${h}%` }}
                       />
                     )
@@ -289,63 +290,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="border-y border-card-border bg-white px-6 py-14">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-8 text-center text-sm font-medium tracking-wide text-muted">
+      {/* ---------------------------------------------------------- */}
+      {/*  Logos Bar                                                   */}
+      {/* ---------------------------------------------------------- */}
+      <section className="px-6 py-16">
+        <div className="mx-auto max-w-6xl text-center">
+          <p className="text-[13px] text-warm-gray-400">
             Trusted by 2,400+ property managers across the country
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-            {[
-              "AppFolio Alternative",
-              "Buildium Alternative",
-              "RentManager",
-              "Yardi",
-              "Entrata",
-            ].map((name) => (
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
+            {Array.from({ length: 5 }).map((_, i) => (
               <div
-                key={name}
-                className="flex h-8 items-center rounded bg-gray-100 px-5"
-              >
-                <span className="text-xs font-medium tracking-wide text-gray-400">
-                  {name}
-                </span>
-              </div>
+                key={i}
+                className="h-8 w-24 rounded-lg bg-warm-gray-100"
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-sm font-semibold tracking-wide text-brand-500">
+      {/* ---------------------------------------------------------- */}
+      {/*  Features                                                   */}
+      {/* ---------------------------------------------------------- */}
+      <section id="features" className="bg-card-bg px-6 py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
               Features
             </p>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Everything you need to manage smarter
+            <h2
+              className="mt-3 text-[36px] font-semibold tracking-tight text-foreground"
+            >
+              Everything you need, nothing you don&apos;t
             </h2>
-            <p className="mt-4 text-lg text-muted">
-              AI-powered tools that handle the complexity so you can focus on
-              growing your portfolio.
+            <p className="mt-3 text-[16px] text-warm-gray-500">
+              Purpose-built tools for modern property management, powered by AI.
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, i) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={feature.title}
-                  className={`animate-fade-in stagger-${i + 1} rounded-xl border border-card-border bg-white p-6 transition-shadow hover:shadow-md`}
+                  className={`animate-fade-in stagger-${i + 1} rounded-2xl border border-warm-gray-200 bg-background p-8`}
                 >
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50">
                     <Icon className="h-5 w-5 text-brand-500" />
                   </div>
-                  <h3 className="mb-2 text-base font-semibold text-foreground">
+                  <h3 className="mt-5 text-[16px] font-semibold text-foreground">
                     {feature.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-muted">
+                  <p className="mt-2 text-[14px] leading-relaxed text-warm-gray-500">
                     {feature.description}
                   </p>
                 </div>
@@ -355,102 +352,149 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="bg-white px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-sm font-semibold tracking-wide text-brand-500">
+      {/* ---------------------------------------------------------- */}
+      {/*  How It Works                                               */}
+      {/* ---------------------------------------------------------- */}
+      <section className="px-6 py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
               How it works
             </p>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Up and running in three steps
+            <h2 className="mt-3 text-[36px] font-semibold tracking-tight text-foreground">
+              Up and running in minutes
             </h2>
           </div>
-          <div className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-3">
-            {STEPS.map((step) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.number} className="relative text-center">
-                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-card-border bg-background">
-                    <Icon className="h-6 w-6 text-brand-500" />
-                  </div>
-                  <span className="mb-2 block text-xs font-bold tracking-widest text-brand-400">
-                    STEP {step.number}
-                  </span>
-                  <h3 className="mb-2 text-lg font-semibold text-foreground">
-                    {step.title}
-                  </h3>
-                  <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted">
-                    {step.description}
-                  </p>
+
+          <div className="mt-16 flex flex-col items-center gap-12 sm:flex-row sm:items-start sm:justify-center sm:gap-8">
+            {STEPS.map((step) => (
+              <div
+                key={step.number}
+                className="flex max-w-xs flex-col items-center text-center"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-[14px] font-semibold text-white">
+                  {step.number}
                 </div>
-              );
-            })}
+                <h3 className="mt-5 text-[16px] font-semibold text-foreground">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-[14px] text-warm-gray-500">
+                  {step.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-sm font-semibold tracking-wide text-brand-500">
+      {/* ---------------------------------------------------------- */}
+      {/*  Pricing                                                    */}
+      {/* ---------------------------------------------------------- */}
+      <section id="pricing" className="bg-card-bg px-6 py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
               Pricing
             </p>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Simple, transparent pricing
+            <h2 className="mt-3 text-[36px] font-semibold tracking-tight text-foreground">
+              Transparent, straightforward pricing
             </h2>
-            <p className="mt-4 text-lg text-muted">
-              Start free for 14 days. No credit card required.
+            <p className="mt-3 text-[16px] text-warm-gray-500">
+              No hidden fees. No per-feature charges. Just honest pricing that
+              scales with you.
             </p>
           </div>
+
           <div className="mx-auto mt-16 grid max-w-5xl gap-6 lg:grid-cols-3">
             {PRICING_TIERS.map((tier) => (
               <div
                 key={tier.name}
-                className={`relative flex flex-col rounded-xl border p-8 ${
+                className={`flex flex-col rounded-2xl p-8 ${
                   tier.popular
-                    ? "border-brand-500 bg-white shadow-lg shadow-brand-500/5"
-                    : "border-card-border bg-white"
+                    ? "bg-navy text-white shadow-lg ring-1 ring-navy"
+                    : "border border-warm-gray-200 bg-background"
                 }`}
               >
-                {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-500 px-3 py-0.5 text-xs font-semibold text-white">
-                    Popular
-                  </div>
-                )}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-foreground">
+                {/* Tier header */}
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`text-[14px] font-semibold ${
+                      tier.popular ? "text-white/70" : "text-warm-gray-500"
+                    }`}
+                  >
                     {tier.name}
-                  </h3>
-                  <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold tracking-tight text-foreground">
-                      {tier.price}
+                  </span>
+                  {tier.popular && (
+                    <span className="rounded-full bg-brand-500 px-2.5 py-0.5 text-[11px] font-medium text-white">
+                      Most Popular
                     </span>
-                    {tier.unit && (
-                      <span className="text-sm text-muted">{tier.unit}</span>
-                    )}
-                  </div>
-                  <p className="mt-1 text-xs text-muted">{tier.minimum}</p>
-                  <p className="mt-3 text-sm text-muted">{tier.description}</p>
+                  )}
                 </div>
+
+                {/* Price */}
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span
+                    className={`text-[48px] font-semibold leading-none ${
+                      tier.popular ? "text-white" : "text-foreground"
+                    }`}
+                  >
+                    {tier.price}
+                  </span>
+                  {tier.unit && (
+                    <span
+                      className={`text-[14px] ${
+                        tier.popular ? "text-white/60" : "text-warm-gray-500"
+                      }`}
+                    >
+                      {tier.unit}
+                    </span>
+                  )}
+                </div>
+                <p
+                  className={`mt-1 text-[13px] ${
+                    tier.popular ? "text-white/50" : "text-warm-gray-400"
+                  }`}
+                >
+                  {tier.minimum}
+                </p>
+
+                {/* Divider */}
+                <div
+                  className={`my-6 h-px ${
+                    tier.popular ? "bg-white/15" : "bg-warm-gray-200"
+                  }`}
+                />
+
+                {/* Feature list */}
                 <ul className="mb-8 flex flex-1 flex-col gap-3">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2.5">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
-                      <span className="text-sm text-foreground">{feature}</span>
+                      <Check
+                        className={`mt-0.5 h-4 w-4 shrink-0 ${
+                          tier.popular ? "text-brand-400" : "text-brand-500"
+                        }`}
+                      />
+                      <span
+                        className={`text-[14px] ${
+                          tier.popular ? "text-white/90" : "text-foreground"
+                        }`}
+                      >
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>
+
+                {/* CTA button */}
                 <Link
-                  href="/dashboard"
-                  className={`block rounded-lg py-2.5 text-center text-sm font-semibold transition-colors ${
+                  href={tier.name === "Enterprise" ? "#" : "/dashboard"}
+                  className={`block w-full rounded-xl py-3 text-center text-[14px] font-medium transition-colors ${
                     tier.popular
                       ? "bg-brand-500 text-white hover:bg-brand-600"
-                      : "border border-card-border bg-white text-foreground hover:bg-gray-50"
+                      : "border border-warm-gray-200 text-foreground hover:border-warm-gray-300"
                   }`}
                 >
-                  {tier.name === "Enterprise" ? "Contact Sales" : "Get Started"}
+                  {tier.cta}
                 </Link>
               </div>
             ))}
@@ -458,47 +502,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-white px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Ready to manage smarter?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-muted">
-            Join 2,400+ property managers who&apos;ve automated their workflow
-            with Arid.
-          </p>
-          <div className="mt-10">
+      {/* ---------------------------------------------------------- */}
+      {/*  CTA                                                        */}
+      {/* ---------------------------------------------------------- */}
+      <section className="px-6 py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-3xl bg-navy p-16 text-center">
+            <h2 className="text-[36px] font-semibold text-white">
+              Ready to manage smarter?
+            </h2>
+            <p className="mt-4 text-[16px] text-white/70">
+              Join 2,400+ property managers who trust Arid to run their
+              portfolio.
+            </p>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-brand-600"
+              className="mt-8 inline-block rounded-xl bg-brand-500 px-8 py-3.5 text-[15px] font-medium text-white transition-colors hover:bg-brand-600"
             >
               Start Your Free Trial
-              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="about" className="border-t border-card-border px-6 py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
+      {/* ---------------------------------------------------------- */}
+      {/*  Footer                                                     */}
+      {/* ---------------------------------------------------------- */}
+      <footer id="about" className="border-t border-warm-gray-200 px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
+            {/* Brand column */}
             <div className="lg:col-span-2">
-              <Link
-                href="/"
-                className="text-xl font-bold tracking-tight text-foreground"
-              >
-                Arid
+              <Link href="/" className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500">
+                  <span className="text-[15px] font-semibold leading-none text-white">
+                    A
+                  </span>
+                </div>
+                <span className="text-[18px] font-semibold tracking-tight text-foreground">
+                  Arid
+                </span>
               </Link>
-              <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-                AI-native property management. Built to automate the tedious so
-                you can focus on what matters.
+              <p className="mt-3 text-[13px] leading-relaxed text-warm-gray-400">
+                Intelligent property management
               </p>
             </div>
+
+            {/* Link columns */}
             {Object.entries(FOOTER_LINKS).map(([category, links]) => (
               <div key={category}>
-                <h4 className="mb-4 text-sm font-semibold text-foreground">
+                <h4 className="mb-4 text-[13px] font-semibold text-foreground">
                   {category}
                 </h4>
                 <ul className="flex flex-col gap-2.5">
@@ -506,7 +559,7 @@ export default function Home() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-sm text-muted transition-colors hover:text-foreground"
+                        className="text-[13px] text-warm-gray-400 transition-colors hover:text-foreground"
                       >
                         {link.label}
                       </a>
@@ -516,9 +569,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="mt-14 border-t border-card-border pt-8">
-            <p className="text-xs text-muted">
-              &copy; {new Date().getFullYear()} Arid, Inc. All rights reserved.
+
+          {/* Bottom bar */}
+          <div className="mt-14 border-t border-warm-gray-200 pt-8">
+            <p className="text-[12px] text-warm-gray-400">
+              &copy; 2025 Arid. All rights reserved.
             </p>
           </div>
         </div>

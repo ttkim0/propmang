@@ -13,16 +13,12 @@ import {
   Eye,
   Pencil,
   MessageSquare,
-  Brain,
-  AlertTriangle,
-  CalendarClock,
-  ShieldAlert,
   ArrowUpDown,
   Sparkles,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/*  Data                                                               */
+/*  Types & Data                                                       */
 /* ------------------------------------------------------------------ */
 
 type PaymentStatus = "Paid" | "Late" | "Pending";
@@ -33,7 +29,8 @@ interface Tenant {
   name: string;
   email: string;
   initials: string;
-  avatarColor: string;
+  avatarBg: string;
+  avatarText: string;
   property: string;
   unit: string;
   leaseStart: string;
@@ -41,179 +38,197 @@ interface Tenant {
   rent: number;
   paymentStatus: PaymentStatus;
   lateDays?: number;
-  riskScore: RiskLevel;
+  riskLevel: RiskLevel;
 }
 
 const tenants: Tenant[] = [
   {
     id: 1,
     name: "Sarah Chen",
-    email: "s.chen@email.com",
+    email: "sarah.chen@email.com",
     initials: "SC",
-    avatarColor: "bg-brand-500",
-    property: "Riverside Apt",
+    avatarBg: "#E8F0ED",
+    avatarText: "#4A7C6F",
+    property: "Riverside",
     unit: "4B",
-    leaseStart: "Mar 2025",
-    leaseEnd: "Feb 2026",
+    leaseStart: "Jan 2024",
+    leaseEnd: "Jan 2025",
     rent: 1850,
     paymentStatus: "Paid",
-    riskScore: "Low",
+    riskLevel: "Low",
   },
   {
     id: 2,
     name: "Marcus Johnson",
     email: "m.johnson@email.com",
     initials: "MJ",
-    avatarColor: "bg-amber-600",
+    avatarBg: "#F0E8DE",
+    avatarText: "#C4975A",
     property: "Pine Valley",
     unit: "12A",
-    leaseStart: "Jan 2025",
-    leaseEnd: "Dec 2025",
+    leaseStart: "Mar 2024",
+    leaseEnd: "Mar 2025",
     rent: 2100,
     paymentStatus: "Late",
     lateDays: 5,
-    riskScore: "Medium",
+    riskLevel: "Medium",
   },
   {
     id: 3,
     name: "Emily Rodriguez",
     email: "e.rodriguez@email.com",
     initials: "ER",
-    avatarColor: "bg-emerald-600",
-    property: "Sunset Heights",
+    avatarBg: "#E3EDE9",
+    avatarText: "#5B9A7D",
+    property: "Sunset",
     unit: "22C",
-    leaseStart: "Jun 2025",
-    leaseEnd: "May 2026",
+    leaseStart: "Jun 2024",
+    leaseEnd: "Jun 2025",
     rent: 1650,
     paymentStatus: "Paid",
-    riskScore: "Low",
+    riskLevel: "Low",
   },
   {
     id: 4,
     name: "David Kim",
     email: "d.kim@email.com",
     initials: "DK",
-    avatarColor: "bg-violet-600",
-    property: "Downtown Commerce",
+    avatarBg: "#E2E6EB",
+    avatarText: "#1A2332",
+    property: "Downtown",
     unit: "3",
-    leaseStart: "Feb 2025",
+    leaseStart: "Jan 2024",
     leaseEnd: "Jan 2026",
     rent: 4200,
     paymentStatus: "Paid",
-    riskScore: "Low",
+    riskLevel: "Low",
   },
   {
     id: 5,
     name: "Jessica Williams",
     email: "j.williams@email.com",
     initials: "JW",
-    avatarColor: "bg-rose-600",
-    property: "Harbor View",
+    avatarBg: "#F0E2E2",
+    avatarText: "#B85C5C",
+    property: "Harbor",
     unit: "8B",
-    leaseStart: "Apr 2025",
-    leaseEnd: "Mar 2026",
+    leaseStart: "Sep 2024",
+    leaseEnd: "Sep 2025",
     rent: 1950,
     paymentStatus: "Pending",
-    riskScore: "High",
+    riskLevel: "High",
   },
   {
     id: 6,
     name: "Robert Taylor",
     email: "r.taylor@email.com",
     initials: "RT",
-    avatarColor: "bg-sky-600",
-    property: "Maple Grove",
+    avatarBg: "#E2E9F0",
+    avatarText: "#5B82A0",
+    property: "Maple",
     unit: "2",
-    leaseStart: "May 2025",
-    leaseEnd: "Apr 2026",
+    leaseStart: "Nov 2024",
+    leaseEnd: "Nov 2025",
     rent: 2400,
     paymentStatus: "Paid",
-    riskScore: "Low",
+    riskLevel: "Low",
   },
   {
     id: 7,
     name: "Aisha Patel",
     email: "a.patel@email.com",
     initials: "AP",
-    avatarColor: "bg-teal-600",
-    property: "Riverside Apt",
+    avatarBg: "#E5EDEA",
+    avatarText: "#4A7C6F",
+    property: "Riverside",
     unit: "11A",
-    leaseStart: "Jul 2025",
-    leaseEnd: "Jun 2026",
+    leaseStart: "Apr 2024",
+    leaseEnd: "Apr 2025",
     rent: 1750,
     paymentStatus: "Paid",
-    riskScore: "Low",
+    riskLevel: "Low",
   },
   {
     id: 8,
     name: "James O'Brien",
     email: "j.obrien@email.com",
     initials: "JO",
-    avatarColor: "bg-orange-600",
+    avatarBg: "#F0E6DE",
+    avatarText: "#B85C5C",
     property: "Pine Valley",
     unit: "5C",
-    leaseStart: "Nov 2024",
-    leaseEnd: "Oct 2025",
+    leaseStart: "Aug 2024",
+    leaseEnd: "Aug 2025",
     rent: 2100,
     paymentStatus: "Late",
     lateDays: 12,
-    riskScore: "High",
+    riskLevel: "High",
   },
 ];
 
-const statusOptions = ["All", "Active", "Late", "Notice Given"] as const;
+const statusOptions = ["All", "Active", "Late", "Notice"] as const;
 const propertyOptions = [
   "All Properties",
-  "Riverside Apt",
+  "Riverside",
   "Pine Valley",
-  "Sunset Heights",
-  "Downtown Commerce",
-  "Harbor View",
-  "Maple Grove",
+  "Sunset",
+  "Downtown",
+  "Harbor",
+  "Maple",
 ] as const;
 const sortOptions = [
   "Name A-Z",
   "Name Z-A",
   "Rent: High to Low",
   "Rent: Low to High",
-  "Risk Score",
 ] as const;
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
 
-function paymentBadge(status: PaymentStatus, lateDays?: number) {
-  const base =
-    "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold leading-5";
+function PaymentBadge({ status, lateDays }: { status: PaymentStatus; lateDays?: number }) {
+  const base = "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium";
   if (status === "Paid")
-    return (
-      <span className={clsx(base, "bg-success/10 text-success")}>Paid</span>
-    );
+    return <span className={clsx(base, "bg-[#5B9A7D]/10 text-[#5B9A7D]")}>Paid</span>;
   if (status === "Late")
     return (
-      <span className={clsx(base, "bg-danger/10 text-danger")}>
+      <span className={clsx(base, "bg-[#B85C5C]/10 text-[#B85C5C]")}>
         Late{lateDays ? ` (${lateDays}d)` : ""}
       </span>
     );
-  return (
-    <span className={clsx(base, "bg-warning/10 text-warning")}>Pending</span>
-  );
+  return <span className={clsx(base, "bg-[#C4975A]/10 text-[#C4975A]")}>Pending</span>;
 }
 
-function riskBadge(level: RiskLevel) {
-  const base =
-    "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold leading-5";
+function RiskBadge({ level }: { level: RiskLevel }) {
+  const base = "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium";
   if (level === "Low")
-    return <span className={clsx(base, "bg-success/10 text-success")}>Low</span>;
+    return <span className={clsx(base, "bg-[#5B9A7D]/10 text-[#5B9A7D]")}>Low</span>;
   if (level === "Medium")
-    return (
-      <span className={clsx(base, "bg-warning/10 text-warning")}>Medium</span>
-    );
-  return (
-    <span className={clsx(base, "bg-danger/10 text-danger")}>High</span>
-  );
+    return <span className={clsx(base, "bg-[#C4975A]/10 text-[#C4975A]")}>Medium</span>;
+  return <span className={clsx(base, "bg-[#B85C5C]/10 text-[#B85C5C]")}>High</span>;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Stats card config                                                  */
+/* ------------------------------------------------------------------ */
+
+const stats = [
+  { label: "Total Tenants", value: "127", icon: Users, accent: "#4A7C6F", accentBg: "#E8F0ED" },
+  { label: "Active Leases", value: "119", icon: FileText, accent: "#5B9A7D", accentBg: "#E3EDE9" },
+  { label: "Pending Applications", value: "8", icon: ClipboardList, accent: "#C4975A", accentBg: "#F0E8DE" },
+  { label: "Avg Satisfaction", value: "4.2", extra: "/5", icon: Star, accent: "#C4975A", accentBg: "#F0E8DE" },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Insights                                                           */
+/* ------------------------------------------------------------------ */
+
+const insights = [
+  "2 tenants showing late payment patterns \u2014 proactive outreach recommended",
+  "3 leases expiring within 30 days \u2014 renewal offers ready for review",
+  "Jessica Williams risk elevated \u2014 3 consecutive late payments detected",
+];
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
@@ -221,82 +236,85 @@ function riskBadge(level: RiskLevel) {
 
 export default function TenantsPage() {
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [propertyFilter, setPropertyFilter] = useState("All Properties");
-  const [sortBy, setSortBy] = useState("Name A-Z");
+  const [statusFilter, setStatusFilter] = useState<string>("All");
+  const [propertyFilter, setPropertyFilter] = useState<string>("All Properties");
+  const [sortBy, setSortBy] = useState<string>("Name A-Z");
+
+  /* ---- Filtering ---- */
+  const filtered = tenants
+    .filter((t) => {
+      if (search) {
+        const q = search.toLowerCase();
+        const match =
+          t.name.toLowerCase().includes(q) ||
+          t.email.toLowerCase().includes(q) ||
+          t.property.toLowerCase().includes(q) ||
+          t.unit.toLowerCase().includes(q);
+        if (!match) return false;
+      }
+      if (statusFilter === "Active" && t.paymentStatus !== "Paid") return false;
+      if (statusFilter === "Late" && t.paymentStatus !== "Late") return false;
+      if (statusFilter === "Notice" && t.paymentStatus !== "Pending") return false;
+      if (propertyFilter !== "All Properties" && t.property !== propertyFilter) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortBy === "Name A-Z") return a.name.localeCompare(b.name);
+      if (sortBy === "Name Z-A") return b.name.localeCompare(a.name);
+      if (sortBy === "Rent: High to Low") return b.rent - a.rent;
+      if (sortBy === "Rent: Low to High") return a.rent - b.rent;
+      return 0;
+    });
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
-      {/* ---- Page header ---- */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* ---------------------------------------------------------------- */}
+      {/*  Header                                                          */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-fade-in">
         <div>
-          <h1 className="text-[22px] font-semibold tracking-[-0.01em] text-foreground">
+          <h1 className="text-[28px] font-semibold tracking-tight text-[#2D3436]">
             Tenants
           </h1>
-          <p className="mt-1 text-[13px] text-muted">
+          <p className="mt-1 text-[14px] text-[#A09E98]">
             Manage tenant relationships with AI-powered insights
           </p>
         </div>
-        <button className="inline-flex h-9 items-center gap-2 rounded-lg bg-brand-500 px-4 text-[13px] font-medium text-white shadow-sm transition-colors hover:bg-brand-600">
+        <button className="inline-flex h-10 items-center gap-2 rounded-2xl bg-[#4A7C6F] px-5 text-[13px] font-medium text-white shadow-sm transition-colors hover:bg-[#3D6A5F]">
           <Plus size={15} strokeWidth={2} />
           Add Tenant
         </button>
       </div>
 
-      {/* ---- Quick stats ---- */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {[
-          {
-            label: "Total Tenants",
-            value: "127",
-            icon: Users,
-            color: "text-brand-500 bg-brand-50",
-          },
-          {
-            label: "Active Leases",
-            value: "119",
-            icon: FileText,
-            color: "text-success bg-success/10",
-          },
-          {
-            label: "Pending Applications",
-            value: "8",
-            icon: ClipboardList,
-            color: "text-warning bg-warning/10",
-          },
-          {
-            label: "Avg Tenant Score",
-            value: "4.2",
-            extra: "/5",
-            icon: Star,
-            color: "text-amber-500 bg-amber-500/10",
-          },
-        ].map((stat) => {
-          const Icon = stat.icon;
+      {/* ---------------------------------------------------------------- */}
+      {/*  Stats                                                           */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+        {stats.map((s, i) => {
+          const Icon = s.icon;
           return (
             <div
-              key={stat.label}
-              className="rounded-xl border border-card-border bg-card-bg p-5"
+              key={s.label}
+              className={clsx(
+                "bg-white border border-[#E5E3DE] rounded-2xl p-5 animate-fade-in",
+                `stagger-${i + 1}`
+              )}
             >
               <div className="flex items-center justify-between">
-                <p className="text-[12px] font-medium uppercase tracking-wide text-muted">
-                  {stat.label}
+                <p className="text-[12px] font-medium uppercase tracking-wide text-[#A09E98]">
+                  {s.label}
                 </p>
                 <span
-                  className={clsx(
-                    "flex h-8 w-8 items-center justify-center rounded-lg",
-                    stat.color
-                  )}
+                  className="flex h-8 w-8 items-center justify-center rounded-xl"
+                  style={{ backgroundColor: s.accentBg, color: s.accent }}
                 >
                   <Icon size={16} strokeWidth={1.75} />
                 </span>
               </div>
-              <p className="mt-3 text-[26px] font-semibold leading-none tracking-tight text-foreground">
-                {stat.value}
-                {stat.extra && (
-                  <span className="text-[14px] font-normal text-muted">
-                    {stat.extra}
-                  </span>
+              <p className="mt-3 text-[28px] font-semibold leading-none tracking-tight text-[#2D3436]">
+                {s.value}
+                {s.extra && (
+                  <span className="text-[14px] font-normal text-[#A09E98]">{s.extra}</span>
                 )}
               </p>
             </div>
@@ -304,32 +322,33 @@ export default function TenantsPage() {
         })}
       </div>
 
-      {/* ---- Search & filters ---- */}
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      {/* ---------------------------------------------------------------- */}
+      {/*  Filters                                                         */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between animate-fade-in stagger-5">
         {/* Search */}
         <div className="relative max-w-sm flex-1">
           <Search
             size={15}
             strokeWidth={1.75}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A09E98]"
           />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name, unit, or property..."
-            className="h-9 w-full rounded-lg border border-card-border bg-card-bg pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted/60 focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+            placeholder="Search tenants..."
+            className="h-10 w-full rounded-2xl border border-[#E5E3DE] bg-white pl-10 pr-4 text-[13px] text-[#2D3436] placeholder:text-[#C5C3BD] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-2 focus:ring-[#4A7C6F]/10 transition-shadow"
           />
         </div>
 
-        {/* Filter pills */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Status */}
           <div className="relative">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="h-9 appearance-none rounded-lg border border-card-border bg-card-bg pl-3 pr-8 text-[13px] text-foreground focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+              className="h-10 appearance-none rounded-2xl border border-[#E5E3DE] bg-white pl-3.5 pr-9 text-[13px] text-[#2D3436] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-2 focus:ring-[#4A7C6F]/10 transition-shadow cursor-pointer"
             >
               {statusOptions.map((s) => (
                 <option key={s}>{s}</option>
@@ -337,7 +356,7 @@ export default function TenantsPage() {
             </select>
             <ChevronDown
               size={14}
-              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#A09E98]"
             />
           </div>
 
@@ -346,7 +365,7 @@ export default function TenantsPage() {
             <select
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
-              className="h-9 appearance-none rounded-lg border border-card-border bg-card-bg pl-3 pr-8 text-[13px] text-foreground focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+              className="h-10 appearance-none rounded-2xl border border-[#E5E3DE] bg-white pl-3.5 pr-9 text-[13px] text-[#2D3436] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-2 focus:ring-[#4A7C6F]/10 transition-shadow cursor-pointer"
             >
               {propertyOptions.map((p) => (
                 <option key={p}>{p}</option>
@@ -354,7 +373,7 @@ export default function TenantsPage() {
             </select>
             <ChevronDown
               size={14}
-              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#A09E98]"
             />
           </div>
 
@@ -362,12 +381,12 @@ export default function TenantsPage() {
           <div className="relative">
             <ArrowUpDown
               size={13}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A09E98]"
             />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="h-9 appearance-none rounded-lg border border-card-border bg-card-bg pl-8 pr-8 text-[13px] text-foreground focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+              className="h-10 appearance-none rounded-2xl border border-[#E5E3DE] bg-white pl-9 pr-9 text-[13px] text-[#2D3436] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-2 focus:ring-[#4A7C6F]/10 transition-shadow cursor-pointer"
             >
               {sortOptions.map((s) => (
                 <option key={s}>{s}</option>
@@ -375,171 +394,134 @@ export default function TenantsPage() {
             </select>
             <ChevronDown
               size={14}
-              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#A09E98]"
             />
           </div>
         </div>
       </div>
 
-      {/* ---- Main content grid (table + AI panel) ---- */}
-      <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
-        {/* ---- Tenant table ---- */}
-        <div className="overflow-hidden rounded-xl border border-card-border bg-card-bg">
-          {/* Table header */}
-          <div className="grid grid-cols-[2fr_1.4fr_1.2fr_0.9fr_0.8fr_0.7fr_0.6fr] items-center gap-4 border-b border-card-border px-5 py-3 text-[11px] font-semibold uppercase tracking-wide text-muted">
-            <span>Tenant</span>
-            <span>Property / Unit</span>
-            <span>Lease Period</span>
-            <span>Rent</span>
-            <span>Payment</span>
-            <span className="flex items-center gap-1">
-              <Brain size={12} strokeWidth={2} />
-              AI Risk
-            </span>
-            <span className="text-right">Actions</span>
+      {/* ---------------------------------------------------------------- */}
+      {/*  Tenant List (card-style rows)                                   */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="bg-white border border-[#E5E3DE] rounded-2xl overflow-hidden animate-fade-in stagger-6">
+        {/* Column headers */}
+        <div className="flex items-center px-6 py-3 bg-[#F5F4F0] border-b border-[#E5E3DE]">
+          <div className="flex-[2] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            Tenant
           </div>
-
-          {/* Rows */}
-          {tenants.map((t, i) => (
-            <div
-              key={t.id}
-              className={clsx(
-                "group grid grid-cols-[2fr_1.4fr_1.2fr_0.9fr_0.8fr_0.7fr_0.6fr] items-center gap-4 border-b border-card-border/60 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-brand-50/40",
-                i % 2 === 1 && "bg-background/40"
-              )}
-            >
-              {/* Tenant info */}
-              <div className="flex items-center gap-3 min-w-0">
-                <span
-                  className={clsx(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold text-white",
-                    t.avatarColor
-                  )}
-                >
-                  {t.initials}
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate text-[13px] font-medium text-foreground">
-                    {t.name}
-                  </p>
-                  <p className="truncate text-[11px] text-muted">{t.email}</p>
-                </div>
-              </div>
-
-              {/* Property / Unit */}
-              <div className="min-w-0">
-                <p className="truncate text-[13px] text-foreground">
-                  {t.property}
-                </p>
-                <p className="text-[11px] text-muted">Unit {t.unit}</p>
-              </div>
-
-              {/* Lease period */}
-              <p className="text-[12px] text-muted">
-                {t.leaseStart} &ndash; {t.leaseEnd}
-              </p>
-
-              {/* Rent */}
-              <p className="text-[13px] font-medium text-foreground">
-                ${t.rent.toLocaleString()}
-                <span className="text-[11px] font-normal text-muted">/mo</span>
-              </p>
-
-              {/* Payment status */}
-              {paymentBadge(t.paymentStatus, t.lateDays)}
-
-              {/* AI Risk */}
-              {riskBadge(t.riskScore)}
-
-              {/* Actions */}
-              <div className="flex items-center justify-end gap-1">
-                {[
-                  { icon: Eye, label: "View" },
-                  { icon: Pencil, label: "Edit" },
-                  { icon: MessageSquare, label: "Message" },
-                ].map((action) => {
-                  const Icon = action.icon;
-                  return (
-                    <button
-                      key={action.label}
-                      aria-label={action.label}
-                      className="flex h-7 w-7 items-center justify-center rounded-md text-muted opacity-0 transition-all hover:bg-brand-50 hover:text-brand-600 group-hover:opacity-100"
-                    >
-                      <Icon size={14} strokeWidth={1.75} />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+          <div className="flex-[1.2] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            Property
+          </div>
+          <div className="flex-[1.2] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            Lease Period
+          </div>
+          <div className="flex-[0.8] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            Rent
+          </div>
+          <div className="flex-[0.8] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            Payment
+          </div>
+          <div className="flex-[0.7] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98]">
+            AI Risk
+          </div>
+          <div className="flex-[0.6] min-w-0 text-[11px] font-semibold uppercase tracking-wide text-[#A09E98] text-right">
+            Actions
+          </div>
         </div>
 
-        {/* ---- AI Tenant Insights panel ---- */}
-        <div className="space-y-4">
-          <div className="rounded-xl border border-card-border bg-card-bg p-5">
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-50 text-brand-500">
-                <Sparkles size={14} strokeWidth={2} />
-              </span>
-              <h2 className="text-[14px] font-semibold text-foreground">
-                AI Tenant Insights
-              </h2>
-            </div>
-
-            <div className="mt-4 space-y-3">
-              {/* Insight 1 */}
-              <div className="flex gap-3 rounded-lg border border-danger/20 bg-danger/5 p-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-danger/10 text-danger">
-                  <AlertTriangle size={13} strokeWidth={2} />
-                </span>
-                <div>
-                  <p className="text-[12px] font-medium text-foreground">
-                    Late Payment Patterns
-                  </p>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-                    2 tenants showing late payment patterns &mdash; proactive
-                    outreach recommended
-                  </p>
-                </div>
-              </div>
-
-              {/* Insight 2 */}
-              <div className="flex gap-3 rounded-lg border border-warning/20 bg-warning/5 p-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-warning/10 text-warning">
-                  <CalendarClock size={13} strokeWidth={2} />
-                </span>
-                <div>
-                  <p className="text-[12px] font-medium text-foreground">
-                    Expiring Leases
-                  </p>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-                    3 leases expiring in 30 days &mdash; renewal offers ready
-                    for review
-                  </p>
-                </div>
-              </div>
-
-              {/* Insight 3 */}
-              <div className="flex gap-3 rounded-lg border border-danger/20 bg-danger/5 p-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-danger/10 text-danger">
-                  <ShieldAlert size={13} strokeWidth={2} />
-                </span>
-                <div>
-                  <p className="text-[12px] font-medium text-foreground">
-                    Elevated Risk
-                  </p>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-muted">
-                    Jessica Williams risk score elevated due to 3 consecutive
-                    late payments
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <button className="mt-4 w-full rounded-lg border border-card-border py-2 text-[12px] font-medium text-muted transition-colors hover:border-brand-500/30 hover:text-brand-500">
-              View All Insights
-            </button>
+        {/* Rows */}
+        {filtered.length === 0 && (
+          <div className="px-6 py-12 text-center text-[14px] text-[#A09E98]">
+            No tenants match your filters.
           </div>
+        )}
+
+        {filtered.map((t, i) => (
+          <div
+            key={t.id}
+            className={clsx(
+              "group flex items-center px-6 py-4 border-b border-[#E5E3DE] hover:bg-[#F5F4F0] transition-colors",
+              "animate-fade-in",
+              `stagger-${Math.min(i + 1, 8)}`,
+              i === filtered.length - 1 && "border-b-0"
+            )}
+          >
+            {/* Tenant (avatar + name + email) */}
+            <div className="flex-[2] flex items-center gap-3 min-w-0">
+              <div
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[12px] font-semibold"
+                style={{ backgroundColor: t.avatarBg, color: t.avatarText }}
+              >
+                {t.initials}
+              </div>
+              <div className="min-w-0">
+                <p className="truncate text-[14px] font-medium text-[#2D3436]">{t.name}</p>
+                <p className="truncate text-[12px] text-[#A09E98]">{t.email}</p>
+              </div>
+            </div>
+
+            {/* Property + Unit */}
+            <div className="flex-[1.2] min-w-0">
+              <p className="truncate text-[13px] text-[#2D3436]">{t.property}</p>
+              <p className="text-[12px] text-[#A09E98]">Unit {t.unit}</p>
+            </div>
+
+            {/* Lease period */}
+            <div className="flex-[1.2] min-w-0">
+              <p className="text-[13px] text-[#6D6B65]">
+                {t.leaseStart} &ndash; {t.leaseEnd}
+              </p>
+            </div>
+
+            {/* Rent */}
+            <div className="flex-[0.8] min-w-0">
+              <p className="text-[14px] font-semibold text-[#2D3436]">
+                ${t.rent.toLocaleString()}
+              </p>
+            </div>
+
+            {/* Payment status */}
+            <div className="flex-[0.8] min-w-0">
+              <PaymentBadge status={t.paymentStatus} lateDays={t.lateDays} />
+            </div>
+
+            {/* AI Risk */}
+            <div className="flex-[0.7] min-w-0">
+              <RiskBadge level={t.riskLevel} />
+            </div>
+
+            {/* Actions */}
+            <div className="flex-[0.6] flex items-center justify-end gap-1">
+              {[Eye, Pencil, MessageSquare].map((Icon, idx) => (
+                <button
+                  key={idx}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg text-[#A09E98] hover:text-[#2D3436] hover:bg-[#F5F4F0] transition-colors"
+                >
+                  <Icon size={14} strokeWidth={1.75} />
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ---------------------------------------------------------------- */}
+      {/*  AI Insights Panel                                               */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="mt-6 bg-white border border-[#B8D4C8] rounded-2xl p-6 animate-fade-in stagger-7">
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E8F0ED] text-[#4A7C6F]">
+            <Sparkles size={16} strokeWidth={2} />
+          </span>
+          <h2 className="text-[16px] font-semibold text-[#2D3436]">AI Tenant Insights</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          {insights.map((text, i) => (
+            <div key={i} className="bg-[#F5F4F0] rounded-xl p-4">
+              <p className="text-[13px] leading-relaxed text-[#6D6B65]">{text}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

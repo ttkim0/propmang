@@ -9,22 +9,12 @@ import {
   Clock,
   Star,
   Flag,
-  Mail,
-  MailOpen,
   Bot,
-  Filter,
-  Paperclip,
-  MoreHorizontal,
-  ChevronRight,
   Check,
   X,
   Pencil,
-  ThumbsUp,
   AlertCircle,
   Zap,
-  Users,
-  TrendingUp,
-  ArrowUpRight,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -39,21 +29,18 @@ type FilterTab = "all" | "unread" | "ai-drafted" | "flagged";
 interface MessagePreview {
   id: string;
   sender: string;
-  avatar: string;
-  avatarColor: string;
+  initials: string;
+  avatarBg: string;
   subject: string;
   preview: string;
   time: string;
   status: MessageStatus;
   tags: MessageTag[];
-  isSystem?: boolean;
 }
 
 interface ThreadMessage {
   id: string;
   sender: string;
-  avatar: string;
-  avatarColor: string;
   content: string;
   time: string;
   isOwn?: boolean;
@@ -64,48 +51,21 @@ interface ThreadMessage {
 // ---------------------------------------------------------------------------
 
 const stats = [
-  {
-    label: "Total Messages",
-    value: "342",
-    sub: "this month",
-    icon: MessageSquare,
-    color: "text-brand-500",
-    bgColor: "bg-brand-100",
-  },
-  {
-    label: "AI Drafted",
-    value: "67%",
-    sub: "of responses",
-    icon: Sparkles,
-    color: "text-info",
-    bgColor: "bg-info/10",
-  },
-  {
-    label: "Avg Response Time",
-    value: "2.1 hrs",
-    sub: "down from 4.3 hrs",
-    icon: Clock,
-    color: "text-success",
-    bgColor: "bg-success/10",
-  },
-  {
-    label: "Satisfaction",
-    value: "4.8/5",
-    sub: "tenant rating",
-    icon: Star,
-    color: "text-warning",
-    bgColor: "bg-warning/10",
-  },
+  { label: "Messages", value: "342", icon: MessageSquare },
+  { label: "AI Drafted", value: "67%", icon: Sparkles },
+  { label: "Avg Response", value: "2.1 hrs", icon: Clock },
+  { label: "Satisfaction", value: "4.8/5", icon: Star },
 ];
 
 const messages: MessagePreview[] = [
   {
     id: "1",
     sender: "Sarah Chen",
-    avatar: "SC",
-    avatarColor: "bg-brand-100 text-brand-600",
+    initials: "SC",
+    avatarBg: "bg-[#E8F0ED] text-[#4A7C6F]",
     subject: "Re: Maintenance update for Unit 4B",
-    preview: "Thank you for the update. When can we expect the plumber to...",
+    preview:
+      "Thanks for the quick response. When can I expect them?",
     time: "2h ago",
     status: "read",
     tags: [],
@@ -113,10 +73,11 @@ const messages: MessagePreview[] = [
   {
     id: "2",
     sender: "Marcus Johnson",
-    avatar: "MJ",
-    avatarColor: "bg-danger/10 text-danger",
+    initials: "MJ",
+    avatarBg: "bg-[#F3E0E0] text-[#B85C5C]",
     subject: "Late payment arrangement",
-    preview: "I wanted to discuss a payment plan for this month's rent...",
+    preview:
+      "I wanted to discuss a payment plan for this month's rent...",
     time: "3h ago",
     status: "unread",
     tags: ["flagged"],
@@ -124,10 +85,11 @@ const messages: MessagePreview[] = [
   {
     id: "3",
     sender: "Emily Rodriguez",
-    avatar: "ER",
-    avatarColor: "bg-warning/10 text-warning",
+    initials: "ER",
+    avatarBg: "bg-[#F0E6D6] text-[#C4975A]",
     subject: "Move-out notice",
-    preview: "I'm writing to formally notify you of my intent to vacate...",
+    preview:
+      "I'm writing to formally notify you of my intent to vacate...",
     time: "5h ago",
     status: "unread",
     tags: ["important"],
@@ -135,22 +97,23 @@ const messages: MessagePreview[] = [
   {
     id: "4",
     sender: "Building-wide",
-    avatar: "BW",
-    avatarColor: "bg-info/10 text-info",
+    initials: "BW",
+    avatarBg: "bg-[#DDE8F0] text-[#5B82A0]",
     subject: "Parking lot resurfacing notice",
-    preview: "Dear residents, we will be resurfacing the parking lot...",
+    preview:
+      "Dear residents, we will be resurfacing the parking lot...",
     time: "1d ago",
     status: "read",
     tags: ["ai-drafted"],
-    isSystem: true,
   },
   {
     id: "5",
     sender: "David Kim",
-    avatar: "DK",
-    avatarColor: "bg-success/10 text-success",
+    initials: "DK",
+    avatarBg: "bg-[#E0EDE6] text-[#5B9A7D]",
     subject: "Lease renewal question",
-    preview: "Hi, I was wondering about the terms for my upcoming lease...",
+    preview:
+      "Hi, I was wondering about the terms for my upcoming lease...",
     time: "1d ago",
     status: "read",
     tags: [],
@@ -158,10 +121,11 @@ const messages: MessagePreview[] = [
   {
     id: "6",
     sender: "Jessica Williams",
-    avatar: "JW",
-    avatarColor: "bg-brand-100 text-brand-600",
+    initials: "JW",
+    avatarBg: "bg-[#E8F0ED] text-[#4A7C6F]",
     subject: "Noise complaint follow-up",
-    preview: "Thanks for addressing the noise issue. Things have been much...",
+    preview:
+      "Thanks for addressing the noise issue. Things have been much...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -169,10 +133,11 @@ const messages: MessagePreview[] = [
   {
     id: "7",
     sender: "Aisha Patel",
-    avatar: "AP",
-    avatarColor: "bg-success/10 text-success",
+    initials: "AP",
+    avatarBg: "bg-[#E0EDE6] text-[#5B9A7D]",
     subject: "Thank you for quick repair!",
-    preview: "Just wanted to say thank you for the quick turnaround on...",
+    preview:
+      "Just wanted to say thank you for the quick turnaround on...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -180,14 +145,14 @@ const messages: MessagePreview[] = [
   {
     id: "8",
     sender: "System",
-    avatar: "SY",
-    avatarColor: "bg-foreground/5 text-muted",
+    initials: "SY",
+    avatarBg: "bg-[#EEECEA] text-[#9B9790]",
     subject: "Monthly rent reminders sent",
-    preview: "Automated rent reminders were sent to 47 tenants for April...",
+    preview:
+      "Automated rent reminders were sent to 47 tenants for April...",
     time: "3d ago",
     status: "read",
     tags: ["ai-auto-sent"],
-    isSystem: true,
   },
 ];
 
@@ -195,76 +160,71 @@ const thread: ThreadMessage[] = [
   {
     id: "t1",
     sender: "Sarah Chen",
-    avatar: "SC",
-    avatarColor: "bg-brand-100 text-brand-600",
     content:
-      "Hi Jordan, I wanted to follow up on the maintenance request I submitted last week for Unit 4B. The kitchen faucet is still leaking and it seems to have gotten worse. Could you let me know when someone will be able to come take a look?",
+      "Hi, I wanted to check on the status of the bathroom repair in Unit 4B. The plumber came yesterday but the leak is still there.",
     time: "Yesterday, 10:23 AM",
   },
   {
     id: "t2",
-    sender: "Jordan Davis",
-    avatar: "JD",
-    avatarColor: "bg-brand-500 text-white",
+    sender: "You",
     content:
-      "Hi Sarah, thanks for following up. I've scheduled a plumber to come by this Thursday between 9 AM and 12 PM. They'll replace the faulty cartridge and check for any water damage. Could you confirm someone will be available to let them in?",
+      "Thank you for letting us know, Sarah. I'll contact the plumber to schedule a follow-up visit.",
     time: "Yesterday, 2:15 PM",
     isOwn: true,
   },
   {
     id: "t3",
     sender: "Sarah Chen",
-    avatar: "SC",
-    avatarColor: "bg-brand-100 text-brand-600",
     content:
-      "Thank you for the update. When can we expect the plumber to arrive exactly? I work from home on Thursdays so I should be available all morning. Also, is there anything I should do to prepare, like clearing under the sink?",
+      "Thanks for the quick response. When can I expect them?",
     time: "Today, 9:47 AM",
   },
 ];
 
-const aiDraftReply =
-  "Hi Sarah, the plumber is scheduled to arrive between 9:00 AM and 10:30 AM this Thursday. It would be helpful if you could clear the area under the kitchen sink beforehand so they have easy access. The repair should take about 30-45 minutes. Please don't hesitate to reach out if you need to reschedule. Thank you for your patience!";
+const aiDraftText =
+  "Hi Sarah, I've scheduled the plumber for tomorrow between 10 AM and 12 PM. They'll address the remaining leak in your bathroom. I'll send you a confirmation once the appointment is locked in. Please let me know if that time works for you.";
 
 // ---------------------------------------------------------------------------
-// Helper Components
+// Tag Badge
 // ---------------------------------------------------------------------------
 
 function TagBadge({ tag }: { tag: MessageTag }) {
-  const config: Record<
-    MessageTag,
-    { label: string; className: string; icon: React.ElementType }
-  > = {
-    flagged: {
-      label: "Flagged",
-      className: "bg-danger/10 text-danger",
-      icon: Flag,
-    },
-    important: {
-      label: "Important",
-      className: "bg-warning/10 text-warning",
-      icon: AlertCircle,
-    },
-    "ai-drafted": {
-      label: "AI Drafted",
-      className: "bg-info/10 text-info",
-      icon: Bot,
-    },
-    "ai-auto-sent": {
-      label: "AI Auto-sent",
-      className: "bg-foreground/5 text-muted",
-      icon: Zap,
-    },
-  };
+  const config: Record<MessageTag, { label: string; bg: string; text: string }> =
+    {
+      "ai-drafted": {
+        label: "AI Drafted",
+        bg: "bg-[#EDF3F0]",
+        text: "text-[#4A7C6F]",
+      },
+      flagged: {
+        label: "Flagged",
+        bg: "bg-[#C4975A]/10",
+        text: "text-[#C4975A]",
+      },
+      important: {
+        label: "Important",
+        bg: "bg-[#C4975A]/10",
+        text: "text-[#C4975A]",
+      },
+      "ai-auto-sent": {
+        label: "AI Auto-sent",
+        bg: "bg-[#EDF3F0]",
+        text: "text-[#4A7C6F]",
+      },
+    };
   const c = config[tag];
-  const Icon = c.icon;
   return (
     <span
       className={clsx(
-        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
-        c.className
+        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
+        c.bg,
+        c.text
       )}
     >
-      <Icon className="h-2.5 w-2.5" />
+      {tag === "flagged" && <Flag className="h-2.5 w-2.5" />}
+      {tag === "important" && <AlertCircle className="h-2.5 w-2.5" />}
+      {tag === "ai-drafted" && <Bot className="h-2.5 w-2.5" />}
+      {tag === "ai-auto-sent" && <Zap className="h-2.5 w-2.5" />}
       {c.label}
     </span>
   );
@@ -294,53 +254,43 @@ export default function CommunicationsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* -------------------------------------------------------------- */}
-      {/* Header                                                         */}
-      {/* -------------------------------------------------------------- */}
-      <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="min-h-screen bg-[#FAFAF7]">
+      {/* Header */}
+      <header className="mb-6 flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground lg:text-3xl">
+          <h1 className="text-[28px] font-semibold tracking-tight text-[#2D3436]">
             Communications
           </h1>
-          <p className="mt-1 text-sm text-muted">
-            AI-assisted tenant communication hub
+          <p className="mt-1 text-[14px] text-[#9B9790]">
+            AI-assisted tenant communication
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-brand-600 hover:shadow-md active:scale-[0.98]">
+        <button className="inline-flex items-center gap-2 rounded-2xl bg-[#4A7C6F] px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#3D6A5E] active:scale-[0.98]">
           <Send className="h-4 w-4" />
           New Message
         </button>
       </header>
 
-      {/* -------------------------------------------------------------- */}
-      {/* Stats                                                          */}
-      {/* -------------------------------------------------------------- */}
-      <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Stats */}
+      <section className="mb-6 grid grid-cols-4 gap-4">
         {stats.map((s) => {
           const Icon = s.icon;
           return (
             <div
               key={s.label}
-              className="group rounded-xl border border-card-border bg-card-bg p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-shadow hover:shadow-md"
+              className="rounded-2xl border border-[#E5E3DE] bg-white p-5"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted">
+                  <p className="text-[12px] font-medium uppercase tracking-wider text-[#9B9790]">
                     {s.label}
                   </p>
-                  <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+                  <p className="mt-2 text-[24px] font-semibold tracking-tight text-[#2D3436]">
                     {s.value}
                   </p>
-                  <p className="mt-0.5 text-xs text-muted">{s.sub}</p>
                 </div>
-                <div
-                  className={clsx(
-                    "flex h-9 w-9 items-center justify-center rounded-lg",
-                    s.bgColor
-                  )}
-                >
-                  <Icon className={clsx("h-4.5 w-4.5", s.color)} />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EDF3F0]">
+                  <Icon className="h-[18px] w-[18px] text-[#4A7C6F]" />
                 </div>
               </div>
             </div>
@@ -348,35 +298,33 @@ export default function CommunicationsPage() {
         })}
       </section>
 
-      {/* -------------------------------------------------------------- */}
-      {/* Two-panel layout                                               */}
-      {/* -------------------------------------------------------------- */}
-      <section className="mb-6 flex flex-col gap-4 lg:flex-row lg:gap-0">
-        {/* Left panel — Message list */}
-        <div className="flex w-full flex-col rounded-xl border border-card-border bg-card-bg shadow-[0_1px_3px_rgba(0,0,0,0.04)] lg:w-[40%] lg:rounded-r-none lg:border-r-0">
+      {/* Two-panel email layout */}
+      <section className="mt-6 flex overflow-hidden rounded-2xl border border-[#E5E3DE] bg-white" style={{ minHeight: 600 }}>
+        {/* Left panel */}
+        <div className="flex w-[380px] flex-col border-r border-[#E5E3DE]">
           {/* Search */}
-          <div className="border-b border-card-border p-3">
+          <div className="border-b border-[#E5E3DE] p-3">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#9B9790]" />
               <input
                 type="text"
                 placeholder="Search messages..."
-                className="h-9 w-full rounded-lg border border-card-border bg-background pl-9 pr-4 text-[13px] text-foreground placeholder:text-muted/70 focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+                className="h-9 w-full rounded-xl border border-[#E5E3DE] bg-[#FAFAF7] pl-9 pr-4 text-[13px] text-[#2D3436] placeholder:text-[#C5C2BC] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-1 focus:ring-[#4A7C6F]/20"
               />
             </div>
           </div>
 
           {/* Filter tabs */}
-          <div className="flex gap-1 border-b border-card-border px-3 py-2">
+          <div className="flex gap-1 border-b border-[#E5E3DE] bg-[#F2F1ED] px-3 py-2">
             {filters.map((f) => (
               <button
                 key={f.key}
                 onClick={() => setActiveFilter(f.key)}
                 className={clsx(
-                  "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
+                  "rounded-lg px-3 py-1.5 text-[12px] font-medium transition-colors",
                   activeFilter === f.key
-                    ? "bg-brand-500 text-white"
-                    : "text-muted hover:bg-foreground/5 hover:text-foreground"
+                    ? "bg-white text-[#2D3436] shadow-sm"
+                    : "text-[#9B9790] hover:text-[#2D3436]"
                 )}
               >
                 {f.label}
@@ -385,234 +333,168 @@ export default function CommunicationsPage() {
           </div>
 
           {/* Message list */}
-          <div className="flex-1 divide-y divide-card-border overflow-y-auto">
+          <div className="flex-1 overflow-y-auto">
             {filteredMessages.map((m) => (
               <button
                 key={m.id}
                 onClick={() => setSelectedId(m.id)}
                 className={clsx(
-                  "flex w-full items-start gap-3 px-4 py-3.5 text-left transition-colors",
-                  selectedId === m.id
-                    ? "bg-brand-50/60"
-                    : "hover:bg-background/60",
-                  m.status === "unread" && "bg-brand-50/30"
+                  "relative flex w-full cursor-pointer flex-col border-b border-[#E5E3DE] px-5 py-4 text-left transition-colors hover:bg-[#F7F6F3]",
+                  selectedId === m.id && "bg-[#F7F6F3]"
                 )}
               >
-                <div
-                  className={clsx(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold",
-                    m.avatarColor
-                  )}
-                >
-                  {m.avatar}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span
-                      className={clsx(
-                        "truncate text-sm",
-                        m.status === "unread"
-                          ? "font-semibold text-foreground"
-                          : "font-medium text-foreground"
-                      )}
-                    >
-                      {m.sender}
-                    </span>
-                    <span className="shrink-0 text-[11px] text-muted">
-                      {m.time}
-                    </span>
-                  </div>
-                  <p
+                {/* Active indicator */}
+                {selectedId === m.id && (
+                  <div className="absolute left-0 top-0 h-full w-[2px] bg-[#4A7C6F]" />
+                )}
+                {/* Top row: avatar + name + time */}
+                <div className="flex items-center gap-2.5">
+                  <div
                     className={clsx(
-                      "mt-0.5 truncate text-[13px]",
-                      m.status === "unread"
-                        ? "font-medium text-foreground"
-                        : "text-muted"
+                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-semibold",
+                      m.avatarBg
                     )}
                   >
-                    {m.subject}
-                  </p>
-                  <p className="mt-0.5 truncate text-xs text-muted/80">
-                    {m.preview}
-                  </p>
-                  {m.tags.length > 0 && (
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      {m.tags.map((tag) => (
-                        <TagBadge key={tag} tag={tag} />
-                      ))}
-                    </div>
-                  )}
+                    {m.initials}
+                  </div>
+                  <span
+                    className={clsx(
+                      "flex-1 truncate text-[13px]",
+                      m.status === "unread"
+                        ? "font-semibold text-[#2D3436]"
+                        : "font-medium text-[#2D3436]"
+                    )}
+                  >
+                    {m.sender}
+                  </span>
+                  <span className="shrink-0 text-[11px] text-[#C5C2BC]">
+                    {m.time}
+                  </span>
                 </div>
-                {m.status === "unread" && (
-                  <div className="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand-500" />
+                {/* Subject */}
+                <p
+                  className={clsx(
+                    "mt-1 truncate text-[13px]",
+                    m.status === "unread"
+                      ? "font-medium text-[#2D3436]"
+                      : "text-[#6B6963]"
+                  )}
+                >
+                  {m.subject}
+                </p>
+                {/* Preview */}
+                <p className="mt-0.5 truncate text-[12px] text-[#C5C2BC]">
+                  {m.preview}
+                </p>
+                {/* Tags */}
+                {m.tags.length > 0 && (
+                  <div className="mt-1.5 flex gap-1">
+                    {m.tags.map((tag) => (
+                      <TagBadge key={tag} tag={tag} />
+                    ))}
+                  </div>
                 )}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Right panel — Message detail */}
-        <div className="flex w-full flex-col rounded-xl border border-card-border bg-card-bg shadow-[0_1px_3px_rgba(0,0,0,0.04)] lg:w-[60%] lg:rounded-l-none">
+        {/* Right panel */}
+        <div className="flex flex-1 flex-col">
           {/* Thread header */}
-          <div className="flex items-center justify-between border-b border-card-border px-6 py-4">
-            <div className="min-w-0 flex-1">
-              <h3 className="truncate text-sm font-semibold text-foreground">
-                Re: Maintenance update for Unit 4B
-              </h3>
-              <p className="mt-0.5 text-xs text-muted">
-                Sarah Chen &middot; Unit 4B, Pine Valley Apartments
-              </p>
+          <div className="flex items-center gap-3 border-b border-[#E5E3DE] px-6 py-4">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E8F0ED] text-[10px] font-semibold text-[#4A7C6F]">
+              SC
             </div>
-            <div className="flex items-center gap-2">
-              <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-card-border text-muted transition-colors hover:bg-foreground/5 hover:text-foreground">
-                <Paperclip className="h-3.5 w-3.5" />
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-card-border text-muted transition-colors hover:bg-foreground/5 hover:text-foreground">
-                <MoreHorizontal className="h-3.5 w-3.5" />
-              </button>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-[14px] font-semibold text-[#2D3436]">
+                Sarah Chen
+              </h3>
+              <p className="text-[12px] text-[#9B9790]">
+                Re: Maintenance update for Unit 4B &middot; 2h ago
+              </p>
             </div>
           </div>
 
           {/* Thread messages */}
-          <div className="flex-1 space-y-1 overflow-y-auto p-6">
+          <div className="flex-1 space-y-4 overflow-y-auto p-6">
             {thread.map((msg) => (
               <div
                 key={msg.id}
                 className={clsx(
-                  "flex gap-3",
-                  msg.isOwn && "flex-row-reverse"
+                  "rounded-2xl p-4",
+                  msg.isOwn ? "bg-[#EDF3F0]" : "bg-[#F7F6F3]"
                 )}
               >
-                <div
-                  className={clsx(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold",
-                    msg.avatarColor
-                  )}
-                >
-                  {msg.avatar}
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="text-[12px] font-medium text-[#2D3436]">
+                    {msg.sender}
+                  </span>
+                  <span className="text-[11px] text-[#C5C2BC]">
+                    {msg.time}
+                  </span>
                 </div>
-                <div
-                  className={clsx(
-                    "max-w-[75%] rounded-xl px-4 py-3",
-                    msg.isOwn
-                      ? "rounded-tr-sm bg-brand-500 text-white"
-                      : "rounded-tl-sm bg-background"
-                  )}
-                >
-                  <div className="mb-1 flex items-center gap-2">
-                    <span
-                      className={clsx(
-                        "text-xs font-semibold",
-                        msg.isOwn ? "text-white/90" : "text-foreground"
-                      )}
-                    >
-                      {msg.sender}
-                    </span>
-                    <span
-                      className={clsx(
-                        "text-[10px]",
-                        msg.isOwn ? "text-white/60" : "text-muted"
-                      )}
-                    >
-                      {msg.time}
-                    </span>
-                  </div>
-                  <p
-                    className={clsx(
-                      "text-[13px] leading-relaxed",
-                      msg.isOwn ? "text-white/95" : "text-foreground"
-                    )}
-                  >
-                    {msg.content}
-                  </p>
-                </div>
+                <p className="text-[13px] leading-relaxed text-[#2D3436]">
+                  {msg.content}
+                </p>
               </div>
             ))}
 
-            {/* AI Draft Suggestion */}
-            <div className="mt-4 rounded-xl border border-warning/30 bg-warning/5 p-4">
-              <div className="mb-2.5 flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-warning/15">
-                  <Sparkles className="h-3.5 w-3.5 text-warning" />
-                </div>
-                <span className="text-xs font-semibold text-foreground">
-                  AI-Suggested Reply
-                </span>
-                <span className="text-[10px] text-muted">
-                  Based on maintenance request history
+            {/* AI Draft box */}
+            <div className="mx-6 mt-4 rounded-2xl border-2 border-[#B8D4C9] p-5">
+              <div className="mb-3 flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-[#3D6A5E]" />
+                <span className="text-[13px] font-medium text-[#3D6A5E]">
+                  AI Suggested Reply
                 </span>
               </div>
-              <p className="mb-3 text-[13px] leading-relaxed text-foreground/85">
-                {aiDraftReply}
+              <p className="mb-4 text-[13px] leading-relaxed text-[#2D3436]">
+                {aiDraftText}
               </p>
               <div className="flex items-center gap-2">
-                <button className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500 px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-brand-600 active:scale-[0.98]">
+                <button className="inline-flex items-center gap-1.5 rounded-xl bg-[#4A7C6F] px-4 py-2 text-[12px] font-medium text-white transition-colors hover:bg-[#3D6A5E] active:scale-[0.98]">
                   <Check className="h-3 w-3" />
                   Accept
                 </button>
-                <button className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-3 py-1.5 text-xs font-medium text-foreground transition-all hover:bg-foreground/5 active:scale-[0.98]">
+                <button className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E3DE] bg-white px-4 py-2 text-[12px] font-medium text-[#2D3436] transition-colors hover:bg-[#F7F6F3] active:scale-[0.98]">
                   <Pencil className="h-3 w-3" />
                   Edit
                 </button>
-                <button className="inline-flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-3 py-1.5 text-xs font-medium text-muted transition-all hover:bg-foreground/5 hover:text-foreground active:scale-[0.98]">
+                <button className="inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium text-[#C5C2BC] transition-colors hover:text-[#9B9790]">
                   <X className="h-3 w-3" />
-                  Reject
+                  Dismiss
                 </button>
               </div>
             </div>
           </div>
 
           {/* Reply box */}
-          <div className="border-t border-card-border px-6 py-4">
+          <div className="border-t border-[#E5E3DE] p-4">
             <div className="flex items-end gap-3">
-              <div className="relative min-w-0 flex-1">
-                <textarea
-                  rows={2}
-                  placeholder="Type your reply..."
-                  className="w-full resize-none rounded-lg border border-card-border bg-background px-4 py-2.5 text-[13px] text-foreground placeholder:text-muted/70 focus:border-brand-500/40 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
-                />
-              </div>
-              <div className="flex gap-2">
-                <button className="inline-flex items-center gap-1.5 rounded-lg border border-brand-500/30 bg-brand-50 px-3 py-2.5 text-xs font-medium text-brand-600 transition-all hover:bg-brand-100 active:scale-[0.98]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  AI Draft Reply
-                </button>
-                <button className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500 px-4 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-brand-600 hover:shadow-md active:scale-[0.98]">
-                  <Send className="h-3.5 w-3.5" />
-                  Send
-                </button>
-              </div>
+              <textarea
+                rows={2}
+                placeholder="Type your reply..."
+                className="min-w-0 flex-1 resize-none rounded-xl border border-[#E5E3DE] bg-[#FAFAF7] px-4 py-2.5 text-[13px] text-[#2D3436] placeholder:text-[#C5C2BC] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-1 focus:ring-[#4A7C6F]/20"
+              />
+              <button className="inline-flex items-center gap-1.5 rounded-xl bg-[#4A7C6F] px-4 py-2.5 text-[12px] font-medium text-white transition-colors hover:bg-[#3D6A5E] active:scale-[0.98]">
+                <Sparkles className="h-3.5 w-3.5" />
+                AI Draft Reply
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* -------------------------------------------------------------- */}
-      {/* AI Communication Insights Banner                               */}
-      {/* -------------------------------------------------------------- */}
-      <section className="rounded-xl border border-brand-200 bg-gradient-to-r from-brand-50/60 via-card-bg to-card-bg p-[1px] shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col gap-4 rounded-[11px] bg-card-bg px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-100">
-              <Sparkles className="h-4 w-4 text-brand-500" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">
-                AI has drafted 12 responses today, saving approximately 2.4
-                hours
-              </p>
-              <p className="mt-0.5 text-xs text-muted">
-                Communication efficiency increased by 34% this month
-              </p>
-            </div>
+      {/* AI banner */}
+      <section className="mt-6 rounded-2xl border border-[#E5E3DE] bg-white p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EDF3F0]">
+            <Sparkles className="h-4 w-4 text-[#4A7C6F]" />
           </div>
-          <div className="flex items-center gap-2 rounded-lg border border-warning/30 bg-warning/5 px-3 py-2">
-            <AlertCircle className="h-3.5 w-3.5 text-warning" />
-            <span className="text-xs font-medium text-foreground">
-              3 messages require personal attention
-            </span>
-            <ChevronRight className="h-3.5 w-3.5 text-muted" />
-          </div>
+          <p className="text-[14px] text-[#2D3436]">
+            <span className="font-medium">AI drafted 12 responses today</span>
+            , saving approximately 2.4 hours
+          </p>
         </div>
       </section>
     </div>
