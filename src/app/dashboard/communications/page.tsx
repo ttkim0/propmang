@@ -30,7 +30,7 @@ interface MessagePreview {
   id: string;
   sender: string;
   initials: string;
-  avatarBg: string;
+  avatarColor: string;
   subject: string;
   preview: string;
   time: string;
@@ -62,10 +62,9 @@ const messages: MessagePreview[] = [
     id: "1",
     sender: "Sarah Chen",
     initials: "SC",
-    avatarBg: "bg-[#E8F0ED] text-[#4A7C6F]",
+    avatarColor: "#4A7C6F",
     subject: "Re: Maintenance update for Unit 4B",
-    preview:
-      "Thanks for the quick response. When can I expect them?",
+    preview: "Thanks for the quick response. When can I expect them?",
     time: "2h ago",
     status: "read",
     tags: [],
@@ -74,10 +73,9 @@ const messages: MessagePreview[] = [
     id: "2",
     sender: "Marcus Johnson",
     initials: "MJ",
-    avatarBg: "bg-[#F3E0E0] text-[#B85C5C]",
+    avatarColor: "#B85C5C",
     subject: "Late payment arrangement",
-    preview:
-      "I wanted to discuss a payment plan for this month's rent...",
+    preview: "I wanted to discuss a payment plan for this month's rent...",
     time: "3h ago",
     status: "unread",
     tags: ["flagged"],
@@ -86,10 +84,9 @@ const messages: MessagePreview[] = [
     id: "3",
     sender: "Emily Rodriguez",
     initials: "ER",
-    avatarBg: "bg-[#F0E6D6] text-[#C4975A]",
+    avatarColor: "#C4975A",
     subject: "Move-out notice",
-    preview:
-      "I'm writing to formally notify you of my intent to vacate...",
+    preview: "I'm writing to formally notify you of my intent to vacate...",
     time: "5h ago",
     status: "unread",
     tags: ["important"],
@@ -98,10 +95,9 @@ const messages: MessagePreview[] = [
     id: "4",
     sender: "Building-wide",
     initials: "BW",
-    avatarBg: "bg-[#DDE8F0] text-[#5B82A0]",
+    avatarColor: "#5B82A0",
     subject: "Parking lot resurfacing notice",
-    preview:
-      "Dear residents, we will be resurfacing the parking lot...",
+    preview: "Dear residents, we will be resurfacing the parking lot...",
     time: "1d ago",
     status: "read",
     tags: ["ai-drafted"],
@@ -110,10 +106,9 @@ const messages: MessagePreview[] = [
     id: "5",
     sender: "David Kim",
     initials: "DK",
-    avatarBg: "bg-[#E0EDE6] text-[#5B9A7D]",
+    avatarColor: "#5B9A7D",
     subject: "Lease renewal question",
-    preview:
-      "Hi, I was wondering about the terms for my upcoming lease...",
+    preview: "Hi, I was wondering about the terms for my upcoming lease...",
     time: "1d ago",
     status: "read",
     tags: [],
@@ -122,10 +117,9 @@ const messages: MessagePreview[] = [
     id: "6",
     sender: "Jessica Williams",
     initials: "JW",
-    avatarBg: "bg-[#E8F0ED] text-[#4A7C6F]",
+    avatarColor: "#4A7C6F",
     subject: "Noise complaint follow-up",
-    preview:
-      "Thanks for addressing the noise issue. Things have been much...",
+    preview: "Thanks for addressing the noise issue. Things have been much...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -134,10 +128,9 @@ const messages: MessagePreview[] = [
     id: "7",
     sender: "Aisha Patel",
     initials: "AP",
-    avatarBg: "bg-[#E0EDE6] text-[#5B9A7D]",
+    avatarColor: "#5B9A7D",
     subject: "Thank you for quick repair!",
-    preview:
-      "Just wanted to say thank you for the quick turnaround on...",
+    preview: "Just wanted to say thank you for the quick turnaround on...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -146,10 +139,9 @@ const messages: MessagePreview[] = [
     id: "8",
     sender: "System",
     initials: "SY",
-    avatarBg: "bg-[#EEECEA] text-[#9B9790]",
+    avatarColor: "#9B9790",
     subject: "Monthly rent reminders sent",
-    preview:
-      "Automated rent reminders were sent to 47 tenants for April...",
+    preview: "Automated rent reminders were sent to 47 tenants for April...",
     time: "3d ago",
     status: "read",
     tags: ["ai-auto-sent"],
@@ -175,8 +167,7 @@ const thread: ThreadMessage[] = [
   {
     id: "t3",
     sender: "Sarah Chen",
-    content:
-      "Thanks for the quick response. When can I expect them?",
+    content: "Thanks for the quick response. When can I expect them?",
     time: "Today, 9:47 AM",
   },
 ];
@@ -189,36 +180,33 @@ const aiDraftText =
 // ---------------------------------------------------------------------------
 
 function TagBadge({ tag }: { tag: MessageTag }) {
-  const config: Record<MessageTag, { label: string; bg: string; text: string }> =
-    {
-      "ai-drafted": {
-        label: "AI Drafted",
-        bg: "bg-[#EDF3F0]",
-        text: "text-[#4A7C6F]",
-      },
-      flagged: {
-        label: "Flagged",
-        bg: "bg-[#C4975A]/10",
-        text: "text-[#C4975A]",
-      },
-      important: {
-        label: "Important",
-        bg: "bg-[#C4975A]/10",
-        text: "text-[#C4975A]",
-      },
-      "ai-auto-sent": {
-        label: "AI Auto-sent",
-        bg: "bg-[#EDF3F0]",
-        text: "text-[#4A7C6F]",
-      },
-    };
+  const config: Record<
+    MessageTag,
+    { label: string; classes: string }
+  > = {
+    "ai-drafted": {
+      label: "AI Drafted",
+      classes: "bg-[#EDF3F0] text-[#4A7C6F]",
+    },
+    flagged: {
+      label: "Flagged",
+      classes: "bg-[#C4975A]/10 text-[#C4975A]",
+    },
+    important: {
+      label: "Important",
+      classes: "bg-[#C4975A]/10 text-[#C4975A]",
+    },
+    "ai-auto-sent": {
+      label: "AI Auto-sent",
+      classes: "bg-[#EDF3F0] text-[#4A7C6F]",
+    },
+  };
   const c = config[tag];
   return (
     <span
       className={clsx(
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
-        c.bg,
-        c.text
+        c.classes
       )}
     >
       {tag === "flagged" && <Flag className="h-2.5 w-2.5" />}
@@ -227,6 +215,35 @@ function TagBadge({ tag }: { tag: MessageTag }) {
       {tag === "ai-auto-sent" && <Zap className="h-2.5 w-2.5" />}
       {c.label}
     </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Avatar
+// ---------------------------------------------------------------------------
+
+function Avatar({
+  initials,
+  color,
+  size = 32,
+}: {
+  initials: string;
+  color: string;
+  size?: number;
+}) {
+  return (
+    <div
+      className="flex shrink-0 items-center justify-center rounded-lg font-semibold"
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: color + "18",
+        color: color,
+        fontSize: size * 0.32,
+      }}
+    >
+      {initials}
+    </div>
   );
 }
 
@@ -265,7 +282,7 @@ export default function CommunicationsPage() {
             AI-assisted tenant communication
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-2xl bg-[#4A7C6F] px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#3D6A5E] active:scale-[0.98]">
+        <button className="inline-flex items-center gap-2 rounded-xl bg-[#4A7C6F] px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#3D6A5E] active:scale-[0.98]">
           <Send className="h-4 w-4" />
           New Message
         </button>
@@ -299,8 +316,11 @@ export default function CommunicationsPage() {
       </section>
 
       {/* Two-panel email layout */}
-      <section className="mt-6 flex overflow-hidden rounded-2xl border border-[#E5E3DE] bg-white" style={{ minHeight: 600 }}>
-        {/* Left panel */}
+      <section
+        className="mt-6 flex overflow-hidden rounded-2xl border border-[#E5E3DE] bg-white"
+        style={{ minHeight: 600 }}
+      >
+        {/* ---- Left panel ---- */}
         <div className="flex w-[380px] flex-col border-r border-[#E5E3DE]">
           {/* Search */}
           <div className="border-b border-[#E5E3DE] p-3">
@@ -347,16 +367,14 @@ export default function CommunicationsPage() {
                 {selectedId === m.id && (
                   <div className="absolute left-0 top-0 h-full w-[2px] bg-[#4A7C6F]" />
                 )}
-                {/* Top row: avatar + name + time */}
+
+                {/* Top row */}
                 <div className="flex items-center gap-2.5">
-                  <div
-                    className={clsx(
-                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[10px] font-semibold",
-                      m.avatarBg
-                    )}
-                  >
-                    {m.initials}
-                  </div>
+                  <Avatar
+                    initials={m.initials}
+                    color={m.avatarColor}
+                    size={32}
+                  />
                   <span
                     className={clsx(
                       "flex-1 truncate text-[13px]",
@@ -371,6 +389,7 @@ export default function CommunicationsPage() {
                     {m.time}
                   </span>
                 </div>
+
                 {/* Subject */}
                 <p
                   className={clsx(
@@ -382,10 +401,12 @@ export default function CommunicationsPage() {
                 >
                   {m.subject}
                 </p>
+
                 {/* Preview */}
                 <p className="mt-0.5 truncate text-[12px] text-[#C5C2BC]">
                   {m.preview}
                 </p>
+
                 {/* Tags */}
                 {m.tags.length > 0 && (
                   <div className="mt-1.5 flex gap-1">
@@ -399,13 +420,11 @@ export default function CommunicationsPage() {
           </div>
         </div>
 
-        {/* Right panel */}
+        {/* ---- Right panel ---- */}
         <div className="flex flex-1 flex-col">
           {/* Thread header */}
           <div className="flex items-center gap-3 border-b border-[#E5E3DE] px-6 py-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E8F0ED] text-[10px] font-semibold text-[#4A7C6F]">
-              SC
-            </div>
+            <Avatar initials="SC" color="#4A7C6F" size={32} />
             <div className="min-w-0 flex-1">
               <h3 className="truncate text-[14px] font-semibold text-[#2D3436]">
                 Sarah Chen
@@ -441,7 +460,7 @@ export default function CommunicationsPage() {
             ))}
 
             {/* AI Draft box */}
-            <div className="mx-6 mt-4 rounded-2xl border-2 border-[#B8D4C9] p-5">
+            <div className="mt-4 rounded-2xl border-2 border-[#B8D4C9] p-5 mx-6">
               <div className="mb-3 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-[#3D6A5E]" />
                 <span className="text-[13px] font-medium text-[#3D6A5E]">
@@ -492,8 +511,8 @@ export default function CommunicationsPage() {
             <Sparkles className="h-4 w-4 text-[#4A7C6F]" />
           </div>
           <p className="text-[14px] text-[#2D3436]">
-            <span className="font-medium">AI drafted 12 responses today</span>
-            , saving approximately 2.4 hours
+            <span className="font-medium">AI drafted 12 responses today</span>,
+            saving approximately 2.4 hours
           </p>
         </div>
       </section>
