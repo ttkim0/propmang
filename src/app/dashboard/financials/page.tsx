@@ -77,10 +77,10 @@ export default function FinancialsPage() {
         {/* ---- Header ---- */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="font-serif text-[32px] text-text-primary">
+            <h1 className="font-serif text-[32px] leading-tight text-text-primary">
               Financials
             </h1>
-            <p className="mt-1 font-sans text-[14px] text-text-tertiary">
+            <p className="mt-1.5 font-sans text-[14px] text-text-tertiary">
               AI-powered financial insights and forecasting
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function FinancialsPage() {
               <span className="font-sans text-[11px] font-medium uppercase tracking-widest text-text-tertiary">
                 {s.label}
               </span>
-              <p className="mt-3 font-serif text-[32px] text-text-primary">
+              <p className="mt-3 font-serif text-[32px] leading-none text-text-primary">
                 {s.value}
               </p>
               <div className="mt-1.5 flex items-center gap-1.5">
