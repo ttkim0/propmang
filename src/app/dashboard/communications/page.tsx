@@ -13,7 +13,6 @@ import {
   Check,
   X,
   Pencil,
-  AlertCircle,
   Zap,
 } from "lucide-react";
 import clsx from "clsx";
@@ -23,14 +22,13 @@ import clsx from "clsx";
 // ---------------------------------------------------------------------------
 
 type MessageStatus = "read" | "unread";
-type MessageTag = "ai-drafted" | "flagged" | "important" | "ai-auto-sent";
+type MessageTag = "ai-drafted" | "flagged" | "ai-auto-sent";
 type FilterTab = "all" | "unread" | "ai-drafted" | "flagged";
 
 interface MessagePreview {
   id: string;
   sender: string;
   initials: string;
-  avatarColor: string;
   subject: string;
   preview: string;
   time: string;
@@ -62,7 +60,6 @@ const messages: MessagePreview[] = [
     id: "1",
     sender: "Sarah Chen",
     initials: "SC",
-    avatarColor: "#4A7C6F",
     subject: "Re: Maintenance update for Unit 4B",
     preview: "Thanks for the quick response. When can I expect them?",
     time: "2h ago",
@@ -73,7 +70,6 @@ const messages: MessagePreview[] = [
     id: "2",
     sender: "Marcus Johnson",
     initials: "MJ",
-    avatarColor: "#B85C5C",
     subject: "Late payment arrangement",
     preview: "I wanted to discuss a payment plan for this month's rent...",
     time: "3h ago",
@@ -84,18 +80,16 @@ const messages: MessagePreview[] = [
     id: "3",
     sender: "Emily Rodriguez",
     initials: "ER",
-    avatarColor: "#C4975A",
     subject: "Move-out notice",
     preview: "I'm writing to formally notify you of my intent to vacate...",
     time: "5h ago",
     status: "unread",
-    tags: ["important"],
+    tags: [],
   },
   {
     id: "4",
     sender: "Building-wide",
     initials: "BW",
-    avatarColor: "#5B82A0",
     subject: "Parking lot resurfacing notice",
     preview: "Dear residents, we will be resurfacing the parking lot...",
     time: "1d ago",
@@ -106,7 +100,6 @@ const messages: MessagePreview[] = [
     id: "5",
     sender: "David Kim",
     initials: "DK",
-    avatarColor: "#5B9A7D",
     subject: "Lease renewal question",
     preview: "Hi, I was wondering about the terms for my upcoming lease...",
     time: "1d ago",
@@ -117,7 +110,6 @@ const messages: MessagePreview[] = [
     id: "6",
     sender: "Jessica Williams",
     initials: "JW",
-    avatarColor: "#4A7C6F",
     subject: "Noise complaint follow-up",
     preview: "Thanks for addressing the noise issue. Things have been much...",
     time: "2d ago",
@@ -128,7 +120,6 @@ const messages: MessagePreview[] = [
     id: "7",
     sender: "Aisha Patel",
     initials: "AP",
-    avatarColor: "#5B9A7D",
     subject: "Thank you for quick repair!",
     preview: "Just wanted to say thank you for the quick turnaround on...",
     time: "2d ago",
@@ -139,7 +130,6 @@ const messages: MessagePreview[] = [
     id: "8",
     sender: "System",
     initials: "SY",
-    avatarColor: "#9B9790",
     subject: "Monthly rent reminders sent",
     preview: "Automated rent reminders were sent to 47 tenants for April...",
     time: "3d ago",
@@ -180,25 +170,18 @@ const aiDraftText =
 // ---------------------------------------------------------------------------
 
 function TagBadge({ tag }: { tag: MessageTag }) {
-  const config: Record<
-    MessageTag,
-    { label: string; classes: string }
-  > = {
+  const config: Record<MessageTag, { label: string; classes: string }> = {
     "ai-drafted": {
-      label: "AI Drafted",
-      classes: "bg-[#EDF3F0] text-[#4A7C6F]",
+      label: "AI Draft",
+      classes: "bg-sage-light text-sage-dark",
     },
     flagged: {
       label: "Flagged",
-      classes: "bg-[#C4975A]/10 text-[#C4975A]",
-    },
-    important: {
-      label: "Important",
-      classes: "bg-[#C4975A]/10 text-[#C4975A]",
+      classes: "bg-warning-light text-warning",
     },
     "ai-auto-sent": {
       label: "AI Auto-sent",
-      classes: "bg-[#EDF3F0] text-[#4A7C6F]",
+      classes: "bg-sage-light text-sage-dark",
     },
   };
   const c = config[tag];
@@ -210,40 +193,10 @@ function TagBadge({ tag }: { tag: MessageTag }) {
       )}
     >
       {tag === "flagged" && <Flag className="h-2.5 w-2.5" />}
-      {tag === "important" && <AlertCircle className="h-2.5 w-2.5" />}
       {tag === "ai-drafted" && <Bot className="h-2.5 w-2.5" />}
       {tag === "ai-auto-sent" && <Zap className="h-2.5 w-2.5" />}
       {c.label}
     </span>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Avatar
-// ---------------------------------------------------------------------------
-
-function Avatar({
-  initials,
-  color,
-  size = 32,
-}: {
-  initials: string;
-  color: string;
-  size?: number;
-}) {
-  return (
-    <div
-      className="flex shrink-0 items-center justify-center rounded-lg font-semibold"
-      style={{
-        width: size,
-        height: size,
-        backgroundColor: color + "18",
-        color: color,
-        fontSize: size * 0.32,
-      }}
-    >
-      {initials}
-    </div>
   );
 }
 
@@ -271,43 +224,43 @@ export default function CommunicationsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAFAF7]">
+    <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="mb-6 flex items-end justify-between">
+      <header className="mb-10 flex items-end justify-between">
         <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-[#2D3436]">
+          <h1 className="font-serif text-[32px] text-text-primary">
             Communications
           </h1>
-          <p className="mt-1 text-[14px] text-[#9B9790]">
+          <p className="mt-1 text-[14px] text-text-secondary">
             AI-assisted tenant communication
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-xl bg-[#4A7C6F] px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#3D6A5E] active:scale-[0.98]">
+        <button className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-[13px] font-medium text-text-inverse transition-opacity hover:opacity-90">
           <Send className="h-4 w-4" />
           New Message
         </button>
       </header>
 
       {/* Stats */}
-      <section className="mb-6 grid grid-cols-4 gap-4">
+      <section className="mb-8 grid grid-cols-4 gap-4">
         {stats.map((s) => {
           const Icon = s.icon;
           return (
             <div
               key={s.label}
-              className="rounded-2xl border border-[#E5E3DE] bg-white p-5"
+              className="rounded-[20px] border border-border bg-white p-6"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[12px] font-medium uppercase tracking-wider text-[#9B9790]">
+                  <p className="text-[12px] font-medium uppercase tracking-wider text-text-tertiary">
                     {s.label}
                   </p>
-                  <p className="mt-2 text-[24px] font-semibold tracking-tight text-[#2D3436]">
+                  <p className="mt-2 font-serif text-[28px] text-text-primary">
                     {s.value}
                   </p>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EDF3F0]">
-                  <Icon className="h-[18px] w-[18px] text-[#4A7C6F]" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-light">
+                  <Icon className="h-[18px] w-[18px] text-sage" />
                 </div>
               </div>
             </div>
@@ -316,35 +269,32 @@ export default function CommunicationsPage() {
       </section>
 
       {/* Two-panel email layout */}
-      <section
-        className="mt-6 flex overflow-hidden rounded-2xl border border-[#E5E3DE] bg-white"
-        style={{ minHeight: 600 }}
-      >
+      <section className="flex overflow-hidden rounded-[20px] border border-border bg-white min-h-[550px]">
         {/* ---- Left panel ---- */}
-        <div className="flex w-[380px] flex-col border-r border-[#E5E3DE]">
+        <div className="flex w-[360px] flex-col border-r border-border-light">
           {/* Search */}
-          <div className="border-b border-[#E5E3DE] p-3">
+          <div className="border-b border-border-light p-4">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#9B9790]" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-tertiary" />
               <input
                 type="text"
                 placeholder="Search messages..."
-                className="h-9 w-full rounded-xl border border-[#E5E3DE] bg-[#FAFAF7] pl-9 pr-4 text-[13px] text-[#2D3436] placeholder:text-[#C5C2BC] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-1 focus:ring-[#4A7C6F]/20"
+                className="h-9 w-full rounded-full border border-border bg-cream pl-9 pr-4 text-[13px] text-text-primary placeholder:text-text-tertiary focus:border-accent/40 focus:outline-none"
               />
             </div>
           </div>
 
           {/* Filter tabs */}
-          <div className="flex gap-1 border-b border-[#E5E3DE] bg-[#F2F1ED] px-3 py-2">
+          <div className="flex gap-1 border-b border-border-light px-4 py-3">
             {filters.map((f) => (
               <button
                 key={f.key}
                 onClick={() => setActiveFilter(f.key)}
                 className={clsx(
-                  "rounded-lg px-3 py-1.5 text-[12px] font-medium transition-colors",
+                  "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   activeFilter === f.key
-                    ? "bg-white text-[#2D3436] shadow-sm"
-                    : "text-[#9B9790] hover:text-[#2D3436]"
+                    ? "bg-accent text-text-inverse"
+                    : "text-text-tertiary hover:text-text-secondary"
                 )}
               >
                 {f.label}
@@ -359,51 +309,37 @@ export default function CommunicationsPage() {
                 key={m.id}
                 onClick={() => setSelectedId(m.id)}
                 className={clsx(
-                  "relative flex w-full cursor-pointer flex-col border-b border-[#E5E3DE] px-5 py-4 text-left transition-colors hover:bg-[#F7F6F3]",
-                  selectedId === m.id && "bg-[#F7F6F3]"
+                  "relative flex w-full cursor-pointer flex-col border-b border-border-light px-5 py-4 text-left transition-colors hover:bg-cream-dark",
+                  selectedId === m.id && "bg-cream-dark border-l-2 border-l-accent"
                 )}
               >
-                {/* Active indicator */}
-                {selectedId === m.id && (
-                  <div className="absolute left-0 top-0 h-full w-[2px] bg-[#4A7C6F]" />
-                )}
-
                 {/* Top row */}
                 <div className="flex items-center gap-2.5">
-                  <Avatar
-                    initials={m.initials}
-                    color={m.avatarColor}
-                    size={32}
-                  />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cream-deeper text-[10px] font-medium text-text-secondary">
+                    {m.initials}
+                  </div>
                   <span
                     className={clsx(
                       "flex-1 truncate text-[13px]",
                       m.status === "unread"
-                        ? "font-semibold text-[#2D3436]"
-                        : "font-medium text-[#2D3436]"
+                        ? "font-semibold text-text-primary"
+                        : "font-medium text-text-primary"
                     )}
                   >
                     {m.sender}
                   </span>
-                  <span className="shrink-0 text-[11px] text-[#C5C2BC]">
+                  <span className="shrink-0 text-[11px] text-text-tertiary">
                     {m.time}
                   </span>
                 </div>
 
                 {/* Subject */}
-                <p
-                  className={clsx(
-                    "mt-1 truncate text-[13px]",
-                    m.status === "unread"
-                      ? "font-medium text-[#2D3436]"
-                      : "text-[#6B6963]"
-                  )}
-                >
+                <p className="mt-1 truncate text-[13px] text-text-secondary">
                   {m.subject}
                 </p>
 
                 {/* Preview */}
-                <p className="mt-0.5 truncate text-[12px] text-[#C5C2BC]">
+                <p className="mt-0.5 truncate text-[12px] text-text-tertiary">
                   {m.preview}
                 </p>
 
@@ -423,13 +359,15 @@ export default function CommunicationsPage() {
         {/* ---- Right panel ---- */}
         <div className="flex flex-1 flex-col">
           {/* Thread header */}
-          <div className="flex items-center gap-3 border-b border-[#E5E3DE] px-6 py-4">
-            <Avatar initials="SC" color="#4A7C6F" size={32} />
+          <div className="flex items-center gap-3 border-b border-border-light px-6 py-4">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cream-deeper text-[10px] font-medium text-text-secondary">
+              SC
+            </div>
             <div className="min-w-0 flex-1">
-              <h3 className="truncate text-[14px] font-semibold text-[#2D3436]">
+              <h3 className="truncate text-[14px] font-medium text-text-primary">
                 Sarah Chen
               </h3>
-              <p className="text-[12px] text-[#9B9790]">
+              <p className="text-[12px] text-text-tertiary">
                 Re: Maintenance update for Unit 4B &middot; 2h ago
               </p>
             </div>
@@ -442,44 +380,44 @@ export default function CommunicationsPage() {
                 key={msg.id}
                 className={clsx(
                   "rounded-2xl p-4",
-                  msg.isOwn ? "bg-[#EDF3F0]" : "bg-[#F7F6F3]"
+                  msg.isOwn ? "bg-sage-light" : "bg-cream-dark"
                 )}
               >
                 <div className="mb-1.5 flex items-center gap-2">
-                  <span className="text-[12px] font-medium text-[#2D3436]">
+                  <span className="text-[12px] font-medium text-text-primary">
                     {msg.sender}
                   </span>
-                  <span className="text-[11px] text-[#C5C2BC]">
+                  <span className="text-[11px] text-text-tertiary">
                     {msg.time}
                   </span>
                 </div>
-                <p className="text-[13px] leading-relaxed text-[#2D3436]">
+                <p className="text-[14px] leading-relaxed text-text-primary">
                   {msg.content}
                 </p>
               </div>
             ))}
 
             {/* AI Draft box */}
-            <div className="mt-4 rounded-2xl border-2 border-[#B8D4C9] p-5 mx-6">
+            <div className="rounded-2xl border border-sage bg-sage-light/50 p-5">
               <div className="mb-3 flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-[#3D6A5E]" />
-                <span className="text-[13px] font-medium text-[#3D6A5E]">
+                <Sparkles className="h-4 w-4 text-sage-dark" />
+                <span className="text-[13px] font-medium text-sage-dark">
                   AI Suggested Reply
                 </span>
               </div>
-              <p className="mb-4 text-[13px] leading-relaxed text-[#2D3436]">
+              <p className="mb-4 text-[14px] leading-relaxed text-text-primary">
                 {aiDraftText}
               </p>
               <div className="flex items-center gap-2">
-                <button className="inline-flex items-center gap-1.5 rounded-xl bg-[#4A7C6F] px-4 py-2 text-[12px] font-medium text-white transition-colors hover:bg-[#3D6A5E] active:scale-[0.98]">
+                <button className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[12px] font-medium text-text-inverse transition-opacity hover:opacity-90">
                   <Check className="h-3 w-3" />
                   Accept
                 </button>
-                <button className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E3DE] bg-white px-4 py-2 text-[12px] font-medium text-[#2D3436] transition-colors hover:bg-[#F7F6F3] active:scale-[0.98]">
+                <button className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-4 py-2 text-[12px] font-medium text-text-primary transition-colors hover:bg-cream-dark">
                   <Pencil className="h-3 w-3" />
                   Edit
                 </button>
-                <button className="inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium text-[#C5C2BC] transition-colors hover:text-[#9B9790]">
+                <button className="inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium text-text-tertiary transition-colors hover:text-text-secondary">
                   <X className="h-3 w-3" />
                   Dismiss
                 </button>
@@ -488,16 +426,16 @@ export default function CommunicationsPage() {
           </div>
 
           {/* Reply box */}
-          <div className="border-t border-[#E5E3DE] p-4">
+          <div className="border-t border-border-light p-4">
             <div className="flex items-end gap-3">
               <textarea
                 rows={2}
                 placeholder="Type your reply..."
-                className="min-w-0 flex-1 resize-none rounded-xl border border-[#E5E3DE] bg-[#FAFAF7] px-4 py-2.5 text-[13px] text-[#2D3436] placeholder:text-[#C5C2BC] focus:border-[#4A7C6F]/40 focus:outline-none focus:ring-1 focus:ring-[#4A7C6F]/20"
+                className="min-w-0 flex-1 resize-none rounded-2xl border border-border bg-cream px-4 py-2.5 text-[13px] text-text-primary placeholder:text-text-tertiary focus:border-accent/40 focus:outline-none"
               />
-              <button className="inline-flex items-center gap-1.5 rounded-xl bg-[#4A7C6F] px-4 py-2.5 text-[12px] font-medium text-white transition-colors hover:bg-[#3D6A5E] active:scale-[0.98]">
-                <Sparkles className="h-3.5 w-3.5" />
-                AI Draft Reply
+              <button className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2.5 text-[12px] font-medium text-text-inverse transition-opacity hover:opacity-90">
+                <Send className="h-3.5 w-3.5" />
+                Send
               </button>
             </div>
           </div>
@@ -505,17 +443,9 @@ export default function CommunicationsPage() {
       </section>
 
       {/* AI banner */}
-      <section className="mt-6 rounded-2xl border border-[#E5E3DE] bg-white p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EDF3F0]">
-            <Sparkles className="h-4 w-4 text-[#4A7C6F]" />
-          </div>
-          <p className="text-[14px] text-[#2D3436]">
-            <span className="font-medium">AI drafted 12 responses today</span>,
-            saving approximately 2.4 hours
-          </p>
-        </div>
-      </section>
+      <p className="mt-4 text-center text-[13px] text-text-tertiary">
+        AI drafted 12 responses today, saving ~2.4 hours
+      </p>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Search, Bell, ChevronDown } from "lucide-react";
+import { Search, Bell } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({
@@ -10,50 +10,41 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-background">
       <Sidebar />
 
-      {/* Main content area */}
-      <div className="lg:pl-[272px]">
+      <div className="lg:pl-[280px]">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-warm-gray-200 bg-warm-gray-50/80 px-6 backdrop-blur-md lg:px-10">
-          {/* Spacer for mobile */}
+        <header className="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-border-light bg-cream/80 px-6 backdrop-blur-md lg:px-10">
           <div className="w-10 lg:hidden" />
 
           {/* Search */}
-          <div className="relative max-w-sm flex-1">
+          <div className="relative max-w-xs flex-1">
             <Search
-              size={15}
-              strokeWidth={1.6}
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-gray-400"
+              size={14}
+              strokeWidth={1.5}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary"
             />
             <input
               type="text"
-              placeholder="Search anything..."
-              className="h-10 w-full rounded-xl border-warm-gray-200 bg-card-bg pl-10 pr-4 text-[13px] text-foreground shadow-sm placeholder:text-warm-gray-400"
+              placeholder="Search..."
+              className="h-9 w-full pl-10 pr-4 text-[13px]"
             />
           </div>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-4">
-            {/* Notifications */}
-            <button className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-warm-gray-200 bg-card-bg text-warm-gray-400 shadow-sm transition-colors hover:text-foreground">
-              <Bell size={16} strokeWidth={1.6} />
-              <span className="absolute -right-0.5 -top-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-danger text-[10px] font-semibold text-white">
+          {/* Right */}
+          <div className="flex items-center gap-3">
+            <button className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-text-tertiary transition-colors hover:text-text-primary">
+              <Bell size={15} strokeWidth={1.5} />
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-medium text-text-inverse">
                 3
               </span>
             </button>
 
-            {/* User */}
-            <button className="flex items-center gap-2.5 rounded-xl border border-warm-gray-200 bg-card-bg py-1.5 pl-1.5 pr-3 shadow-sm transition-colors hover:border-warm-gray-300">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-navy text-[11px] font-semibold text-white">
-                JD
-              </div>
-              <span className="hidden text-[13px] font-medium text-foreground sm:block">Jordan</span>
-              <ChevronDown size={13} className="hidden text-warm-gray-400 sm:block" />
+            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-[11px] font-medium text-text-inverse">
+              JD
             </button>
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="p-6 lg:p-10">
+        <main className="p-6 lg:px-10 lg:py-10">
           {children}
         </main>
       </div>

@@ -2,17 +2,15 @@
 
 import clsx from "clsx";
 import {
-  Wrench,
   Plus,
   Sparkles,
   Clock,
   Star,
   CheckCircle2,
-  ArrowUpRight,
+  Wrench,
   TrendingUp,
   TrendingDown,
   DollarSign,
-  AlertTriangle,
   ThermometerSun,
 } from "lucide-react";
 
@@ -33,7 +31,6 @@ interface MaintenanceRequest {
   submitted: string;
   vendor?: string;
   urgency?: number;
-  status?: string;
   progress?: number;
   completedAt?: string;
 }
@@ -56,9 +53,9 @@ const requests: Record<Column, MaintenanceRequest[]> = {
     { id: "MR-1040", title: "Smoke detector beeping", priority: "High", property: "Pine Valley", unit: "5C", tenant: "James O'Brien", submitted: "10h ago", vendor: "SafeHome Electric", urgency: 8 },
   ],
   in_progress: [
-    { id: "MR-1034", title: "Kitchen sink leak", priority: "High", property: "Sunset", unit: "15A", tenant: "Tenant", submitted: "1d ago", vendor: "Vendor en route", progress: 75 },
-    { id: "MR-1035", title: "Elevator maintenance", priority: "Medium", property: "Downtown Commerce", tenant: "Building", submitted: "2d ago", vendor: "Scheduled tomorrow", progress: 25 },
-    { id: "MR-1036", title: "Roof inspection", priority: "Medium", property: "Harbor View", tenant: "Building", submitted: "3d ago", vendor: "Inspector on site", progress: 60 },
+    { id: "MR-1034", title: "Kitchen sink leak", priority: "High", property: "Sunset", unit: "15A", tenant: "Tenant", submitted: "1d ago", progress: 75 },
+    { id: "MR-1035", title: "Elevator maintenance", priority: "Medium", property: "Downtown Commerce", tenant: "Building", submitted: "2d ago", progress: 25 },
+    { id: "MR-1036", title: "Roof inspection", priority: "Medium", property: "Harbor View", tenant: "Building", submitted: "3d ago", progress: 60 },
     { id: "MR-1037", title: "Paint touch-up hallway", priority: "Low", property: "Riverside", tenant: "Building", submitted: "4d ago", progress: 90 },
   ],
   completed: [
@@ -75,47 +72,27 @@ const requests: Record<Column, MaintenanceRequest[]> = {
 const columnConfig: {
   key: Column;
   label: string;
-  icon: typeof Wrench;
-  headerBg: string;
-  iconColor: string;
-  badgeBg: string;
-  badgeText: string;
+  headerClasses: string;
 }[] = [
   {
     key: "new",
     label: "New",
-    icon: AlertTriangle,
-    headerBg: "bg-warm-gray-100",
-    iconColor: "text-warm-gray-500",
-    badgeBg: "bg-warm-gray-200",
-    badgeText: "text-warm-gray-500",
+    headerClasses: "bg-cream-dark text-text-secondary",
   },
   {
     key: "triaged",
     label: "AI Triaged",
-    icon: Sparkles,
-    headerBg: "bg-brand-50",
-    iconColor: "text-brand-600",
-    badgeBg: "bg-brand-200",
-    badgeText: "text-brand-700",
+    headerClasses: "bg-sage-light text-sage-dark",
   },
   {
     key: "in_progress",
     label: "In Progress",
-    icon: Clock,
-    headerBg: "bg-info/10",
-    iconColor: "text-info",
-    badgeBg: "bg-info/20",
-    badgeText: "text-info",
+    headerClasses: "bg-info-light text-info",
   },
   {
     key: "completed",
     label: "Completed",
-    icon: CheckCircle2,
-    headerBg: "bg-success/10",
-    iconColor: "text-success",
-    badgeBg: "bg-success/20",
-    badgeText: "text-success",
+    headerClasses: "bg-success-light text-success",
   },
 ];
 
@@ -124,10 +101,10 @@ const columnConfig: {
 /* ------------------------------------------------------------------ */
 
 const priorityStyles: Record<Priority, { bg: string; text: string }> = {
-  Emergency: { bg: "bg-danger/10", text: "text-danger" },
-  High: { bg: "bg-warning/10", text: "text-warning" },
-  Medium: { bg: "bg-info/10", text: "text-info" },
-  Low: { bg: "bg-warm-gray-100", text: "text-warm-gray-500" },
+  Emergency: { bg: "bg-danger-light", text: "text-danger" },
+  High: { bg: "bg-warning-light", text: "text-warning" },
+  Medium: { bg: "bg-info-light", text: "text-info" },
+  Low: { bg: "bg-cream-dark", text: "text-text-tertiary" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -139,7 +116,7 @@ function PriorityPill({ priority }: { priority: Priority }) {
   return (
     <span
       className={clsx(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold leading-none",
+        "rounded-full px-2.5 py-0.5 text-[11px] font-medium",
         s.bg,
         s.text,
       )}
@@ -149,57 +126,28 @@ function PriorityPill({ priority }: { priority: Priority }) {
   );
 }
 
-function UrgencyBadge({ score }: { score: number }) {
-  const color =
-    score >= 8 ? "text-danger bg-danger/10" : score >= 5 ? "text-warning bg-warning/10" : "text-brand-600 bg-brand-50";
-  return (
-    <span className={clsx("inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[11px] font-semibold", color)}>
-      <Sparkles size={10} />
-      {score}/10
-    </span>
-  );
-}
-
 function StatCard({
   label,
   value,
-  icon: Icon,
-  iconBg,
-  iconColor,
   index,
 }: {
   label: string;
   value: string;
-  icon: typeof Wrench;
-  iconBg: string;
-  iconColor: string;
   index: number;
 }) {
   return (
     <div
       className={clsx(
-        "animate-fade-in rounded-2xl border border-card-border bg-card-bg p-5",
+        "animate-fade-in bg-white border border-border rounded-[20px] p-5",
         `stagger-${index + 1}`,
       )}
     >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[12px] font-medium tracking-wide text-warm-gray-400 uppercase">
-            {label}
-          </p>
-          <p className="mt-2 text-[22px] font-bold tracking-tight text-foreground leading-none">
-            {value}
-          </p>
-        </div>
-        <div
-          className={clsx(
-            "flex h-10 w-10 items-center justify-center rounded-xl",
-            iconBg,
-          )}
-        >
-          <Icon size={20} strokeWidth={1.8} className={iconColor} />
-        </div>
-      </div>
+      <p className="text-[11px] font-medium tracking-widest text-text-tertiary uppercase">
+        {label}
+      </p>
+      <p className="mt-2 font-serif text-[28px] text-text-primary leading-none">
+        {value}
+      </p>
     </div>
   );
 }
@@ -208,68 +156,70 @@ function KanbanCard({ req, column }: { req: MaintenanceRequest; column: Column }
   return (
     <div
       className={clsx(
-        "group cursor-pointer rounded-xl border border-card-border bg-card-bg p-4 transition-all duration-200 hover:shadow-sm",
-        column === "completed" && "opacity-70 hover:opacity-100",
+        "bg-white border border-border rounded-2xl p-4 mt-3 hover:border-text-tertiary transition cursor-pointer",
       )}
     >
-      {/* Top row */}
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          {column === "completed" && (
-            <div className="mb-2 flex items-center gap-1.5 text-[12px] font-medium text-success">
-              <CheckCircle2 size={14} />
-              {req.completedAt}
-            </div>
-          )}
-          <h4 className="text-[14px] font-medium leading-snug text-foreground mt-1">
+      {/* Completed card layout */}
+      {column === "completed" && (
+        <>
+          <div className="flex items-center gap-2 text-[12px] text-success font-medium">
+            <CheckCircle2 size={14} />
+            {req.completedAt}
+          </div>
+          <h4 className="text-[14px] font-medium text-text-primary mt-2">
             {req.title}
           </h4>
-        </div>
-        <PriorityPill priority={req.priority} />
-      </div>
+        </>
+      )}
 
-      {/* Property + unit */}
+      {/* Non-completed card layout */}
       {column !== "completed" && (
         <>
-          <p className="mt-1 text-[12px] text-warm-gray-400">
+          <PriorityPill priority={req.priority} />
+
+          <h4 className="text-[14px] font-medium text-text-primary mt-2">
+            {req.title}
+          </h4>
+
+          <p className="text-[12px] text-text-tertiary mt-1">
             {req.property}
             {req.unit ? ` ${req.unit}` : ""}
           </p>
 
-          {/* Tenant */}
-          <p className="text-[12px] text-warm-gray-500 mt-0.5">{req.tenant}</p>
-        </>
-      )}
+          <p className="text-[12px] text-text-secondary">{req.tenant}</p>
 
-      {/* Assigned vendor (AI Triaged) */}
-      {column === "triaged" && req.vendor && (
-        <p className="mt-2 text-[12px] font-medium text-brand-600">
-          Assigned: {req.vendor}
-        </p>
-      )}
-
-      {/* Progress bar (In Progress) */}
-      {column === "in_progress" && req.progress !== undefined && (
-        <div className="mt-3">
-          {req.vendor && (
-            <p className="text-[12px] text-warm-gray-400 mb-1.5">{req.vendor}</p>
+          {/* Vendor for AI Triaged */}
+          {column === "triaged" && req.vendor && (
+            <p className="mt-2 text-[12px] text-sage-dark font-medium">
+              {req.vendor}
+            </p>
           )}
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-warm-gray-100">
-            <div
-              className="h-full rounded-full bg-brand-500 transition-all duration-500"
-              style={{ width: `${req.progress}%` }}
-            />
-          </div>
-          <p className="mt-1 text-[11px] text-warm-gray-400 text-right">{req.progress}%</p>
-        </div>
-      )}
 
-      {/* Footer */}
-      {column !== "completed" && (
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-[11px] text-warm-gray-400">{req.submitted}</span>
-          {req.urgency !== undefined && <UrgencyBadge score={req.urgency} />}
-        </div>
+          {/* Progress bar for In Progress */}
+          {column === "in_progress" && req.progress !== undefined && (
+            <div className="mt-3">
+              <div className="h-1 w-full rounded-full bg-cream-deeper overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-accent transition-all duration-500"
+                  style={{ width: `${req.progress}%` }}
+                />
+              </div>
+              <p className="mt-1 text-[11px] text-text-tertiary text-right">
+                {req.progress}%
+              </p>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-[11px] text-text-tertiary">{req.submitted}</span>
+            {req.urgency !== undefined && req.urgency >= 4 && (
+              <span className="rounded-full bg-cream-dark px-2 py-0.5 text-[11px] font-medium text-text-secondary">
+                Score: {req.urgency}/10
+              </span>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
@@ -281,40 +231,16 @@ function KanbanCard({ req, column }: { req: MaintenanceRequest; column: Column }
 
 const insights = [
   {
-    icon: ThermometerSun,
-    iconBg: "bg-danger/10",
-    iconColor: "text-danger",
-    text: "HVAC issues up 45% this month \u2014 consider preventive maintenance schedule",
-    tag: "Trending",
-    tagIcon: TrendingUp,
-    tagColor: "text-danger",
+    text: "HVAC issues have increased 45% this month \u2014 a preventive maintenance schedule could reduce emergency calls significantly.",
   },
   {
-    icon: Clock,
-    iconBg: "bg-success/10",
-    iconColor: "text-success",
-    text: "Average resolution time improved 18% since enabling AI triage",
-    tag: "Improving",
-    tagIcon: TrendingDown,
-    tagColor: "text-success",
+    text: "Average resolution time improved 18% since enabling AI triage. Continuing this trend could save an estimated 40 labor hours per quarter.",
   },
   {
-    icon: DollarSign,
-    iconBg: "bg-info/10",
-    iconColor: "text-info",
-    text: "Predicted maintenance costs next month: $12,400",
-    tag: "Forecast",
-    tagIcon: TrendingUp,
-    tagColor: "text-info",
+    text: "Predicted maintenance costs for next month: $12,400. This is 8% below the rolling average \u2014 a positive sign.",
   },
   {
-    icon: Star,
-    iconBg: "bg-warning/10",
-    iconColor: "text-warning",
-    text: "QuickFix Plumbing: 98% tenant satisfaction, fastest avg response",
-    tag: "Top Vendor",
-    tagIcon: Star,
-    tagColor: "text-warning",
+    text: "QuickFix Plumbing holds a 98% tenant satisfaction rating with the fastest average response time across all vendors.",
   },
 ];
 
@@ -324,55 +250,54 @@ const insights = [
 
 export default function MaintenancePage() {
   return (
-    <div className="animate-fade-in space-y-0">
+    <div className="animate-fade-in">
       {/* ---- Header ---- */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-foreground">
+          <h1 className="font-serif text-[32px] text-text-primary leading-tight">
             Maintenance
           </h1>
-          <p className="mt-1 text-[14px] text-warm-gray-400">
-            AI-powered maintenance triage and tracking
+          <p className="mt-1 text-[14px] text-text-secondary">
+            AI-powered triage, assignment, and tracking
           </p>
         </div>
-        <button className="inline-flex h-10 items-center gap-2 rounded-2xl bg-brand-500 px-5 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-brand-600 hover:shadow-md active:scale-[0.98]">
-          <Plus size={16} strokeWidth={2.5} />
+        <button className="inline-flex h-10 items-center gap-2 rounded-full bg-accent px-6 text-[14px] font-medium text-text-inverse transition hover:opacity-90 active:scale-[0.98]">
+          <Plus size={16} strokeWidth={2} />
           New Request
         </button>
       </div>
 
       {/* ---- Stats row ---- */}
-      <div className="mt-6 grid grid-cols-2 gap-5 lg:grid-cols-4">
-        <StatCard label="Total Open" value="12" icon={Wrench} iconBg="bg-warm-gray-100" iconColor="text-foreground" index={0} />
-        <StatCard label="Avg Resolution" value="2.3 days" icon={Clock} iconBg="bg-brand-50" iconColor="text-brand-500" index={1} />
-        <StatCard label="AI Auto-assigned" value="67%" icon={Sparkles} iconBg="bg-brand-50" iconColor="text-brand-600" index={2} />
-        <StatCard label="Satisfaction" value="4.6/5" icon={Star} iconBg="bg-warning/10" iconColor="text-warning" index={3} />
+      <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard label="Total Open" value="12" index={0} />
+        <StatCard label="Avg Resolution" value="2.3 days" index={1} />
+        <StatCard label="AI Auto-assigned" value="67%" index={2} />
+        <StatCard label="Satisfaction" value="4.6/5" index={3} />
       </div>
 
       {/* ---- AI Triage Banner ---- */}
-      <div className="mt-6 animate-fade-in stagger-5 rounded-2xl border-2 border-brand-200 bg-card-bg p-6">
+      <div className="mt-6 animate-fade-in stagger-5 bg-white border border-border rounded-[20px] p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50">
-              <Sparkles size={22} strokeWidth={1.8} className="text-brand-500" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sage-light">
+              <Sparkles size={20} strokeWidth={1.8} className="text-sage-dark" />
             </div>
-            <p className="text-[15px] font-medium text-foreground">
+            <p className="text-[15px] font-medium text-text-primary">
               AI has triaged 5 new requests today
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center rounded-full bg-danger/10 px-2.5 py-1 text-[12px] font-semibold text-danger">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-danger-light px-2.5 py-0.5 text-[11px] font-medium text-danger">
               1 Emergency
             </span>
-            <span className="inline-flex items-center rounded-full bg-warning/10 px-2.5 py-1 text-[12px] font-semibold text-warning">
+            <span className="rounded-full bg-warning-light px-2.5 py-0.5 text-[11px] font-medium text-warning">
               2 High
             </span>
-            <span className="inline-flex items-center rounded-full bg-info/10 px-2.5 py-1 text-[12px] font-semibold text-info">
+            <span className="rounded-full bg-info-light px-2.5 py-0.5 text-[11px] font-medium text-info">
               2 Standard
             </span>
-            <button className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-brand-300 bg-white px-4 text-[13px] font-semibold text-brand-600 transition-all hover:bg-brand-50 active:scale-[0.98]">
-              Review Assignments
-              <ArrowUpRight size={14} strokeWidth={2} />
+            <button className="ml-1 inline-flex h-9 items-center rounded-full border border-border bg-white px-4 text-[13px] font-medium text-text-primary transition hover:bg-cream-dark active:scale-[0.98]">
+              Review
             </button>
           </div>
         </div>
@@ -380,68 +305,43 @@ export default function MaintenancePage() {
 
       {/* ---- Kanban board ---- */}
       <div className="mt-6 animate-fade-in stagger-6">
-        <div className="flex gap-5 overflow-x-auto pb-2">
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {columnConfig.map((col) => (
-            <div key={col.key} className="min-w-[280px] flex-1">
+            <div key={col.key} className="min-w-[260px] flex-1">
               {/* Column header */}
               <div
                 className={clsx(
-                  "flex items-center gap-3 rounded-2xl px-4 py-3",
-                  col.headerBg,
+                  "flex items-center rounded-full py-2 px-4",
+                  col.headerClasses,
                 )}
               >
-                <col.icon size={16} strokeWidth={2} className={col.iconColor} />
-                <span className="text-[13px] font-semibold text-foreground">
+                <span className="text-[12px] font-medium">
                   {col.label}
                 </span>
-                <span
-                  className={clsx(
-                    "ml-auto flex h-5 min-w-[22px] items-center justify-center rounded-full px-1.5 text-[11px] font-bold",
-                    col.badgeBg,
-                    col.badgeText,
-                  )}
-                >
+                <span className="text-[11px] rounded-full bg-white border border-border-light px-2 py-0.5 ml-2 text-text-secondary">
                   {requests[col.key].length}
                 </span>
               </div>
 
               {/* Cards */}
-              <div className="mt-3 space-y-3">
-                {requests[col.key].map((req) => (
-                  <KanbanCard key={req.id} req={req} column={col.key} />
-                ))}
-              </div>
+              {requests[col.key].map((req) => (
+                <KanbanCard key={req.id} req={req} column={col.key} />
+              ))}
             </div>
           ))}
         </div>
       </div>
 
       {/* ---- AI Insights ---- */}
-      <div className="mt-6 animate-fade-in stagger-7 grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="mt-6 animate-fade-in stagger-7 grid grid-cols-1 gap-4 md:grid-cols-2">
         {insights.map((insight, i) => (
           <div
             key={i}
-            className="rounded-2xl border border-card-border bg-card-bg p-5"
+            className="bg-white border border-border rounded-[20px] p-5"
           >
-            <div className="flex items-start gap-4">
-              <div
-                className={clsx(
-                  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-                  insight.iconBg,
-                )}
-              >
-                <insight.icon size={18} strokeWidth={1.8} className={insight.iconColor} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-medium leading-relaxed text-foreground">
-                  {insight.text}
-                </p>
-                <div className={clsx("mt-2 flex items-center gap-1 text-[12px] font-medium", insight.tagColor)}>
-                  <insight.tagIcon size={12} />
-                  {insight.tag}
-                </div>
-              </div>
-            </div>
+            <p className="text-[14px] italic text-text-secondary leading-relaxed">
+              {insight.text}
+            </p>
           </div>
         ))}
       </div>

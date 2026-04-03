@@ -26,25 +26,25 @@ const FEATURES = [
     icon: Wrench,
     title: "AI Maintenance Triage",
     description:
-      "Requests are automatically categorized, prioritized, and routed to the right vendor. Resolution times drop by 40% on average.",
+      "Requests are automatically categorized, prioritized, and routed to the right vendor. Resolution times drop by 40%.",
   },
   {
     icon: DollarSign,
     title: "Smart Rent Optimization",
     description:
-      "Market-aware pricing recommendations ensure every unit is priced competitively. Stop leaving revenue on the table.",
+      "Market-aware pricing recommendations ensure every unit is priced competitively. Never leave revenue behind.",
   },
   {
     icon: FileText,
     title: "Lease Intelligence",
     description:
-      "Predict renewal likelihood months in advance. Automate offers and reduce vacancy with data-driven insights.",
+      "Predict renewal likelihood months in advance. Automate offers and reduce vacancy with precision.",
   },
   {
     icon: TrendingUp,
     title: "Financial Clarity",
     description:
-      "Real-time cash flow projections, budget anomaly detection, and NOI optimization. Your books, finally making sense.",
+      "Real-time cash flow projections, budget anomaly detection, and NOI optimization. Your books, finally clear.",
   },
   {
     icon: Users,
@@ -56,7 +56,7 @@ const FEATURES = [
     icon: MessageSquare,
     title: "AI Communications",
     description:
-      "Professional, context-aware responses drafted automatically. Maintain quality communication at scale.",
+      "Professional, context-aware responses drafted automatically. Quality communication at scale.",
   },
 ];
 
@@ -71,7 +71,7 @@ const STEPS = [
     number: "2",
     title: "AI learns your patterns",
     description:
-      "Our models analyze your data to understand your properties, tenants, and operational rhythms.",
+      "Our models analyze your data to understand properties, tenants, and operational rhythms.",
   },
   {
     number: "3",
@@ -81,55 +81,7 @@ const STEPS = [
   },
 ];
 
-const PRICING_TIERS = [
-  {
-    name: "Starter",
-    price: "$2",
-    unit: "/unit/mo",
-    minimum: "Starting at $29/mo",
-    features: [
-      "Up to 50 units",
-      "AI maintenance triage",
-      "Online rent collection",
-      "Tenant portal",
-      "Basic reporting",
-    ],
-    cta: "Get Started",
-    popular: false,
-  },
-  {
-    name: "Professional",
-    price: "$3.50",
-    unit: "/unit/mo",
-    minimum: "Starting at $99/mo",
-    features: [
-      "Everything in Starter",
-      "AI communications hub",
-      "Financial forecasting",
-      "Lease intelligence",
-      "Priority support",
-    ],
-    cta: "Get Started",
-    popular: true,
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    unit: "",
-    minimum: "Tailored to your needs",
-    features: [
-      "Everything in Professional",
-      "Custom AI models",
-      "API access",
-      "Dedicated success manager",
-      "SLA guarantee",
-    ],
-    cta: "Contact Sales",
-    popular: false,
-  },
-];
-
-const FOOTER_LINKS = {
+const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   Product: [
     { label: "Features", href: "#features" },
     { label: "Pricing", href: "#pricing" },
@@ -162,48 +114,38 @@ const FOOTER_LINKS = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-cream font-sans text-text-primary">
       {/* ---------------------------------------------------------- */}
       {/*  Navigation                                                 */}
       {/* ---------------------------------------------------------- */}
-      <nav className="sticky top-0 z-50 h-[72px] border-b border-warm-gray-200 bg-card-bg/80 backdrop-blur-md">
+      <nav className="sticky top-0 z-50 h-20 border-b border-border-light bg-cream/80 backdrop-blur-md">
         <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-6">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500">
-              <span className="text-[15px] font-semibold leading-none text-white">
-                A
-              </span>
-            </div>
-            <span className="text-[18px] font-semibold tracking-tight text-foreground">
-              Arid
-            </span>
+          <Link href="/" className="font-serif text-[24px] text-text-primary">
+            Arid
           </Link>
 
-          {/* Center links */}
           <div className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[14px] text-warm-gray-500 transition-colors hover:text-foreground"
+                className="font-sans text-[13px] text-text-secondary transition-colors hover:text-text-primary"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <Link
               href="/dashboard"
-              className="hidden text-[14px] text-warm-gray-500 transition-colors hover:text-foreground sm:block"
+              className="hidden font-sans text-[13px] text-text-secondary transition-colors hover:text-text-primary sm:block"
             >
               Sign in
             </Link>
             <Link
               href="/dashboard"
-              className="rounded-xl bg-navy px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-navy-light"
+              className="rounded-full bg-accent px-5 py-2 font-sans text-[13px] font-medium text-text-inverse transition-colors hover:bg-accent-hover"
             >
               Get Started
             </Link>
@@ -214,95 +156,66 @@ export default function Home() {
       {/* ---------------------------------------------------------- */}
       {/*  Hero                                                       */}
       {/* ---------------------------------------------------------- */}
-      <section className="px-6 py-32">
-        <div className="mx-auto max-w-6xl text-center">
-          {/* Pill badge */}
-          <div className="animate-fade-in inline-flex items-center rounded-full bg-brand-50 px-4 py-1.5 text-[12px] font-medium text-brand-600">
+      <section className="px-6 py-40">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="animate-fade-in inline-block rounded-full border border-border px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.1em] text-text-secondary">
             AI-Native Property Management
-          </div>
+          </span>
 
-          {/* Headline */}
-          <h1
-            className="animate-fade-in stagger-1 mx-auto mt-6 max-w-3xl text-[56px] font-semibold leading-[1.05] text-foreground sm:text-[64px]"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            Property management,
-            <br />
-            intelligently automated.
+          <h1 className="animate-fade-in stagger-1 mt-8 font-serif text-[64px] leading-[1.08] tracking-tight text-text-primary">
+            Property management, intelligently automated.
           </h1>
 
-          {/* Subtitle */}
-          <p className="animate-fade-in stagger-2 mx-auto mt-6 max-w-xl text-[18px] leading-relaxed text-warm-gray-500">
-            Arid combines artificial intelligence with thoughtful design to
-            automate maintenance, optimize revenue, and give you clarity across
-            your entire portfolio.
+          <p className="animate-fade-in stagger-2 mx-auto mt-8 max-w-lg font-sans text-[16px] leading-relaxed text-text-secondary">
+            Arid combines AI with thoughtful design to automate maintenance,
+            optimize revenue, and give you clarity across your entire portfolio.
           </p>
 
-          {/* Buttons */}
-          <div className="animate-fade-in stagger-3 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="animate-fade-in stagger-3 mt-10 flex items-center justify-center gap-3">
             <Link
               href="/dashboard"
-              className="rounded-xl bg-brand-500 px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-brand-600"
+              className="rounded-full bg-accent px-8 py-3 font-sans text-[14px] font-medium text-text-inverse transition-colors hover:bg-accent-hover"
             >
               Start Free Trial
             </Link>
             <a
               href="#features"
-              className="rounded-xl border border-warm-gray-200 px-7 py-3 text-[15px] font-medium text-foreground transition-colors hover:border-warm-gray-300"
+              className="rounded-full border border-border px-8 py-3 font-sans text-[14px] font-medium text-text-primary transition-colors hover:border-text-tertiary"
             >
               Learn More
             </a>
           </div>
 
           {/* Dashboard mockup */}
-          <div className="animate-fade-in stagger-4 mx-auto mt-16 max-w-4xl">
-            <div className="rounded-2xl border border-warm-gray-200 bg-card-bg p-6 shadow-xl sm:p-8">
-              {/* Metric cards row */}
+          <div className="animate-fade-in stagger-4 mx-auto mt-20 max-w-4xl">
+            <div className="rounded-[24px] border border-border bg-white p-6 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.05)] sm:p-8">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <div
                     key={i}
-                    className="rounded-xl bg-warm-gray-100 p-4"
-                  >
-                    <div className="mb-2 h-2.5 w-12 rounded bg-warm-gray-200" />
-                    <div className="h-4 w-16 rounded bg-warm-gray-200" />
-                  </div>
+                    className="h-20 rounded-2xl bg-cream-dark"
+                  />
                 ))}
               </div>
-
-              {/* Chart bars area */}
-              <div className="mt-4 rounded-xl bg-warm-gray-100 p-5">
-                <div className="mb-4 h-2.5 w-20 rounded bg-warm-gray-200" />
-                <div className="flex h-28 items-end gap-2 sm:h-36">
-                  {[40, 60, 45, 70, 55, 80, 50, 75, 65, 85, 60, 72].map(
-                    (h, i) => (
-                      <div
-                        key={i}
-                        className="flex-1 rounded-t-md bg-warm-gray-200"
-                        style={{ height: `${h}%` }}
-                      />
-                    )
-                  )}
-                </div>
-              </div>
+              <div className="mt-4 h-40 rounded-2xl bg-cream-dark" />
             </div>
           </div>
         </div>
       </section>
 
       {/* ---------------------------------------------------------- */}
-      {/*  Logos Bar                                                   */}
+      {/*  Social Proof                                               */}
       {/* ---------------------------------------------------------- */}
-      <section className="px-6 py-16">
+      <section className="px-6 py-20">
         <div className="mx-auto max-w-6xl text-center">
-          <p className="text-[13px] text-warm-gray-400">
-            Trusted by 2,400+ property managers across the country
+          <p className="font-sans text-[13px] tracking-wide text-text-tertiary">
+            Trusted by 2,400+ property managers
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8">
             {Array.from({ length: 5 }).map((_, i) => (
               <div
                 key={i}
-                className="h-8 w-24 rounded-lg bg-warm-gray-100"
+                className="h-6 w-20 rounded-full bg-cream-deeper"
               />
             ))}
           </div>
@@ -312,37 +225,33 @@ export default function Home() {
       {/* ---------------------------------------------------------- */}
       {/*  Features                                                   */}
       {/* ---------------------------------------------------------- */}
-      <section id="features" className="bg-card-bg px-6 py-28">
-        <div className="mx-auto max-w-6xl">
+      <section id="features" className="bg-cream-dark px-6 py-36">
+        <div className="mx-auto max-w-5xl">
           <div className="text-center">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
+            <p className="font-sans text-[11px] font-medium uppercase tracking-[0.15em] text-text-tertiary">
               Features
             </p>
-            <h2
-              className="mt-3 text-[36px] font-semibold tracking-tight text-foreground"
-            >
+            <h2 className="mt-4 font-serif text-[42px] tracking-tight text-text-primary">
               Everything you need, nothing you don&apos;t
             </h2>
-            <p className="mt-3 text-[16px] text-warm-gray-500">
-              Purpose-built tools for modern property management, powered by AI.
-            </p>
           </div>
 
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feature, i) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={feature.title}
-                  className={`animate-fade-in stagger-${i + 1} rounded-2xl border border-warm-gray-200 bg-background p-8`}
+                  className={`animate-fade-in stagger-${i + 1} rounded-[20px] border border-border bg-white p-8`}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50">
-                    <Icon className="h-5 w-5 text-brand-500" />
-                  </div>
-                  <h3 className="mt-5 text-[16px] font-semibold text-foreground">
+                  <Icon
+                    className="h-5 w-5 text-text-tertiary"
+                    strokeWidth={1.5}
+                  />
+                  <h3 className="mt-6 font-serif text-[20px] text-text-primary">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-warm-gray-500">
+                  <p className="mt-3 font-sans text-[14px] leading-relaxed text-text-secondary">
                     {feature.description}
                   </p>
                 </div>
@@ -355,30 +264,30 @@ export default function Home() {
       {/* ---------------------------------------------------------- */}
       {/*  How It Works                                               */}
       {/* ---------------------------------------------------------- */}
-      <section className="px-6 py-28">
-        <div className="mx-auto max-w-6xl">
+      <section className="px-6 py-36">
+        <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
+            <p className="font-sans text-[11px] font-medium uppercase tracking-[0.15em] text-text-tertiary">
               How it works
             </p>
-            <h2 className="mt-3 text-[36px] font-semibold tracking-tight text-foreground">
+            <h2 className="mt-4 font-serif text-[42px] tracking-tight text-text-primary">
               Up and running in minutes
             </h2>
           </div>
 
-          <div className="mt-16 flex flex-col items-center gap-12 sm:flex-row sm:items-start sm:justify-center sm:gap-8">
+          <div className="mt-20 flex flex-col items-center gap-16 sm:flex-row sm:items-start sm:justify-center">
             {STEPS.map((step) => (
               <div
                 key={step.number}
-                className="flex max-w-xs flex-col items-center text-center"
+                className="max-w-[240px] text-center"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-[14px] font-semibold text-white">
+                <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full border border-border font-sans text-[12px] font-medium text-text-tertiary">
                   {step.number}
                 </div>
-                <h3 className="mt-5 text-[16px] font-semibold text-foreground">
+                <h3 className="mt-6 font-serif text-[20px] text-text-primary">
                   {step.title}
                 </h3>
-                <p className="mt-2 text-[14px] text-warm-gray-500">
+                <p className="mt-3 font-sans text-[14px] leading-relaxed text-text-secondary">
                   {step.description}
                 </p>
               </div>
@@ -390,114 +299,145 @@ export default function Home() {
       {/* ---------------------------------------------------------- */}
       {/*  Pricing                                                    */}
       {/* ---------------------------------------------------------- */}
-      <section id="pricing" className="bg-card-bg px-6 py-28">
-        <div className="mx-auto max-w-6xl">
+      <section id="pricing" className="bg-cream-dark px-6 py-36">
+        <div className="mx-auto max-w-4xl">
           <div className="text-center">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-brand-500">
+            <p className="font-sans text-[11px] font-medium uppercase tracking-[0.15em] text-text-tertiary">
               Pricing
             </p>
-            <h2 className="mt-3 text-[36px] font-semibold tracking-tight text-foreground">
-              Transparent, straightforward pricing
+            <h2 className="mt-4 font-serif text-[42px] tracking-tight text-text-primary">
+              Simple, transparent pricing
             </h2>
-            <p className="mt-3 text-[16px] text-warm-gray-500">
-              No hidden fees. No per-feature charges. Just honest pricing that
-              scales with you.
+            <p className="mt-4 font-sans text-[15px] text-text-secondary">
+              No hidden fees. Honest pricing that scales with you.
             </p>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-5xl gap-6 lg:grid-cols-3">
-            {PRICING_TIERS.map((tier) => (
-              <div
-                key={tier.name}
-                className={`flex flex-col rounded-2xl p-8 ${
-                  tier.popular
-                    ? "bg-navy text-white shadow-lg ring-1 ring-navy"
-                    : "border border-warm-gray-200 bg-background"
-                }`}
-              >
-                {/* Tier header */}
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`text-[14px] font-semibold ${
-                      tier.popular ? "text-white/70" : "text-warm-gray-500"
-                    }`}
-                  >
-                    {tier.name}
-                  </span>
-                  {tier.popular && (
-                    <span className="rounded-full bg-brand-500 px-2.5 py-0.5 text-[11px] font-medium text-white">
-                      Most Popular
-                    </span>
-                  )}
-                </div>
-
-                {/* Price */}
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span
-                    className={`text-[48px] font-semibold leading-none ${
-                      tier.popular ? "text-white" : "text-foreground"
-                    }`}
-                  >
-                    {tier.price}
-                  </span>
-                  {tier.unit && (
-                    <span
-                      className={`text-[14px] ${
-                        tier.popular ? "text-white/60" : "text-warm-gray-500"
-                      }`}
-                    >
-                      {tier.unit}
-                    </span>
-                  )}
-                </div>
-                <p
-                  className={`mt-1 text-[13px] ${
-                    tier.popular ? "text-white/50" : "text-warm-gray-400"
-                  }`}
-                >
-                  {tier.minimum}
-                </p>
-
-                {/* Divider */}
-                <div
-                  className={`my-6 h-px ${
-                    tier.popular ? "bg-white/15" : "bg-warm-gray-200"
-                  }`}
-                />
-
-                {/* Feature list */}
-                <ul className="mb-8 flex flex-1 flex-col gap-3">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5">
-                      <Check
-                        className={`mt-0.5 h-4 w-4 shrink-0 ${
-                          tier.popular ? "text-brand-400" : "text-brand-500"
-                        }`}
-                      />
-                      <span
-                        className={`text-[14px] ${
-                          tier.popular ? "text-white/90" : "text-foreground"
-                        }`}
-                      >
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA button */}
-                <Link
-                  href={tier.name === "Enterprise" ? "#" : "/dashboard"}
-                  className={`block w-full rounded-xl py-3 text-center text-[14px] font-medium transition-colors ${
-                    tier.popular
-                      ? "bg-brand-500 text-white hover:bg-brand-600"
-                      : "border border-warm-gray-200 text-foreground hover:border-warm-gray-300"
-                  }`}
-                >
-                  {tier.cta}
-                </Link>
+          <div className="mt-16 grid gap-5 sm:grid-cols-3">
+            {/* Starter */}
+            <div className="flex flex-col rounded-[20px] border border-border bg-white p-8">
+              <span className="font-sans text-[13px] font-medium text-text-secondary">
+                Starter
+              </span>
+              <div className="mt-2 flex items-baseline">
+                <span className="font-serif text-[56px] text-text-primary">
+                  $2
+                </span>
+                <span className="ml-1 font-sans text-[14px] text-text-tertiary">
+                  /unit/mo
+                </span>
               </div>
-            ))}
+              <p className="mt-1 font-sans text-[13px] text-text-tertiary">
+                From $29/month
+              </p>
+              <hr className="my-6 border-border" />
+              <ul className="mb-8 flex flex-1 flex-col gap-3">
+                {[
+                  "Up to 50 units",
+                  "AI maintenance triage",
+                  "Online rent collection",
+                  "Tenant portal",
+                  "Basic reporting",
+                ].map((feat) => (
+                  <li key={feat} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sage" />
+                    <span className="font-sans text-[14px] text-text-primary">
+                      {feat}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/dashboard"
+                className="block w-full rounded-full border border-border py-2.5 text-center font-sans text-[13px] font-medium text-text-primary transition-colors hover:border-text-tertiary"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Professional */}
+            <div className="flex flex-col rounded-[20px] bg-accent p-8 text-text-inverse">
+              <div className="flex items-center">
+                <span className="font-sans text-[13px] font-medium text-text-inverse/70">
+                  Professional
+                </span>
+                <span className="ml-2 rounded-full bg-white/20 px-2.5 py-0.5 font-sans text-[10px] font-medium text-text-inverse">
+                  Popular
+                </span>
+              </div>
+              <div className="mt-2 flex items-baseline">
+                <span className="font-serif text-[56px] text-text-inverse">
+                  $3.50
+                </span>
+                <span className="ml-1 font-sans text-[14px] text-text-inverse/60">
+                  /unit/mo
+                </span>
+              </div>
+              <p className="mt-1 font-sans text-[13px] text-text-inverse/50">
+                From $99/month
+              </p>
+              <hr className="my-6 border-white/15" />
+              <ul className="mb-8 flex flex-1 flex-col gap-3">
+                {[
+                  "Everything in Starter",
+                  "AI communications",
+                  "Financial forecasting",
+                  "Lease intelligence",
+                  "Priority support",
+                ].map((feat) => (
+                  <li key={feat} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-white/60" />
+                    <span className="font-sans text-[14px] text-text-inverse/90">
+                      {feat}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/dashboard"
+                className="block w-full rounded-full bg-white py-2.5 text-center font-sans text-[13px] font-medium text-accent transition-opacity hover:opacity-90"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Enterprise */}
+            <div className="flex flex-col rounded-[20px] border border-border bg-white p-8">
+              <span className="font-sans text-[13px] font-medium text-text-secondary">
+                Enterprise
+              </span>
+              <div className="mt-2">
+                <span className="font-serif text-[56px] text-text-primary">
+                  Custom
+                </span>
+              </div>
+              <p className="mt-1 font-sans text-[13px] text-text-tertiary">
+                Tailored to your needs
+              </p>
+              <hr className="my-6 border-border" />
+              <ul className="mb-8 flex flex-1 flex-col gap-3">
+                {[
+                  "Everything in Professional",
+                  "Custom AI",
+                  "API access",
+                  "Dedicated manager",
+                  "SLA guarantee",
+                ].map((feat) => (
+                  <li key={feat} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sage" />
+                    <span className="font-sans text-[14px] text-text-primary">
+                      {feat}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="#"
+                className="block w-full rounded-full border border-border py-2.5 text-center font-sans text-[13px] font-medium text-text-primary transition-colors hover:border-text-tertiary"
+              >
+                Contact Sales
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -505,53 +445,43 @@ export default function Home() {
       {/* ---------------------------------------------------------- */}
       {/*  CTA                                                        */}
       {/* ---------------------------------------------------------- */}
-      <section className="px-6 py-28">
-        <div className="mx-auto max-w-6xl">
-          <div className="rounded-3xl bg-navy p-16 text-center">
-            <h2 className="text-[36px] font-semibold text-white">
-              Ready to manage smarter?
-            </h2>
-            <p className="mt-4 text-[16px] text-white/70">
-              Join 2,400+ property managers who trust Arid to run their
-              portfolio.
-            </p>
-            <Link
-              href="/dashboard"
-              className="mt-8 inline-block rounded-xl bg-brand-500 px-8 py-3.5 text-[15px] font-medium text-white transition-colors hover:bg-brand-600"
-            >
-              Start Your Free Trial
-            </Link>
-          </div>
+      <section className="px-6 py-36">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-serif text-[48px] tracking-tight text-text-primary">
+            Ready to manage smarter?
+          </h2>
+          <p className="mt-6 font-sans text-[16px] leading-relaxed text-text-secondary">
+            Join thousands of property managers who trust Arid.
+          </p>
+          <Link
+            href="/dashboard"
+            className="mt-8 inline-block rounded-full bg-accent px-8 py-3 font-sans text-[14px] font-medium text-text-inverse transition-colors hover:bg-accent-hover"
+          >
+            Start Your Free Trial
+          </Link>
         </div>
       </section>
 
       {/* ---------------------------------------------------------- */}
       {/*  Footer                                                     */}
       {/* ---------------------------------------------------------- */}
-      <footer id="about" className="border-t border-warm-gray-200 px-6 py-16">
+      <footer id="about" className="border-t border-border px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
-            {/* Brand column */}
             <div className="lg:col-span-2">
-              <Link href="/" className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500">
-                  <span className="text-[15px] font-semibold leading-none text-white">
-                    A
-                  </span>
-                </div>
-                <span className="text-[18px] font-semibold tracking-tight text-foreground">
+              <div className="flex items-center">
+                <span className="font-serif text-[18px] text-text-primary">
                   Arid
                 </span>
-              </Link>
-              <p className="mt-3 text-[13px] leading-relaxed text-warm-gray-400">
-                Intelligent property management
-              </p>
+                <span className="ml-4 font-sans text-[13px] text-text-tertiary">
+                  Intelligent property management
+                </span>
+              </div>
             </div>
 
-            {/* Link columns */}
             {Object.entries(FOOTER_LINKS).map(([category, links]) => (
               <div key={category}>
-                <h4 className="mb-4 text-[13px] font-semibold text-foreground">
+                <h4 className="mb-4 font-sans text-[13px] font-medium text-text-primary">
                   {category}
                 </h4>
                 <ul className="flex flex-col gap-2.5">
@@ -559,7 +489,7 @@ export default function Home() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-[13px] text-warm-gray-400 transition-colors hover:text-foreground"
+                        className="font-sans text-[13px] text-text-secondary transition-colors hover:text-text-primary"
                       >
                         {link.label}
                       </a>
@@ -570,9 +500,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Bottom bar */}
-          <div className="mt-14 border-t border-warm-gray-200 pt-8">
-            <p className="text-[12px] text-warm-gray-400">
+          <div className="mt-14 border-t border-border pt-8">
+            <p className="font-sans text-[12px] text-text-tertiary">
               &copy; 2025 Arid. All rights reserved.
             </p>
           </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Sparkles, ArrowRight } from "lucide-react";
 import clsx from "clsx";
 
 // ---------------------------------------------------------------------------
@@ -9,28 +8,32 @@ import clsx from "clsx";
 
 const metrics = [
   {
-    label: "Total Revenue",
+    label: "Revenue",
     value: "$284,750",
     change: "+12.3% from last month",
-    sentiment: "success" as const,
+    dotColor: "bg-success",
+    changeColor: "text-success",
   },
   {
     label: "Occupancy",
     value: "94.7%",
     change: "+2.1% from last month",
-    sentiment: "success" as const,
+    dotColor: "bg-success",
+    changeColor: "text-success",
   },
   {
     label: "Open Requests",
     value: "23",
     change: "-8 from last week",
-    sentiment: "success" as const,
+    dotColor: "bg-success",
+    changeColor: "text-success",
   },
   {
     label: "Renewals Due",
     value: "12",
     change: "Next 30 days",
-    sentiment: "info" as const,
+    dotColor: "bg-text-tertiary",
+    changeColor: "text-text-tertiary",
   },
 ];
 
@@ -40,7 +43,7 @@ const insights: {
 }[] = [
   {
     priority: "High",
-    text: "3 units at 142 Oak St are priced 8% below market rate. Adjusting could generate an additional $2,400 in monthly revenue.",
+    text: "3 units at 142 Oak St are priced 8% below market rate. Adjusting could generate $2,400 in additional monthly revenue.",
   },
   {
     priority: "Medium",
@@ -48,7 +51,7 @@ const insights: {
   },
   {
     priority: "Low",
-    text: "Lease renewal rate trending down 5%. Consider offering early renewal incentives for Q2 tenants.",
+    text: "Lease renewal rate trending down. Consider offering early renewal incentives for Q2 tenants.",
   },
   {
     priority: "Medium",
@@ -56,98 +59,66 @@ const insights: {
   },
 ];
 
+const PRIORITY_STYLES: Record<string, string> = {
+  High: "bg-danger-light text-danger",
+  Medium: "bg-warning-light text-warning",
+  Low: "bg-info-light text-info",
+};
+
 const activities = [
   {
     initials: "SC",
-    color: "bg-brand-100 text-brand-700",
-    description: (
-      <>
-        <span className="font-medium text-foreground">Sarah Chen</span> paid
-        rent for Unit 4B &mdash; $1,850
-      </>
-    ),
-    time: "2 hours ago",
+    bg: "bg-cream-dark text-text-secondary",
+    text: "Sarah Chen paid rent for Unit 4B \u2014 $1,850",
+    time: "2h ago",
   },
   {
     initials: "MJ",
-    color: "bg-warning/10 text-warning",
-    description: (
-      <>
-        New maintenance request from{" "}
-        <span className="font-medium text-foreground">Marcus Johnson</span>{" "}
-        &mdash; Pine Valley 12A
-      </>
-    ),
-    time: "3 hours ago",
+    bg: "bg-cream-dark text-text-secondary",
+    text: "New maintenance request \u2014 Pine Valley 12A",
+    time: "3h ago",
   },
   {
     initials: "ER",
-    color: "bg-info/10 text-info",
-    description: (
-      <>
-        Lease signed by{" "}
-        <span className="font-medium text-foreground">Emily Rodriguez</span>{" "}
-        &mdash; Sunset Heights 22C
-      </>
-    ),
-    time: "5 hours ago",
+    bg: "bg-cream-dark text-text-secondary",
+    text: "Lease signed \u2014 Sunset Heights 22C",
+    time: "5h ago",
   },
   {
     initials: "AI",
-    color: "bg-brand-50 text-brand-500",
-    description: <>AI auto-assigned vendor for HVAC repair at Maple Grove</>,
-    time: "6 hours ago",
+    bg: "bg-sage-light text-sage-dark",
+    text: "Vendor auto-assigned for HVAC repair",
+    time: "6h ago",
   },
   {
     initials: "DK",
-    color: "bg-success/10 text-success",
-    description: (
-      <>
-        <span className="font-medium text-foreground">David Kim</span> submitted
-        move-in inspection &mdash; Downtown 3
-      </>
-    ),
-    time: "8 hours ago",
+    bg: "bg-cream-dark text-text-secondary",
+    text: "Move-in inspection submitted \u2014 Downtown 3",
+    time: "8h ago",
   },
   {
     initials: "AI",
-    color: "bg-brand-50 text-brand-500",
-    description: <>Rent reminder sent to 12 tenants via AI</>,
-    time: "12 hours ago",
+    bg: "bg-sage-light text-sage-dark",
+    text: "Rent reminders sent to 12 tenants",
+    time: "12h ago",
   },
 ];
 
 const upcoming = [
-  {
-    task: "Inspect Unit 4B after maintenance",
-    when: "Tomorrow, 10:00 AM",
-    dot: "bg-success",
-  },
+  { task: "Inspect Unit 4B", when: "Tomorrow", dot: "bg-success" },
   {
     task: "Review lease renewal \u2014 Sarah Chen",
     when: "Apr 5",
     dot: "bg-warning",
   },
   {
-    task: "HVAC vendor walkthrough \u2014 Riverside",
-    when: "Apr 6, 2:00 PM",
+    task: "HVAC walkthrough \u2014 Riverside",
+    when: "Apr 6",
     dot: "bg-danger",
   },
-  {
-    task: "Quarterly financial review",
-    when: "Apr 8",
-    dot: "bg-success",
-  },
-  {
-    task: "Tenant meet and greet \u2014 Pine Valley",
-    when: "Apr 10",
-    dot: "bg-success",
-  },
-  {
-    task: "Insurance renewal deadline",
-    when: "Apr 15",
-    dot: "bg-warning",
-  },
+  { task: "Quarterly financial review", when: "Apr 8", dot: "bg-success" },
+  { task: "Tenant meet and greet", when: "Apr 10", dot: "bg-success" },
+  { task: "Insurance renewal deadline", when: "Apr 15", dot: "bg-warning" },
 ];
 
 const revenueData = [
@@ -159,22 +130,6 @@ const revenueData = [
   { month: "Jun", value: 284000, label: "$284K" },
 ];
 
-const PRIORITY_STYLES: Record<string, string> = {
-  High: "bg-danger/10 text-danger",
-  Medium: "bg-warning/10 text-warning",
-  Low: "bg-info/10 text-info",
-};
-
-const SENTIMENT_DOT: Record<string, string> = {
-  success: "bg-success",
-  info: "bg-info",
-};
-
-const SENTIMENT_TEXT: Record<string, string> = {
-  success: "text-success",
-  info: "text-info",
-};
-
 // ---------------------------------------------------------------------------
 // Dashboard
 // ---------------------------------------------------------------------------
@@ -183,50 +138,42 @@ export default function DashboardPage() {
   const maxRevenue = Math.max(...revenueData.map((r) => r.value));
 
   return (
-    <div className="min-h-screen bg-background px-6 py-10 lg:px-12 xl:px-16">
-      {/* ------------------------------------------------------------------ */}
-      {/*  Greeting                                                          */}
-      {/* ------------------------------------------------------------------ */}
-      <header className="mb-10 animate-fade-in">
-        <h1 className="text-[28px] font-semibold tracking-tight text-foreground">
+    <div className="min-h-screen bg-cream px-6 py-10 lg:px-12 xl:px-16">
+      {/* Greeting */}
+      <header className="mb-12 animate-fade-in">
+        <h1 className="font-serif text-[32px] text-text-primary">
           Good morning, Jordan
         </h1>
-        <p className="mt-1 text-[15px] text-warm-gray-400">
+        <p className="mt-2 text-[14px] text-text-tertiary">
           Here&apos;s what&apos;s happening across your portfolio today.
         </p>
       </header>
 
-      {/* ------------------------------------------------------------------ */}
-      {/*  Metrics                                                           */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Metrics */}
+      <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         {metrics.map((m, i) => (
           <article
             key={m.label}
             className={clsx(
-              "rounded-2xl border border-card-border bg-card-bg p-6",
-              "shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-              "transition-shadow duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]",
+              "bg-white border border-border rounded-[20px] p-6",
               "animate-fade-in",
               `stagger-${i + 1}`,
             )}
           >
-            <p className="text-[12px] font-medium uppercase tracking-wide text-warm-gray-400">
+            <p className="text-[11px] font-sans uppercase tracking-[0.1em] text-text-tertiary font-medium">
               {m.label}
             </p>
-            <p className="mt-1 text-[32px] font-semibold tracking-tight text-foreground">
+            <p className="font-serif text-[36px] mt-2 text-text-primary">
               {m.value}
             </p>
-            <div className="mt-2 flex items-center gap-2">
+            <div className="mt-3 flex items-center gap-1.5">
               <span
                 className={clsx(
-                  "inline-block h-1.5 w-1.5 rounded-full",
-                  SENTIMENT_DOT[m.sentiment],
+                  "h-1.5 w-1.5 rounded-full",
+                  m.dotColor,
                 )}
               />
-              <span
-                className={clsx("text-[13px]", SENTIMENT_TEXT[m.sentiment])}
-              >
+              <span className={clsx("text-[12px]", m.changeColor)}>
                 {m.change}
               </span>
             </div>
@@ -234,99 +181,73 @@ export default function DashboardPage() {
         ))}
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/*  AI Insights                                                       */}
-      {/* ------------------------------------------------------------------ */}
+      {/* AI Insights */}
       <section className="mt-8 animate-fade-in stagger-5">
-        <div
-          className={clsx(
-            "rounded-2xl border border-brand-200 bg-card-bg p-8",
-            "shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-          )}
-        >
-          {/* Header */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50">
-              <Sparkles className="h-5 w-5 text-brand-500" />
-            </div>
-            <div>
-              <h2 className="text-[18px] font-semibold text-foreground">
-                AI Insights
-              </h2>
-            </div>
-            <span className="ml-auto text-[12px] text-warm-gray-400">
+        <div className="bg-white border border-border rounded-[20px] p-8">
+          <div className="flex items-center justify-between">
+            <h2 className="font-serif text-[22px] text-text-primary">
+              AI Insights
+            </h2>
+            <span className="text-[11px] text-text-tertiary border border-border-light rounded-full px-3 py-1">
               Updated 5 min ago
             </span>
           </div>
 
-          {/* Grid */}
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
             {insights.map((insight, i) => (
               <div
                 key={i}
-                className={clsx(
-                  "rounded-xl bg-warm-gray-50 p-5",
-                  "transition-colors duration-150 hover:bg-warm-gray-100",
-                )}
+                className="bg-cream-dark rounded-2xl p-5"
               >
                 <span
                   className={clsx(
-                    "inline-block rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                    "text-[11px] font-medium rounded-full px-2.5 py-0.5 inline-block",
                     PRIORITY_STYLES[insight.priority],
                   )}
                 >
                   {insight.priority}
                 </span>
-                <p className="mt-2 text-[14px] leading-relaxed text-foreground">
+                <p className="text-[14px] text-text-primary mt-3 leading-relaxed">
                   {insight.text}
                 </p>
-                <button
-                  type="button"
-                  className="mt-3 inline-flex items-center gap-1 text-[13px] font-medium text-brand-500 transition-colors hover:text-brand-700"
+                <a
+                  href="#"
+                  className="text-[12px] text-text-tertiary hover:text-text-primary mt-3 inline-block transition-colors"
                 >
-                  Take Action
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
+                  Take Action &rarr;
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/*  Activity + Upcoming                                               */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      {/* Activity + Upcoming */}
+      <section className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Recent Activity */}
-        <div
-          className={clsx(
-            "rounded-2xl border border-card-border bg-card-bg p-6",
-            "shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-            "animate-fade-in stagger-6",
-          )}
-        >
-          <h2 className="text-[16px] font-semibold text-foreground">
+        <div className="bg-white border border-border rounded-[20px] p-7 animate-fade-in stagger-6">
+          <h2 className="font-serif text-[18px] text-text-primary">
             Recent Activity
           </h2>
 
-          <ul className="mt-5 divide-y divide-warm-gray-100">
+          <ul className="mt-5 divide-y divide-border-light">
             {activities.map((a, i) => (
               <li
                 key={i}
-                className="flex items-center gap-3.5 py-3.5 first:pt-0 last:pb-0"
+                className="flex items-center gap-3 py-4 first:pt-0 last:pb-0"
               >
                 <div
                   className={clsx(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[11px] font-semibold select-none",
-                    a.color,
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-medium select-none",
+                    a.bg,
                   )}
                 >
                   {a.initials}
                 </div>
-                <p className="min-w-0 flex-1 text-[13px] text-warm-gray-500">
-                  {a.description}
+                <p className="min-w-0 flex-1 text-[13px] text-text-primary ml-3">
+                  {a.text}
                 </p>
-                <time className="shrink-0 text-[12px] text-warm-gray-400">
+                <time className="shrink-0 text-[12px] text-text-tertiary">
                   {a.time}
                 </time>
               </li>
@@ -335,33 +256,27 @@ export default function DashboardPage() {
         </div>
 
         {/* Upcoming */}
-        <div
-          className={clsx(
-            "rounded-2xl border border-card-border bg-card-bg p-6",
-            "shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-            "animate-fade-in stagger-7",
-          )}
-        >
-          <h2 className="text-[16px] font-semibold text-foreground">
+        <div className="bg-white border border-border rounded-[20px] p-7 animate-fade-in stagger-7">
+          <h2 className="font-serif text-[18px] text-text-primary">
             Upcoming
           </h2>
 
-          <ul className="mt-5 divide-y divide-warm-gray-100">
+          <ul className="mt-5 divide-y divide-border-light">
             {upcoming.map((u, i) => (
               <li
                 key={i}
-                className="flex items-center gap-3.5 py-3.5 first:pt-0 last:pb-0"
+                className="flex items-center gap-3 py-4 first:pt-0 last:pb-0"
               >
                 <span
                   className={clsx(
-                    "inline-block h-2 w-2 shrink-0 rounded-full",
+                    "h-2 w-2 shrink-0 rounded-full",
                     u.dot,
                   )}
                 />
-                <p className="min-w-0 flex-1 text-[13px] text-foreground">
+                <p className="min-w-0 flex-1 text-[13px] text-text-primary ml-3">
                   {u.task}
                 </p>
-                <time className="shrink-0 text-[12px] text-warm-gray-400">
+                <time className="shrink-0 text-[12px] text-text-tertiary">
                   {u.when}
                 </time>
               </li>
@@ -370,26 +285,19 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------------ */}
-      {/*  Revenue Overview                                                  */}
-      {/* ------------------------------------------------------------------ */}
+      {/* Revenue Chart */}
       <section className="mt-8 animate-fade-in stagger-8">
-        <div
-          className={clsx(
-            "rounded-2xl border border-card-border bg-card-bg p-8",
-            "shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-          )}
-        >
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-[16px] font-semibold text-foreground">
+        <div className="bg-white border border-border rounded-[20px] p-8">
+          <div className="flex items-baseline">
+            <h2 className="font-serif text-[18px] text-text-primary">
               Monthly Revenue
             </h2>
-            <span className="text-[13px] text-warm-gray-400">
+            <span className="text-[13px] text-text-tertiary ml-3">
               Last 6 months
             </span>
           </div>
 
-          <div className="mt-8 flex h-48 items-end gap-3">
+          <div className="mt-8 flex h-48 items-end gap-5 justify-between">
             {revenueData.map((r, i) => {
               const heightPct = (r.value / maxRevenue) * 100;
               const isLatest = i === revenueData.length - 1;
@@ -397,35 +305,19 @@ export default function DashboardPage() {
               return (
                 <div
                   key={r.month}
-                  className="group flex flex-1 flex-col items-center gap-1.5"
+                  className="flex flex-1 flex-col items-center"
                 >
-                  <span
-                    className={clsx(
-                      "text-[11px] font-medium transition-colors duration-150",
-                      isLatest
-                        ? "text-brand-600"
-                        : "text-warm-gray-500 group-hover:text-warm-gray-400",
-                    )}
-                  >
+                  <span className="text-[11px] text-text-tertiary mb-2">
                     {r.label}
                   </span>
                   <div
                     className={clsx(
-                      "w-full rounded-t-lg transition-all duration-200",
-                      isLatest
-                        ? "bg-brand-500 shadow-[0_2px_8px_rgba(74,124,111,0.25)]"
-                        : "bg-brand-200 group-hover:bg-brand-300",
+                      "rounded-full w-full",
+                      isLatest ? "bg-accent" : "bg-cream-deeper",
                     )}
                     style={{ height: `${heightPct}%` }}
                   />
-                  <span
-                    className={clsx(
-                      "text-[11px]",
-                      isLatest
-                        ? "font-medium text-foreground"
-                        : "text-warm-gray-400",
-                    )}
-                  >
+                  <span className="text-[12px] text-text-tertiary mt-3">
                     {r.month}
                   </span>
                 </div>

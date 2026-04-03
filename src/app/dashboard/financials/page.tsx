@@ -1,33 +1,17 @@
 "use client";
 
-import { Download, Sparkles, ArrowUpRight } from "lucide-react";
+import { Download, Sparkles } from "lucide-react";
 import clsx from "clsx";
 
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
+
 const stats = [
-  {
-    label: "Total Revenue",
-    value: "$284,750",
-    change: "+12.3%",
-    changeColor: "text-[#5B9A7D]",
-  },
-  {
-    label: "Net Operating Income",
-    value: "$198,200",
-    change: "+8.7%",
-    changeColor: "text-[#5B9A7D]",
-  },
-  {
-    label: "Total Expenses",
-    value: "$86,550",
-    change: "+4.2%",
-    changeColor: "text-[#C4975A]",
-  },
-  {
-    label: "Cash Flow",
-    value: "$156,300",
-    change: "+15.1%",
-    changeColor: "text-[#5B9A7D]",
-  },
+  { label: "Total Revenue", value: "$284,750", change: "+12.3%", positive: true },
+  { label: "Net Operating Income", value: "$198,200", change: "+8.7%", positive: true },
+  { label: "Total Expenses", value: "$86,550", change: "+4.2%", positive: false },
+  { label: "Cash Flow", value: "$156,300", change: "+15.1%", positive: true },
 ];
 
 const revenueData = [
@@ -42,11 +26,11 @@ const revenueData = [
 const maxRevenue = 300;
 
 const expenses = [
-  { label: "Maintenance", amount: "$32,400", pct: 37.4, color: "bg-[#4A7C6F]" },
-  { label: "Insurance", amount: "$18,200", pct: 21.0, color: "bg-[#5B82A0]" },
-  { label: "Utilities", amount: "$14,800", pct: 17.1, color: "bg-[#C4975A]" },
-  { label: "Property Tax", amount: "$12,500", pct: 14.4, color: "bg-[#2D3F54]" },
-  { label: "Management", amount: "$8,650", pct: 10.0, color: "bg-[#A8A49E]" },
+  { label: "Maintenance", amount: "$32,400", pct: 37.4 },
+  { label: "Insurance", amount: "$18,200", pct: 21.0 },
+  { label: "Utilities", amount: "$14,800", pct: 17.1 },
+  { label: "Property Tax", amount: "$12,500", pct: 14.4 },
+  { label: "Management", amount: "$8,650", pct: 10.0 },
 ];
 
 const forecasts = [
@@ -77,218 +61,250 @@ const transactions: Transaction[] = [
 ];
 
 const statusStyles: Record<TxnStatus, string> = {
-  Completed: "bg-[#5B9A7D]/10 text-[#5B9A7D]",
-  Paid: "bg-[#C4975A]/10 text-[#C4975A]",
-  Late: "bg-[#B85C5C]/10 text-[#B85C5C]",
+  Completed: "bg-success-light text-success",
+  Paid: "bg-sage-light text-sage-dark",
+  Late: "bg-danger-light text-danger",
 };
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                          */
+/* ------------------------------------------------------------------ */
 
 export default function FinancialsPage() {
   return (
-    <div>
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-[28px] font-semibold tracking-tight text-[#2D3436]">
-            Financials
-          </h1>
-          <p className="mt-1 text-[14px] text-[#A8A49E]">
-            AI-powered financial insights and forecasting
-          </p>
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-[1120px] px-6 py-10">
+        {/* ---- Header ---- */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="font-serif text-[32px] text-text-primary">
+              Financials
+            </h1>
+            <p className="mt-1 font-sans text-[14px] text-text-tertiary">
+              AI-powered financial insights and forecasting
+            </p>
+          </div>
+          <button className="inline-flex h-10 items-center gap-2 rounded-full border border-border px-6 font-sans text-[13px] font-medium text-text-primary transition-colors hover:bg-cream-dark">
+            <Download size={15} strokeWidth={1.75} />
+            Export
+          </button>
         </div>
-        <button className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#D4D2CD] px-5 text-[14px] font-medium text-[#2D3436] transition-colors hover:bg-[#F5F4F0]">
-          <Download size={16} strokeWidth={1.75} />
-          Export Report
-        </button>
-      </div>
 
-      {/* Top Stats */}
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => (
-          <div
-            key={s.label}
-            className="rounded-2xl border border-[#E5E3DE] bg-white p-6"
-          >
-            <p className="text-[13px] font-medium text-[#A8A49E]">
-              {s.label}
-            </p>
-            <p className="mt-2 text-[32px] font-semibold tracking-tight text-[#2D3436]">
-              {s.value}
-            </p>
-            <div className="mt-1 flex items-center gap-1">
-              <ArrowUpRight size={14} strokeWidth={2} className={s.changeColor} />
-              <span className={clsx("text-[13px] font-medium", s.changeColor)}>
-                {s.change}
+        {/* ---- Stats ---- */}
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => (
+            <div
+              key={s.label}
+              className="rounded-[20px] border border-border bg-white p-6"
+            >
+              <span className="font-sans text-[11px] font-medium uppercase tracking-widest text-text-tertiary">
+                {s.label}
               </span>
-              <span className="text-[12px] text-[#A8A49E]">vs last month</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Revenue Chart */}
-      <div className="mt-6 rounded-2xl border border-[#E5E3DE] bg-white p-8">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-[16px] font-semibold text-[#2D3436]">
-            Monthly Revenue
-          </h2>
-          <span className="text-[13px] text-[#B8B4AE]">Last 6 months</span>
-        </div>
-        <div className="flex h-52 items-end gap-4">
-          {revenueData.map((d, i) => {
-            const isCurrentMonth = i === revenueData.length - 1;
-            return (
-              <div key={d.month} className="flex flex-1 flex-col items-center gap-2">
-                <span className="text-[11px] font-medium text-[#A8A49E]">
-                  {d.display}
-                </span>
-                <div className="flex w-full flex-1 items-end justify-center">
-                  <div
-                    className={clsx(
-                      "w-full rounded-lg transition-all",
-                      isCurrentMonth ? "bg-[#4A7C6F]" : "bg-[#C5DDD5]"
-                    )}
-                    style={{ height: `${(d.value / maxRevenue) * 100}%` }}
-                  />
-                </div>
-                <span className="text-[12px] font-medium text-[#B8B4AE]">
-                  {d.month}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Two-column: Expense Breakdown + AI Forecast */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Expense Breakdown */}
-        <div className="rounded-2xl border border-[#E5E3DE] bg-white p-6">
-          <div className="mb-5">
-            <h2 className="text-[16px] font-semibold text-[#2D3436]">
-              Expense Breakdown
-            </h2>
-            <p className="mt-0.5 text-[13px] text-[#B8B4AE]">This month</p>
-          </div>
-          <div className="space-y-5">
-            {expenses.map((e) => (
-              <div key={e.label}>
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-[14px] text-[#2D3436]">{e.label}</span>
-                  <span className="text-[14px] font-semibold text-[#2D3436]">
-                    {e.amount}
-                  </span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-[#F0EFEB]">
-                  <div
-                    className={clsx("h-full rounded-full", e.color)}
-                    style={{ width: `${e.pct}%` }}
-                  />
-                </div>
-                <p className="mt-1 text-[12px] text-[#B8B4AE]">{e.pct}%</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* AI Financial Forecast */}
-        <div className="rounded-2xl border border-[#C5DDD5] bg-white p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EFF5F2]">
-              <Sparkles size={16} strokeWidth={1.75} className="text-[#4A7C6F]" />
-            </div>
-            <h2 className="text-[16px] font-semibold text-[#2D3436]">
-              AI Financial Forecast
-            </h2>
-          </div>
-          <div className="space-y-3">
-            {forecasts.map((f, i) => (
-              <div
-                key={i}
-                className="rounded-xl bg-[#F5F4F0] p-4 text-[13px] leading-relaxed text-[#4A4A4A]"
-              >
-                {f}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Transactions */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-[#E5E3DE] bg-white">
-        <div className="px-6 pt-6 pb-4">
-          <h2 className="text-[16px] font-semibold text-[#2D3436]">
-            Recent Transactions
-          </h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px]">
-            <thead>
-              <tr className="bg-[#F5F4F0]">
-                {["Date", "Description", "Property", "Amount", "Type", "Status"].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      className="px-6 py-3 text-left text-[11px] font-medium uppercase tracking-[0.05em] text-[#A8A49E]"
-                    >
-                      {h}
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((t, i) => (
-                <tr
-                  key={i}
+              <p className="mt-3 font-serif text-[32px] text-text-primary">
+                {s.value}
+              </p>
+              <div className="mt-1.5 flex items-center gap-1.5">
+                <span
                   className={clsx(
-                    "transition-colors hover:bg-[#FAFAF7]",
-                    i !== transactions.length - 1 &&
-                      "border-b border-[#E5E3DE]/60"
+                    "inline-block h-[6px] w-[6px] rounded-full",
+                    s.positive ? "bg-success" : "bg-warning"
+                  )}
+                />
+                <span
+                  className={clsx(
+                    "font-sans text-[12px] font-medium",
+                    s.positive ? "text-success" : "text-warning"
                   )}
                 >
-                  <td className="px-6 py-3.5 text-[13px] text-[#A8A49E]">
-                    {t.date}
-                  </td>
-                  <td className="px-6 py-3.5 text-[13px] font-medium text-[#2D3436]">
-                    {t.description}
-                  </td>
-                  <td className="px-6 py-3.5 text-[13px] text-[#A8A49E]">
-                    {t.property}
-                  </td>
-                  <td
+                  {s.change}
+                </span>
+                <span className="font-sans text-[11px] text-text-tertiary">
+                  vs last month
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ---- Revenue Chart ---- */}
+        <div className="mt-6 rounded-[20px] border border-border bg-white p-8">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-serif text-[20px] text-text-primary">
+              Monthly Revenue
+            </h2>
+            <span className="font-sans text-[12px] text-text-tertiary">
+              Last 6 months
+            </span>
+          </div>
+          <div className="flex h-48 items-end gap-4">
+            {revenueData.map((d, i) => {
+              const isLatest = i === revenueData.length - 1;
+              return (
+                <div
+                  key={d.month}
+                  className="flex flex-1 flex-col items-center gap-2"
+                >
+                  <span className="font-sans text-[11px] font-medium text-text-tertiary">
+                    {d.display}
+                  </span>
+                  <div className="flex w-full flex-1 items-end justify-center">
+                    <div
+                      className={clsx(
+                        "w-full max-w-[48px] rounded-full transition-all",
+                        isLatest ? "bg-accent" : "bg-cream-deeper"
+                      )}
+                      style={{ height: `${(d.value / maxRevenue) * 100}%` }}
+                    />
+                  </div>
+                  <span className="font-sans text-[12px] text-text-tertiary">
+                    {d.month}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ---- Two-Column: Expenses + AI Forecast ---- */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Expense Breakdown */}
+          <div className="rounded-[20px] border border-border bg-white p-7">
+            <h2 className="font-serif text-[20px] text-text-primary">
+              Expense Breakdown
+            </h2>
+            <p className="mt-0.5 font-sans text-[13px] text-text-tertiary">
+              This month
+            </p>
+
+            <div className="mt-6 space-y-5">
+              {expenses.map((e) => (
+                <div key={e.label}>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-sans text-[13px] text-text-primary">
+                      {e.label}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-sans text-[13px] font-medium text-text-primary">
+                        {e.amount}
+                      </span>
+                      <span className="font-sans text-[11px] text-text-tertiary">
+                        {e.pct}%
+                      </span>
+                    </div>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream-deeper">
+                    <div
+                      className="h-full rounded-full bg-accent"
+                      style={{ width: `${e.pct}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* AI Forecast */}
+          <div className="rounded-[20px] border border-border bg-white p-7">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent">
+                <Sparkles size={15} strokeWidth={2} className="text-text-inverse" />
+              </div>
+              <h2 className="font-serif text-[20px] text-text-primary">
+                AI Forecast
+              </h2>
+            </div>
+
+            <div className="mt-6 space-y-3">
+              {forecasts.map((f, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl bg-cream-dark p-4"
+                >
+                  <p className="font-sans text-[13px] leading-relaxed text-text-secondary">
+                    {f}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ---- Recent Transactions ---- */}
+        <div className="mt-6 overflow-hidden rounded-[20px] border border-border bg-white">
+          <div className="px-7 pt-7 pb-4">
+            <h2 className="font-serif text-[20px] text-text-primary">
+              Recent Transactions
+            </h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[720px]">
+              <thead>
+                <tr className="bg-cream-dark">
+                  {["Date", "Description", "Property", "Amount", "Type", "Status"].map(
+                    (h) => (
+                      <th
+                        key={h}
+                        className="px-7 py-3 text-left font-sans text-[11px] font-semibold uppercase tracking-wide text-text-tertiary"
+                      >
+                        {h}
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {transactions.map((t, i) => (
+                  <tr
+                    key={i}
                     className={clsx(
-                      "px-6 py-3.5 text-[13px] font-medium",
-                      t.type === "Income" ? "text-[#5B9A7D]" : "text-[#B85C5C]"
+                      "transition-colors hover:bg-cream",
+                      i < transactions.length - 1 && "border-b border-border"
                     )}
                   >
-                    {t.amount}
-                  </td>
-                  <td className="px-6 py-3.5">
-                    <span
+                    <td className="px-7 py-3.5 font-sans text-[13px] text-text-tertiary">
+                      {t.date}
+                    </td>
+                    <td className="px-7 py-3.5 font-sans text-[13px] font-medium text-text-primary">
+                      {t.description}
+                    </td>
+                    <td className="px-7 py-3.5 font-sans text-[13px] text-text-tertiary">
+                      {t.property}
+                    </td>
+                    <td
                       className={clsx(
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
-                        t.type === "Income"
-                          ? "bg-[#5B9A7D]/10 text-[#5B9A7D]"
-                          : "bg-[#B85C5C]/10 text-[#B85C5C]"
+                        "px-7 py-3.5 font-sans text-[13px] font-medium",
+                        t.type === "Income" ? "text-success" : "text-danger"
                       )}
                     >
-                      {t.type}
-                    </span>
-                  </td>
-                  <td className="px-6 py-3.5">
-                    <span
-                      className={clsx(
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
-                        statusStyles[t.status]
-                      )}
-                    >
-                      {t.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      {t.amount}
+                    </td>
+                    <td className="px-7 py-3.5">
+                      <span
+                        className={clsx(
+                          "inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[11px] font-semibold",
+                          t.type === "Income"
+                            ? "bg-success-light text-success"
+                            : "bg-danger-light text-danger"
+                        )}
+                      >
+                        {t.type}
+                      </span>
+                    </td>
+                    <td className="px-7 py-3.5">
+                      <span
+                        className={clsx(
+                          "inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[11px] font-semibold",
+                          statusStyles[t.status]
+                        )}
+                      >
+                        {t.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

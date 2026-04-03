@@ -1,20 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Plus,
-  Search,
-  LayoutGrid,
-  List,
-  MapPin,
-  Sparkles,
-  ChevronDown,
-} from "lucide-react";
+import { Plus, Search, MapPin, Sparkles, ChevronDown } from "lucide-react";
 import clsx from "clsx";
 
 type PropertyType = "Residential" | "Commercial" | "Mixed";
 type PropertyStatus = "Active" | "Vacant" | "Maintenance";
-type ViewMode = "grid" | "list";
 type TypeFilter = "All" | PropertyType;
 type StatusFilter = "All" | PropertyStatus;
 
@@ -109,13 +100,12 @@ function formatCurrency(value: number): string {
 }
 
 function occupancyColor(occupancy: number): string {
-  if (occupancy > 93) return "text-success";
-  if (occupancy > 85) return "text-warning";
+  if (occupancy >= 95) return "text-success";
+  if (occupancy >= 90) return "text-warning";
   return "text-danger";
 }
 
 export default function PropertiesPage() {
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("All");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("All");
@@ -131,76 +121,65 @@ export default function PropertiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-7xl px-6 py-10">
         {/* Header */}
-        <div className="mb-8 flex items-start justify-between">
+        <div className="flex items-start justify-between animate-fade-in">
           <div>
-            <h1 className="text-[28px] font-semibold tracking-tight text-foreground">
+            <h1 className="font-serif text-[32px] text-text-primary">
               Properties
             </h1>
-            <p className="mt-1 text-[15px] text-warm-gray-400">
-              Manage your property portfolio
+            <p className="text-[14px] text-text-tertiary mt-1">
+              Manage your portfolio
             </p>
           </div>
           <button
             className={clsx(
-              "inline-flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2.5",
-              "text-[13px] font-medium text-white",
-              "transition-all duration-200 hover:bg-brand-600",
-              "active:scale-[0.97]"
+              "inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2",
+              "text-[13px] font-medium text-text-inverse",
+              "transition-colors hover:bg-text-primary"
             )}
           >
-            <Plus className="h-4 w-4" strokeWidth={2} />
+            <Plus className="h-3.5 w-3.5" strokeWidth={2} />
             Add Property
           </button>
         </div>
 
-        {/* Portfolio Summary */}
-        <div
-          className={clsx(
-            "mt-6 flex items-center justify-between rounded-2xl",
-            "border border-card-border bg-card-bg p-5",
-            "animate-fade-in"
-          )}
-        >
-          <div className="flex items-center gap-0">
-            <div className="px-6 first:pl-0">
-              <p className="text-[14px] font-semibold text-foreground">6 Properties</p>
-              <p className="text-[14px] text-warm-gray-400">Portfolio</p>
-            </div>
-            <div className="h-8 w-px bg-warm-gray-200" />
-            <div className="px-6">
-              <p className="text-[14px] font-semibold text-foreground">146 Units</p>
-              <p className="text-[14px] text-warm-gray-400">Total units</p>
-            </div>
-            <div className="h-8 w-px bg-warm-gray-200" />
-            <div className="px-6">
-              <p className="text-[14px] font-semibold text-foreground">94.7% Avg Occupancy</p>
-              <p className="text-[14px] text-warm-gray-400">Across portfolio</p>
-            </div>
-            <div className="h-8 w-px bg-warm-gray-200" />
-            <div className="px-6">
-              <p className="text-[14px] font-semibold text-foreground">$325,700/mo Revenue</p>
-              <p className="text-[14px] text-warm-gray-400">Monthly income</p>
-            </div>
+        {/* Summary Pill */}
+        <div className="mt-6 animate-fade-in stagger-1">
+          <div className="bg-white border border-border rounded-full py-3 px-6 inline-flex items-center gap-6">
+            <span className="text-[13px] text-text-primary font-medium">
+              6 Properties
+            </span>
+            <span className="text-[13px] text-text-tertiary">&middot;</span>
+            <span className="text-[13px] text-text-primary font-medium">
+              146 Units
+            </span>
+            <span className="text-[13px] text-text-tertiary">&middot;</span>
+            <span className="text-[13px] text-text-primary font-medium">
+              94.7% Occupied
+            </span>
+            <span className="text-[13px] text-text-tertiary">&middot;</span>
+            <span className="text-[13px] text-text-primary font-medium">
+              $325,700/mo
+            </span>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex items-center gap-3 animate-fade-in stagger-2">
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-warm-gray-400" />
+            <Search className="absolute left-4 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-tertiary" />
             <input
               type="text"
               placeholder="Search properties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={clsx(
-                "w-64 rounded-xl border border-card-border bg-card-bg py-2.5 pl-10 pr-4",
-                "text-[13px] text-foreground placeholder:text-warm-gray-400",
-                "outline-none transition-all duration-200",
-                "focus:border-brand-300 focus:ring-2 focus:ring-brand-100"
+                "w-64 rounded-full border border-border bg-white py-2.5 pl-10 pr-4",
+                "text-[13px] text-text-primary placeholder:text-text-tertiary",
+                "outline-none transition-colors",
+                "focus:border-text-tertiary"
               )}
             />
           </div>
@@ -210,10 +189,10 @@ export default function PropertiesPage() {
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value as TypeFilter)}
               className={clsx(
-                "appearance-none rounded-xl border border-card-border bg-card-bg",
-                "py-2.5 pl-4 pr-9 text-[13px] text-foreground",
-                "outline-none transition-all duration-200",
-                "focus:border-brand-300 focus:ring-2 focus:ring-brand-100"
+                "appearance-none rounded-full border border-border bg-white",
+                "py-2.5 pl-4 pr-9 text-[13px] text-text-primary",
+                "outline-none transition-colors cursor-pointer",
+                "focus:border-text-tertiary"
               )}
             >
               <option value="All">All Types</option>
@@ -221,18 +200,20 @@ export default function PropertiesPage() {
               <option value="Commercial">Commercial</option>
               <option value="Mixed">Mixed</option>
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-warm-gray-400" />
+            <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-3 w-3 -translate-y-1/2 text-text-tertiary" />
           </div>
 
           <div className="relative">
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+              onChange={(e) =>
+                setStatusFilter(e.target.value as StatusFilter)
+              }
               className={clsx(
-                "appearance-none rounded-xl border border-card-border bg-card-bg",
-                "py-2.5 pl-4 pr-9 text-[13px] text-foreground",
-                "outline-none transition-all duration-200",
-                "focus:border-brand-300 focus:ring-2 focus:ring-brand-100"
+                "appearance-none rounded-full border border-border bg-white",
+                "py-2.5 pl-4 pr-9 text-[13px] text-text-primary",
+                "outline-none transition-colors cursor-pointer",
+                "focus:border-text-tertiary"
               )}
             >
               <option value="All">All Status</option>
@@ -240,221 +221,104 @@ export default function PropertiesPage() {
               <option value="Vacant">Vacant</option>
               <option value="Maintenance">Maintenance</option>
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-warm-gray-400" />
-          </div>
-
-          <div className="flex items-center rounded-xl border border-card-border bg-card-bg p-0.5">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={clsx(
-                "rounded-lg p-2 transition-all duration-200",
-                viewMode === "grid"
-                  ? "bg-brand-50 text-brand-600"
-                  : "text-warm-gray-400 hover:text-foreground"
-              )}
-            >
-              <LayoutGrid className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={clsx(
-                "rounded-lg p-2 transition-all duration-200",
-                viewMode === "list"
-                  ? "bg-brand-50 text-brand-600"
-                  : "text-warm-gray-400 hover:text-foreground"
-              )}
-            >
-              <List className="h-4 w-4" />
-            </button>
+            <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-3 w-3 -translate-y-1/2 text-text-tertiary" />
           </div>
         </div>
 
         {/* Property Cards Grid */}
-        {viewMode === "grid" ? (
-          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((property, i) => (
-              <div
-                key={property.id}
-                className={clsx(
-                  "overflow-hidden rounded-2xl border border-card-border bg-card-bg",
-                  "transition-shadow duration-200 hover:shadow-md",
-                  "animate-fade-in opacity-0",
-                  i < 8 && `stagger-${i + 1}`
-                )}
-              >
-                {/* Top section */}
-                <div className="p-6">
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className={clsx(
-                        "text-[11px] font-medium rounded-full px-2.5 py-1",
-                        property.type === "Commercial"
-                          ? "bg-info/10 text-info"
-                          : property.type === "Mixed"
-                            ? "bg-warning/10 text-warning"
-                            : "bg-brand-50 text-brand-600"
-                      )}
-                    >
-                      {property.type}
-                    </span>
-                    <span
-                      className={clsx(
-                        "inline-block h-2 w-2 rounded-full",
-                        property.status === "Active"
-                          ? "bg-success"
-                          : property.status === "Vacant"
-                            ? "bg-warning"
-                            : "bg-danger"
-                      )}
-                    />
-                  </div>
-                  <h3 className="mt-3 text-[17px] font-semibold text-foreground">
-                    {property.name}
-                  </h3>
-                  <div className="mt-1 flex items-center gap-1.5">
-                    <MapPin className="h-3.5 w-3.5 text-warm-gray-400" />
-                    <span className="text-[13px] text-warm-gray-400">
-                      {property.address}
-                    </span>
-                  </div>
-
-                  {/* Metrics row */}
-                  <div className="mt-4 grid grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-[13px] text-warm-gray-400">Units</p>
-                      <p className="text-[18px] font-semibold text-foreground">
-                        {property.units}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[13px] text-warm-gray-400">Occupancy</p>
-                      <p
-                        className={clsx(
-                          "text-[18px] font-semibold",
-                          occupancyColor(property.occupancy)
-                        )}
-                      >
-                        {property.occupancy}%
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[13px] text-warm-gray-400">Revenue</p>
-                      <p className="text-[18px] font-semibold text-foreground">
-                        {formatCurrency(property.revenue)}
-                      </p>
-                    </div>
-                  </div>
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((property, i) => (
+            <div
+              key={property.id}
+              className={clsx(
+                "overflow-hidden rounded-[20px] border border-border bg-white",
+                "transition-colors hover:border-text-tertiary",
+                "animate-fade-in opacity-0",
+                i < 8 && `stagger-${i + 1}`
+              )}
+            >
+              {/* Top section */}
+              <div className="p-7">
+                <div className="flex items-center">
+                  <span className="text-[11px] rounded-full px-2.5 py-1 border border-border inline-block text-text-secondary">
+                    {property.type}
+                  </span>
+                  <span
+                    className={clsx(
+                      "inline-block h-1.5 w-1.5 rounded-full ml-2",
+                      property.status === "Active"
+                        ? "bg-success"
+                        : property.status === "Vacant"
+                          ? "bg-warning"
+                          : "bg-danger"
+                    )}
+                  />
+                </div>
+                <h3 className="font-serif text-[20px] text-text-primary mt-4">
+                  {property.name}
+                </h3>
+                <div className="mt-1 flex items-center gap-1.5">
+                  <MapPin className="h-3 w-3 text-text-tertiary" />
+                  <span className="text-[13px] text-text-tertiary">
+                    {property.address}
+                  </span>
                 </div>
 
-                {/* AI insight footer */}
-                <div className="border-t border-card-border bg-warm-gray-50 px-6 py-3.5">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5 shrink-0 text-brand-500" />
-                    <p className="text-[12px] text-warm-gray-500">
-                      {property.aiInsight}
+                {/* Metrics */}
+                <div className="mt-4 grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-[11px] text-text-tertiary uppercase tracking-wide">
+                      Units
+                    </p>
+                    <p className="text-[18px] font-serif mt-0.5 text-text-primary">
+                      {property.units}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-text-tertiary uppercase tracking-wide">
+                      Occupancy
+                    </p>
+                    <p
+                      className={clsx(
+                        "text-[18px] font-serif mt-0.5",
+                        occupancyColor(property.occupancy)
+                      )}
+                    >
+                      {property.occupancy}%
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-text-tertiary uppercase tracking-wide">
+                      Revenue
+                    </p>
+                    <p className="text-[18px] font-serif mt-0.5 text-text-primary">
+                      {formatCurrency(property.revenue)}
                     </p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          /* List View */
-          <div className="mt-6 overflow-hidden rounded-2xl border border-card-border bg-card-bg">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-card-border">
-                  <th className="px-6 py-3.5 text-left text-[12px] font-medium text-warm-gray-400">
-                    Property
-                  </th>
-                  <th className="px-6 py-3.5 text-left text-[12px] font-medium text-warm-gray-400">
-                    Type
-                  </th>
-                  <th className="px-6 py-3.5 text-center text-[12px] font-medium text-warm-gray-400">
-                    Units
-                  </th>
-                  <th className="px-6 py-3.5 text-center text-[12px] font-medium text-warm-gray-400">
-                    Occupancy
-                  </th>
-                  <th className="px-6 py-3.5 text-right text-[12px] font-medium text-warm-gray-400">
-                    Revenue
-                  </th>
-                  <th className="px-6 py-3.5 text-left text-[12px] font-medium text-warm-gray-400">
-                    Insight
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((property, i) => (
-                  <tr
-                    key={property.id}
-                    className={clsx(
-                      "border-b border-card-border/60 transition-colors duration-150",
-                      "hover:bg-warm-gray-50",
-                      "animate-fade-in opacity-0",
-                      i < 8 && `stagger-${i + 1}`
-                    )}
-                  >
-                    <td className="px-6 py-4">
-                      <p className="text-[14px] font-semibold text-foreground">
-                        {property.name}
-                      </p>
-                      <p className="mt-0.5 flex items-center gap-1 text-[12px] text-warm-gray-400">
-                        <MapPin className="h-3 w-3" />
-                        {property.address}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={clsx(
-                          "text-[11px] font-medium rounded-full px-2.5 py-1",
-                          property.type === "Commercial"
-                            ? "bg-info/10 text-info"
-                            : "bg-brand-50 text-brand-600"
-                        )}
-                      >
-                        {property.type}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center text-[14px] font-semibold text-foreground">
-                      {property.units}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span
-                        className={clsx(
-                          "text-[14px] font-semibold",
-                          occupancyColor(property.occupancy)
-                        )}
-                      >
-                        {property.occupancy}%
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right text-[14px] font-semibold text-foreground">
-                      {formatCurrency(property.revenue)}/mo
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1.5">
-                        <Sparkles className="h-3 w-3 shrink-0 text-brand-500" />
-                        <span className="text-[12px] text-warm-gray-500">
-                          {property.aiInsight}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+
+              {/* AI insight footer */}
+              <div className="border-t border-border-light px-7 py-3.5 bg-cream-dark">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-3 w-3 shrink-0 text-sage" />
+                  <p className="text-[12px] text-text-secondary italic">
+                    {property.aiInsight}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* Empty state */}
         {filtered.length === 0 && (
-          <div className="mt-12 flex flex-col items-center justify-center py-16 text-center">
-            <Search className="h-10 w-10 text-warm-gray-300" />
-            <h3 className="mt-4 text-[17px] font-semibold text-foreground">
+          <div className="mt-16 flex flex-col items-center justify-center py-16 text-center">
+            <Search className="h-8 w-8 text-text-tertiary" />
+            <h3 className="mt-4 font-serif text-[20px] text-text-primary">
               No properties found
             </h3>
-            <p className="mt-1 text-[14px] text-warm-gray-400">
+            <p className="mt-1 text-[14px] text-text-tertiary">
               Try adjusting your search or filters.
             </p>
           </div>
