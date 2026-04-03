@@ -71,7 +71,8 @@ const messages: MessagePreview[] = [
     sender: "Marcus Johnson",
     initials: "MJ",
     subject: "Late payment arrangement",
-    preview: "I wanted to discuss a payment plan for this month's rent...",
+    preview:
+      "I wanted to discuss a payment plan for this month's rent...",
     time: "3h ago",
     status: "unread",
     tags: ["flagged"],
@@ -81,7 +82,8 @@ const messages: MessagePreview[] = [
     sender: "Emily Rodriguez",
     initials: "ER",
     subject: "Move-out notice",
-    preview: "I'm writing to formally notify you of my intent to vacate...",
+    preview:
+      "I'm writing to formally notify you of my intent to vacate...",
     time: "5h ago",
     status: "unread",
     tags: [],
@@ -91,7 +93,8 @@ const messages: MessagePreview[] = [
     sender: "Building-wide",
     initials: "BW",
     subject: "Parking lot resurfacing notice",
-    preview: "Dear residents, we will be resurfacing the parking lot...",
+    preview:
+      "Dear residents, we will be resurfacing the parking lot...",
     time: "1d ago",
     status: "read",
     tags: ["ai-drafted"],
@@ -101,7 +104,8 @@ const messages: MessagePreview[] = [
     sender: "David Kim",
     initials: "DK",
     subject: "Lease renewal question",
-    preview: "Hi, I was wondering about the terms for my upcoming lease...",
+    preview:
+      "Hi, I was wondering about the terms for my upcoming lease...",
     time: "1d ago",
     status: "read",
     tags: [],
@@ -111,7 +115,8 @@ const messages: MessagePreview[] = [
     sender: "Jessica Williams",
     initials: "JW",
     subject: "Noise complaint follow-up",
-    preview: "Thanks for addressing the noise issue. Things have been much...",
+    preview:
+      "Thanks for addressing the noise issue. Things have been much...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -121,7 +126,8 @@ const messages: MessagePreview[] = [
     sender: "Aisha Patel",
     initials: "AP",
     subject: "Thank you for quick repair!",
-    preview: "Just wanted to say thank you for the quick turnaround on...",
+    preview:
+      "Just wanted to say thank you for the quick turnaround on...",
     time: "2d ago",
     status: "read",
     tags: [],
@@ -131,7 +137,8 @@ const messages: MessagePreview[] = [
     sender: "System",
     initials: "SY",
     subject: "Monthly rent reminders sent",
-    preview: "Automated rent reminders were sent to 47 tenants for April...",
+    preview:
+      "Automated rent reminders were sent to 47 tenants for April...",
     time: "3d ago",
     status: "read",
     tags: ["ai-auto-sent"],
@@ -157,7 +164,8 @@ const thread: ThreadMessage[] = [
   {
     id: "t3",
     sender: "Sarah Chen",
-    content: "Thanks for the quick response. When can I expect them?",
+    content:
+      "Thanks for the quick response. When can I expect them?",
     time: "Today, 9:47 AM",
   },
 ];
@@ -189,7 +197,7 @@ function TagBadge({ tag }: { tag: MessageTag }) {
     <span
       className={clsx(
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
-        c.classes
+        c.classes,
       )}
     >
       {tag === "flagged" && <Flag className="h-2.5 w-2.5" />}
@@ -226,12 +234,12 @@ export default function CommunicationsPage() {
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="mb-10 flex items-end justify-between">
+      <header className="mb-12 flex items-end justify-between">
         <div>
-          <h1 className="font-serif text-[32px] text-text-primary">
+          <h1 className="font-serif text-[32px] leading-tight text-text-primary">
             Communications
           </h1>
-          <p className="mt-1 text-[14px] text-text-secondary">
+          <p className="mt-1.5 text-[14px] text-text-secondary">
             AI-assisted tenant communication
           </p>
         </div>
@@ -242,7 +250,7 @@ export default function CommunicationsPage() {
       </header>
 
       {/* Stats */}
-      <section className="mb-8 grid grid-cols-4 gap-4">
+      <section className="mb-10 grid grid-cols-4 gap-4">
         {stats.map((s) => {
           const Icon = s.icon;
           return (
@@ -255,7 +263,7 @@ export default function CommunicationsPage() {
                   <p className="text-[12px] font-medium uppercase tracking-wider text-text-tertiary">
                     {s.label}
                   </p>
-                  <p className="mt-2 font-serif text-[28px] text-text-primary">
+                  <p className="mt-2 font-serif text-[28px] leading-none text-text-primary">
                     {s.value}
                   </p>
                 </div>
@@ -269,7 +277,7 @@ export default function CommunicationsPage() {
       </section>
 
       {/* Two-panel email layout */}
-      <section className="flex overflow-hidden rounded-[20px] border border-border bg-white min-h-[550px]">
+      <section className="flex min-h-[550px] overflow-hidden rounded-[20px] border border-border bg-white">
         {/* ---- Left panel ---- */}
         <div className="flex w-[360px] flex-col border-r border-border-light">
           {/* Search */}
@@ -294,7 +302,7 @@ export default function CommunicationsPage() {
                   "rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors",
                   activeFilter === f.key
                     ? "bg-accent text-text-inverse"
-                    : "text-text-tertiary hover:text-text-secondary"
+                    : "text-text-tertiary hover:text-text-secondary",
                 )}
               >
                 {f.label}
@@ -310,7 +318,8 @@ export default function CommunicationsPage() {
                 onClick={() => setSelectedId(m.id)}
                 className={clsx(
                   "relative flex w-full cursor-pointer flex-col border-b border-border-light px-5 py-4 text-left transition-colors hover:bg-cream-dark",
-                  selectedId === m.id && "bg-cream-dark border-l-2 border-l-accent"
+                  selectedId === m.id &&
+                    "border-l-2 border-l-accent bg-cream-dark",
                 )}
               >
                 {/* Top row */}
@@ -323,7 +332,7 @@ export default function CommunicationsPage() {
                       "flex-1 truncate text-[13px]",
                       m.status === "unread"
                         ? "font-semibold text-text-primary"
-                        : "font-medium text-text-primary"
+                        : "font-medium text-text-primary",
                     )}
                   >
                     {m.sender}
@@ -380,7 +389,7 @@ export default function CommunicationsPage() {
                 key={msg.id}
                 className={clsx(
                   "rounded-2xl p-4",
-                  msg.isOwn ? "bg-sage-light" : "bg-cream-dark"
+                  msg.isOwn ? "bg-sage-light" : "bg-cream-dark",
                 )}
               >
                 <div className="mb-1.5 flex items-center gap-2">
